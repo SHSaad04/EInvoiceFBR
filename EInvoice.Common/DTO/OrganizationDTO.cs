@@ -25,6 +25,6 @@ namespace EInvoice.Common.Entities
         public string Address { get; set; }
 
         // Reverse navigation
-        public virtual List<InvoiceDTO> Invoices { get; set; }
+        public List<InvoiceDTO> Invoices { get; set; }
     }
 }

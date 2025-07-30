@@ -28,6 +28,6 @@ namespace EInvoice.Common.Entities
         public string RegistrationType { get; set; } // Registered / Unregistered
 
         // Reverse navigation
-        public virtual List<InvoiceDTO> Invoices { get; set; }
+        public  List<InvoiceDTO> Invoices { get; set; }
     }
 }

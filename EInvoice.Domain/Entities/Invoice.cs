@@ -32,7 +32,7 @@ namespace EInvoice.Domain.Entities
         public virtual Organization Seller { get; set; }
 
         [Required]
-        public virtual long BuyerId { get; set; }
+        public long BuyerId { get; set; }
         [ForeignKey("BuyerId")]
         public virtual Client Buyer { get; set; }
         public virtual List<InvoiceItem> Items { get; set; }

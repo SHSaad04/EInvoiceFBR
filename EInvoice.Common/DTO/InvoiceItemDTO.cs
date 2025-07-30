@@ -57,8 +57,7 @@ namespace EInvoice.Common.Entities
         // Relationship
         [Required]
         public long InvoiceId { get; set; }
-        [ForeignKey("InvoiceId")]
-        public virtual InvoiceDTO Invoice { get; set; }
+        public InvoiceDTO Invoice { get; set; }
 
     }
 }

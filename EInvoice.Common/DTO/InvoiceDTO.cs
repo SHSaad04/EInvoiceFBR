@@ -28,13 +28,11 @@ namespace EInvoice.Common.Entities
         // Relationships
         [Required]
         public long SellerId { get; set; }
-        [ForeignKey("SellerId")]
-        public virtual OrganizationDTO Seller { get; set; }
+        public OrganizationDTO Seller { get; set; }
 
         [Required]
-        public virtual long BuyerId { get; set; }
-        [ForeignKey("BuyerId")]
-        public virtual ClientDTO Buyer { get; set; }
-        public virtual List<InvoiceItemDTO> Items { get; set; }
+        public long BuyerId { get; set; }
+        public ClientDTO Buyer { get; set; }
+        public List<InvoiceItemDTO> Items { get; set; }
     }
 }
