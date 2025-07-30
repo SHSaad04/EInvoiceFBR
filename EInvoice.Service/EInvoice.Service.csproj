@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EInvoice.Common\EInvoice.Common.csproj" />
+    <ProjectReference Include="..\EInvoice.Domain\EInvoice.Domain.csproj" />
+    <ProjectReference Include="..\EInvoice.Infrastructure\EInvoice.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

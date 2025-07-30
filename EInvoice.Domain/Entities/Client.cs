@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EInvoice.Domain.Entities
+{
+    public class Client
+    {
+        [Key]
+        public int Id { get; set; }
+
+        [MaxLength(20)]
+        public string NTNCNIC { get; set; }
+
+        [Required, MaxLength(200)]
+        public string BusinessName { get; set; }
+
+        [Required, MaxLength(100)]
+        public string Province { get; set; }
+
+        [Required, MaxLength(300)]
+        public string Address { get; set; }
+
+        [Required, MaxLength(50)]
+        public string RegistrationType { get; set; } // Registered / Unregistered
+
+        // Reverse navigation
+        public ICollection<Invoice> Invoices { get; set; }
+    }
+}
