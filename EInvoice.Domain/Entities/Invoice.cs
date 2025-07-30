@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace EInvoice.Domain.Entities
     public class Invoice
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Required, MaxLength(50)]
         public string InvoiceType { get; set; }  // e.g., Sale Invoice, Debit Note
@@ -26,13 +27,14 @@ namespace EInvoice.Domain.Entities
 
         // Relationships
         [Required]
-        public int SellerId { get; set; }
-        public Organization Seller { get; set; }
+        public long SellerId { get; set; }
+        [ForeignKey("SellerId")]
+        public virtual Organization Seller { get; set; }
 
         [Required]
-        public int BuyerId { get; set; }
-        public Client Buyer { get; set; }
-
-        public ICollection<InvoiceItem> Items { get; set; }
+        public virtual long BuyerId { get; set; }
+        [ForeignKey("BuyerId")]
+        public virtual Client Buyer { get; set; }
+        public virtual List<InvoiceItem> Items { get; set; }
     }
 }

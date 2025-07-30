@@ -10,7 +10,7 @@ namespace EInvoice.Domain.Entities
     public class Client
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [MaxLength(20)]
         public string NTNCNIC { get; set; }
@@ -28,6 +28,6 @@ namespace EInvoice.Domain.Entities
         public string RegistrationType { get; set; } // Registered / Unregistered
 
         // Reverse navigation
-        public ICollection<Invoice> Invoices { get; set; }
+        public virtual List<Invoice> Invoices { get; set; }
     }
 }

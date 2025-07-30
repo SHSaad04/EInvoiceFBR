@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EInvoice.Infrastructure.Migrations
 {
     [DbContext(typeof(EInvoiceContext))]
-    [Migration("20250730185405_initialModel")]
+    [Migration("20250730195254_initialModel")]
     partial class initialModel
     {
         /// <inheritdoc />
@@ -27,11 +27,11 @@ namespace EInvoice.Infrastructure.Migrations
 
             modelBuilder.Entity("EInvoice.Domain.Entities.Client", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()
@@ -65,14 +65,14 @@ namespace EInvoice.Infrastructure.Migrations
 
             modelBuilder.Entity("EInvoice.Domain.Entities.Invoice", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<int>("BuyerId")
-                        .HasColumnType("int");
+                    b.Property<long>("BuyerId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("InvoiceDate")
                         .HasColumnType("datetime2");
@@ -92,8 +92,8 @@ namespace EInvoice.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("SellerId")
-                        .HasColumnType("int");
+                    b.Property<long>("SellerId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -106,11 +106,11 @@ namespace EInvoice.Infrastructure.Migrations
 
             modelBuilder.Entity("EInvoice.Domain.Entities.InvoiceItem", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<double>("Discount")
                         .HasColumnType("float");
@@ -132,8 +132,8 @@ namespace EInvoice.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("InvoiceId")
-                        .HasColumnType("int");
+                    b.Property<long>("InvoiceId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("ProductDescription")
                         .IsRequired()
@@ -189,11 +189,11 @@ namespace EInvoice.Infrastructure.Migrations
 
             modelBuilder.Entity("EInvoice.Domain.Entities.Organization", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Address")
                         .IsRequired()

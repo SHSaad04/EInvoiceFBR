@@ -15,7 +15,7 @@ namespace EInvoice.Infrastructure.Migrations
                 name: "Clients",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NTNCNIC = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     BusinessName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
@@ -32,7 +32,7 @@ namespace EInvoice.Infrastructure.Migrations
                 name: "Organizations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NTNCNIC = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     BusinessName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
@@ -95,14 +95,14 @@ namespace EInvoice.Infrastructure.Migrations
                 name: "Invoices",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InvoiceType = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     InvoiceDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     InvoiceRefNo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ScenarioId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    SellerId = table.Column<int>(type: "int", nullable: false),
-                    BuyerId = table.Column<int>(type: "int", nullable: false)
+                    SellerId = table.Column<long>(type: "bigint", nullable: false),
+                    BuyerId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -231,7 +231,7 @@ namespace EInvoice.Infrastructure.Migrations
                 name: "InvoiceItems",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     HsCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     ProductDescription = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
@@ -250,7 +250,7 @@ namespace EInvoice.Infrastructure.Migrations
                     Discount = table.Column<double>(type: "float", nullable: false),
                     SaleType = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     SroItemSerialNo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    InvoiceId = table.Column<int>(type: "int", nullable: false)
+                    InvoiceId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {

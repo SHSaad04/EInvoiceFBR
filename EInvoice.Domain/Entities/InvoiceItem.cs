@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace EInvoice.Domain.Entities
     public class InvoiceItem
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Required, MaxLength(20)]
         public string HsCode { get; set; }
@@ -55,7 +56,8 @@ namespace EInvoice.Domain.Entities
 
         // Relationship
         [Required]
-        public int InvoiceId { get; set; }
-        public Invoice Invoice { get; set; }
+        public long InvoiceId { get; set; }
+        [ForeignKey("InvoiceId")]
+        public virtual Invoice Invoice { get; set; }
     }
 }

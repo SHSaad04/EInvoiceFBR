@@ -10,7 +10,7 @@ namespace EInvoice.Common.Entities
     public class OrganizationDTO
     {
         [Key]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         [Required, MaxLength(20)]
         public string NTNCNIC { get; set; }
@@ -25,6 +25,6 @@ namespace EInvoice.Common.Entities
         public string Address { get; set; }
 
         // Reverse navigation
-        public ICollection<InvoiceDTO> Invoices { get; set; }
+        public virtual List<InvoiceDTO> Invoices { get; set; }
     }
 }
