@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EInvoice.Service.Implements
 {
-    public interface OrganizationService : IOrganizationService<OrganizationDTO>
+    public class OrganizationService : IOrganizationService
     {
     }
 }
