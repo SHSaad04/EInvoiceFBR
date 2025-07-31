@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using EInvoice.Common.DTO;
+using EInvoice.Common.DTO.Filter;
 using EInvoice.Common.Entities;
 using EInvoice.Common.Exceptions.Types;
 using EInvoice.Common.Pagination;
 using EInvoice.Domain.Entities;
+using EInvoice.Infrastructure;
 using EInvoice.Service.Aggregates;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -18,11 +21,11 @@ using System.Threading.Tasks;
 
 namespace EInvoice.Service.Implements
 {
-    public class UserService : IUserService
+    public class UserService(EInvoiceContext einvoiceContext, IMapper mapper, UserManager<User> userManager, IConfiguration configuration) : IUserService
     {
         private readonly UserManager<User> _userManager = userManager;
         private readonly IConfiguration _configuration = configuration;
-        private readonly EInvoiceContext ctx = lwaContext;
+        private readonly EInvoiceContext ctx = einvoiceContext;
         private readonly IMapper mapper = mapper;
 
         public async Task<UserDTO> Add(UserDTO userDTO)
