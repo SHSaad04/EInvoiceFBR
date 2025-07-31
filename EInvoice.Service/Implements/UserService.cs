@@ -36,7 +36,7 @@ namespace EInvoice.Service.Implements
             user.TwoFactorEnabled = false;         // No two-factor authentication required.
             user.LockoutEnabled = false;           // User cannot be locked out.
             user.AccessFailedCount = 0;
-            user.AvatarURL = "LPC";
+            user.AvatarURL = "image.jpg";
             var result = await _userManager.CreateAsync(user);
 
             if (!result.Succeeded)
