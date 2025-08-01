@@ -8,5 +8,6 @@ namespace EInvoice.Common.DTO.Filter
 {
     public class InvoiceFilterDTO : FilterDTOBase
     {
+        public string InvoiceRefNo { get; set; }
     }
 }
