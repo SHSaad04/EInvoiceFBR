@@ -50,8 +50,8 @@ namespace EInvoice.Service.Implements
         public async Task<InvoiceDTO> Edit(InvoiceDTO invoiceDTO)
         {
             var invoice = mapper.Map<Invoice>(invoiceDTO);
-            var bookOld = ctx.Invoices.AsNoTracking().FirstOrDefault(x => x.Id == invoice.Id);
-            if (bookOld == null)
+            var invoiceOld = ctx.Invoices.AsNoTracking().FirstOrDefault(x => x.Id == invoice.Id);
+            if (invoiceOld == null)
             {
                 throw new UserTypeException(ExceptionMessages.DataNotFoundExceptionMessage);
             }

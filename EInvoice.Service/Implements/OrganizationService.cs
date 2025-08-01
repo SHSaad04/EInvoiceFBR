@@ -59,8 +59,8 @@ namespace EInvoice.Service.Implements
         public async Task<OrganizationDTO> Edit(OrganizationDTO organizationDTO)
         {
             var organization = mapper.Map<Organization>(organizationDTO);
-            var bookOld = ctx.Organizations.AsNoTracking().FirstOrDefault(x => x.Id == organization.Id);
-            if (bookOld == null)
+            var organizationOld = ctx.Organizations.AsNoTracking().FirstOrDefault(x => x.Id == organization.Id);
+            if (organizationOld == null)
             {
                 throw new UserTypeException(ExceptionMessages.DataNotFoundExceptionMessage);
             }
@@ -93,20 +93,20 @@ namespace EInvoice.Service.Implements
 
         public async Task<PagedResult<OrganizationDTO>> GetByPage(int pageNumber, int pageSize)
         {
-            var pagedBooks = await ctx.Organizations.PaginateAsync(pageNumber, pageSize);
-            return mapper.Map<PagedResult<OrganizationDTO>>(pagedBooks);
+            var pagedOrganizations = await ctx.Organizations.PaginateAsync(pageNumber, pageSize);
+            return mapper.Map<PagedResult<OrganizationDTO>>(pagedOrganizations);
         }
 
         public async Task<PagedResult<OrganizationDTO>> GetByFilter(OrganizationFilterDTO filterDTO)
         {
-            var booksQuery = ctx.Organizations.Where(x => x.BusinessName.Contains(filterDTO.SearchQuery)).AsNoTracking();
+            var organizationQuery = ctx.Organizations.Where(x => x.BusinessName.Contains(filterDTO.SearchQuery)).AsNoTracking();
             if (!string.IsNullOrEmpty(filterDTO.BusinessName) && filterDTO.BusinessName != "All")
             {
-                booksQuery = booksQuery.Where(x => x.BusinessName == filterDTO.BusinessName);
+                organizationQuery = organizationQuery.Where(x => x.BusinessName == filterDTO.BusinessName);
             }
-            var organizations = await booksQuery.OrderBy(x => x.BusinessName).PaginateAsync(filterDTO.PageNumber, filterDTO.PageSize);
-            var bookDTOs = mapper.Map<PagedResult<OrganizationDTO>>(organizations);
-            return bookDTOs;
+            var organizations = await organizationQuery.OrderBy(x => x.BusinessName).PaginateAsync(filterDTO.PageNumber, filterDTO.PageSize);
+            var organizationDTOs = mapper.Map<PagedResult<OrganizationDTO>>(organizations);
+            return organizationDTOs;
         }
     }
 }

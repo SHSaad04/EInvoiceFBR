@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace EInvoice.Common.DTO.Filter
 {
-    public class ClientFilterDTO : FilterDTOBase
+    public class InvoiceItemFilterDTO : FilterDTOBase
     {
-        public string BusinessName { get; set; }
+        public string HsCode { get; set; }
     }
 }

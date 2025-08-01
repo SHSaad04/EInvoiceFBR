@@ -50,8 +50,8 @@ namespace EInvoice.Service.Implements
         public async Task<ClientDTO> Edit(ClientDTO clientDTO)
         {
             var client = mapper.Map<Client>(clientDTO);
-            var bookOld = ctx.Clients.AsNoTracking().FirstOrDefault(x => x.Id == client.Id);
-            if (bookOld == null)
+            var clientOld = ctx.Clients.AsNoTracking().FirstOrDefault(x => x.Id == client.Id);
+            if (clientOld == null)
             {
                 throw new UserTypeException(ExceptionMessages.DataNotFoundExceptionMessage);
             }
@@ -70,8 +70,8 @@ namespace EInvoice.Service.Implements
         }
         public async Task<List<ClientDTO>> GetAll()
         {
-            var organizations = await ctx.Clients.OrderBy(x => x.BusinessName).ToListAsync();
-            return mapper.Map<List<ClientDTO>>(organizations);
+            var clients = await ctx.Clients.OrderBy(x => x.BusinessName).ToListAsync();
+            return mapper.Map<List<ClientDTO>>(clients);
         }
         public async Task<ClientDTO> GetById(long id)
         {
@@ -80,19 +80,19 @@ namespace EInvoice.Service.Implements
         }
         public async Task<PagedResult<ClientDTO>> GetByPage(int pageNumber, int pageSize)
         {
-            var pagedBooks = await ctx.Clients.PaginateAsync(pageNumber, pageSize);
-            return mapper.Map<PagedResult<ClientDTO>>(pagedBooks);
+            var pagedClients = await ctx.Clients.PaginateAsync(pageNumber, pageSize);
+            return mapper.Map<PagedResult<ClientDTO>>(pagedClients);
         }
-        public async Task<PagedResult<ClientDTO>> GetByFilter(OrganizationFilterDTO filterDTO)
+        public async Task<PagedResult<ClientDTO>> GetByFilter(ClientFilterDTO filterDTO)
         {
-            var booksQuery = ctx.Clients.Where(x => x.BusinessName.Contains(filterDTO.SearchQuery)).AsNoTracking();
+            var clientsQuery = ctx.Clients.Where(x => x.BusinessName.Contains(filterDTO.SearchQuery)).AsNoTracking();
             if (!string.IsNullOrEmpty(filterDTO.BusinessName) && filterDTO.BusinessName != "All")
             {
-                booksQuery = booksQuery.Where(x => x.BusinessName == filterDTO.BusinessName);
+                clientsQuery = clientsQuery.Where(x => x.BusinessName == filterDTO.BusinessName);
             }
-            var organizations = await booksQuery.OrderBy(x => x.BusinessName).PaginateAsync(filterDTO.PageNumber, filterDTO.PageSize);
-            var bookDTOs = mapper.Map<PagedResult<ClientDTO>>(organizations);
-            return bookDTOs;
+            var clients = await clientsQuery.OrderBy(x => x.BusinessName).PaginateAsync(filterDTO.PageNumber, filterDTO.PageSize);
+            var clientDTOs = mapper.Map<PagedResult<ClientDTO>>(clients);
+            return clientDTOs;
         }
     }
 }
