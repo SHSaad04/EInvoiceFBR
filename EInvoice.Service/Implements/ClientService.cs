@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EInvoice.Service.Implements
 {
-    public class ClientService : IClientService
+    public class ClientService //: IClientService
     {
     }
 }
