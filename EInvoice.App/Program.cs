@@ -1,10 +1,16 @@
+using AutoMapper;
 using EInvoice.Infrastructure;
+using EInvoice.Service.Helpers;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 IConfiguration Configuration = builder.Configuration;
 var allowedOrigins = Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
-builder.Services.AddDbContext<EInvoiceContext>();
+#region Custom Services
 // Add services to the container.
+builder.Services.AddDbContext<EInvoiceContext>();
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+#endregion
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
