@@ -1,4 +1,6 @@
-﻿using EInvoice.Common.Entities;
+﻿using EInvoice.Common.DTO.Filter;
+using EInvoice.Common.Entities;
+using EInvoice.Common.Pagination;
 using EInvoice.Service.Aggregates;
 using System;
 using System.Collections.Generic;
@@ -10,5 +12,6 @@ namespace EInvoice.Service.Aggregates
 {
     public interface IInvoiceService : IService<InvoiceDTO>
     {
+        Task<PagedResult<InvoiceDTO>> GetByFilter(InvoiceFilterDTO filterDTO);
     }
 }
