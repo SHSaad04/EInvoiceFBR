@@ -3,7 +3,9 @@ using EInvoice.Common.DTO.Filter;
 using EInvoice.Common.Entities;
 using EInvoice.Service.Aggregates;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using System.Text.RegularExpressions;
 
 namespace EInvoice.App.Controllers
@@ -11,7 +13,7 @@ namespace EInvoice.App.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize(Roles = "Admin")]
-    public class OrganizationController(IOrganizationService organizationService, IMapper mapper) : ControllerBase
+    public class OrganizationController(IOrganizationService organizationService,IUserService userService, IMapper mapper) : ControllerBase
     {
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(long id)
@@ -41,7 +43,17 @@ namespace EInvoice.App.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(OrganizationDTO organizationDTO)
         {
-            return Ok(await organizationService.Add(organizationDTO));
+            var OrganizationRespone = await organizationService.Add(organizationDTO);
+            #region User Update
+            if (OrganizationRespone != null && OrganizationRespone.Id != 0)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await userService.GetById(Int32.Parse(userId));
+                user.OrganizationId = OrganizationRespone.Id;
+                await userService.Edit(user);
+            }
+            #endregion
+            return Ok();
         }
         [HttpPut]
         public async Task<IActionResult> Edit(OrganizationDTO organizationDTO)

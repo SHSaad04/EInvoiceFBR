@@ -165,9 +165,9 @@ namespace EInvoice.Service.Implements
             };
             // Add OrganizationId if present
             if (user.OrganizationId.HasValue)
-            {
                 claims.Add(new Claim("OrganizationId", user.OrganizationId.Value.ToString()));
-            }
+            else
+                claims.Add(new Claim("OrgPending", "true"));
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
