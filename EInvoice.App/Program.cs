@@ -1,8 +1,10 @@
 using AutoMapper;
+using EInvoice.Domain.Entities;
 using EInvoice.Infrastructure;
 using EInvoice.Service.Aggregates;
 using EInvoice.Service.Helpers;
 using EInvoice.Service.Implements;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,8 +19,17 @@ builder.Services.AddTransient<IInvoiceService, InvoiceService>();
 builder.Services.AddTransient<IOrganizationService, OrganizationService>();
 builder.Services.AddTransient<IUserService, UserService>();
 #endregion
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<EInvoiceContext>()
+    .AddDefaultTokenProviders();
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.User.RequireUniqueEmail = true; // Optional, can be false if not needed.
+    options.SignIn.RequireConfirmedEmail = false;  // Disable email confirmation requirement.
+    options.SignIn.RequireConfirmedPhoneNumber = false; // Disable phone confirmation.
+    options.SignIn.RequireConfirmedPhoneNumber = false; // Disable phone confirmation.
+});
 builder.Services.AddControllersWithViews();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
