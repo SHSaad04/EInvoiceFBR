@@ -1,7 +1,7 @@
 ﻿const AppConfig = {
     // Base API endpoints
     apiBaseUrl: "/api",
-    apiBaseUrlUser: "/api/user",
+    apiBaseUrlUser: "/api/users",
     apiBaseUrlOrganization: "/api/organization",
     apiBaseUrlInvoice: "/api/invoice",
     apiBaseUrlClient: "/api/client",

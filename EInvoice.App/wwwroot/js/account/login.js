@@ -12,6 +12,7 @@
                 window.location.href = "/Home/Index"; // adjust your post-login page
             },
             function (err) {
+                localStorage.removeItem("jwtToken");
                 alert("Login failed: " + err.responseText);
             }
         );

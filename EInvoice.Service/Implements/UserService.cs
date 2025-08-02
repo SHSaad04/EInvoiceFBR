@@ -48,8 +48,13 @@ namespace EInvoice.Service.Implements
 
         public async Task<AuthenticateResponseDTO> Authenticate(AuthenticateRequestDTO request)
         {
-            var user = await _userManager.FindByNameAsync(request.Username);
-
+            User? user = null;
+            user = await _userManager.FindByNameAsync(request.Username);
+            // If not found, try email
+            if (user == null && request.Username.Contains("@"))
+            {
+                user = await _userManager.FindByEmailAsync(request.Username);
+            }
             if (user == null)
                 return null;
 
@@ -57,17 +62,8 @@ namespace EInvoice.Service.Implements
 
             if (!result)
                 return null;
-
-            //user.LastLogin = DateTime.UtcNow;
-            //user.IpAddress = request.IpAddress;
-            //user.Device = request.Device;
-            //if (user.IsFirstLogin)
-            //{
-
-            //}
-            //await _userManager.UpdateAsync(user);
             var userRoles = await _userManager.GetRolesAsync(user);
-            var role = "Client";
+            var role = userRoles.FirstOrDefault() ?? "Client";
             if (userRoles != null && userRoles.Any())
             {
                 role = userRoles.FirstOrDefault();
@@ -152,7 +148,7 @@ namespace EInvoice.Service.Implements
             {
                 throw new UserTypeException(string.Join("\n", result.Errors.Select(e => e.Description)));
             }
-            await _userManager.AddToRoleAsync(user, "Client");
+            await _userManager.AddToRoleAsync(user, UserRoles.OrganizationAdmin);
             return user.Id.GetHashCode();
         }
 

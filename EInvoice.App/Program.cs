@@ -55,7 +55,12 @@ builder.Services.AddAuthorization();
 #endregion
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
-
+#region IDENTITY ROLES CREATION
+using (var scope = app.Services.CreateScope())
+{
+    await IdentitySeeder.SeedRolesAndAdmin(scope.ServiceProvider);
+}
+#endregion
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

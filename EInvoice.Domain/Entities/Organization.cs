@@ -26,5 +26,6 @@ namespace EInvoice.Domain.Entities
 
         // Reverse navigation
         public virtual List<Invoice> Invoices { get; set; }
+        public virtual List<User> Users { get; set; } = new List<User>();
     }
 }
