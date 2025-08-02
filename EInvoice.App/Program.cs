@@ -1,6 +1,8 @@
 using AutoMapper;
 using EInvoice.Infrastructure;
+using EInvoice.Service.Aggregates;
 using EInvoice.Service.Helpers;
+using EInvoice.Service.Implements;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,10 @@ var allowedOrigins = Configuration.GetSection("Cors:AllowedOrigins").Get<string[
 // Add services to the container.
 builder.Services.AddDbContext<EInvoiceContext>();
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddTransient<IClientService, ClientService>();
+builder.Services.AddTransient<IInvoiceService, InvoiceService>();
+builder.Services.AddTransient<IOrganizationService, OrganizationService>();
+builder.Services.AddTransient<IUserService, UserService>();
 #endregion
 builder.Services.AddControllersWithViews();
 
