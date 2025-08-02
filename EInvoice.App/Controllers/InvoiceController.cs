@@ -8,50 +8,48 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EInvoice.App.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("[controller]")]
     [Authorize(Roles = "Admin")]
-    public class InvoiceController(IInvoiceService invoiceService, IMapper mapper) : ControllerBase
+    public class InvoiceController(IInvoiceService invoiceService, IMapper mapper) : Controller
     {
-        [HttpGet("{id}")]
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(long id)
         {
             var invoice = await invoiceService.GetById(id);
             return Ok(invoice);
         }
-        [Authorize(Roles = "Admin")]
         [HttpGet("GetByPage/{pageNumber}/{pageSize}")]
         public async Task<IActionResult> GetByPage(int pageNumber, int pageSize)
         {
             var traits = await invoiceService.GetByPage(pageNumber, pageSize);
             return Ok(traits);
         }
-
         [HttpPost("GetByFilter")]
         public async Task<IActionResult> GetByFilter(InvoiceFilterDTO filterDTO)
         {
             var invoices = await invoiceService.GetByFilter(filterDTO);
             return Ok(invoices);
         }
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await invoiceService.GetAll());
         }
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
+        [HttpPost("Add")]
         public async Task<IActionResult> Add(InvoiceDTO invoiceDTO)
         {
             return Ok(await invoiceService.Add(invoiceDTO));
         }
-        [Authorize(Roles = "Admin")]
-        [HttpPut]
+        [HttpPut("Edit")]
         public async Task<IActionResult> Edit(InvoiceDTO invoiceDTO)
         {
             return Ok(await invoiceService.Edit(invoiceDTO));
         }
-        [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(long id)
         {
             await invoiceService.Delete(id);

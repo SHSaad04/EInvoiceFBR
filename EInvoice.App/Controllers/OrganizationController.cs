@@ -6,16 +6,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using System.Text.RegularExpressions;
 
 namespace EInvoice.App.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("[controller]")]
     [Authorize(Roles = "Admin")]
-    public class OrganizationController(IOrganizationService organizationService,IUserService userService, IMapper mapper) : ControllerBase
+    public class OrganizationController(IOrganizationService organizationService,IUserService userService, IMapper mapper) : Controller
     {
-        [HttpGet("{id}")]
+        public ActionResult Index()
+        {
+            return View();
+        }
+        [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(long id)
         {
             //var orgIdClaim = User.FindFirst("OrganizationId")?.Value;
@@ -35,12 +37,12 @@ namespace EInvoice.App.Controllers
             var questions = await organizationService.GetByFilter(filterDTO);
             return Ok(questions);
         }
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             return Ok(await organizationService.GetAll());
         }
-        [HttpPost]
+        [HttpPost("Add")]
         public async Task<IActionResult> Add(OrganizationDTO organizationDTO)
         {
             var OrganizationRespone = await organizationService.Add(organizationDTO);
@@ -55,12 +57,12 @@ namespace EInvoice.App.Controllers
             #endregion
             return Ok();
         }
-        [HttpPut]
+        [HttpPut("Edit")]
         public async Task<IActionResult> Edit(OrganizationDTO organizationDTO)
         {
             return Ok(await organizationService.Edit(organizationDTO));
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(long id)
         {
             await organizationService.Delete(id);

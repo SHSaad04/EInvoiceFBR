@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EInvoice.App.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UsersController(IUserService userService) : ControllerBase
+    [Route("[controller]")]
+    [Authorize(Roles = "SuperAdmin")]
+    public class UsersController(IUserService userService) : Controller
     {
         [AllowAnonymous]
         [HttpPost("signup")]
@@ -28,7 +28,7 @@ namespace EInvoice.App.Controllers
 
             return Ok(response);
         }
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             var users = await userService.GetAll();
@@ -40,7 +40,7 @@ namespace EInvoice.App.Controllers
             var users = await userService.GetByFilter(filterDTO);
             return Ok(users);
         }
-        [HttpGet("{id}")]
+        [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(long id)
         {
             var user = await userService.GetById(id);
@@ -50,14 +50,14 @@ namespace EInvoice.App.Controllers
             return Ok(user);
         }
 
-        [HttpPut]
+        [HttpPut("Update")]
         public async Task<IActionResult> Update([FromBody] UserDTO dto)
         {
             var user = await userService.Edit(dto);
             return Ok(user);
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("Delete/{id}")]
         public async Task<IActionResult> Delete(long id)
         {
             await userService.Delete(id);
