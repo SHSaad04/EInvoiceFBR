@@ -16,10 +16,10 @@ namespace EInvoice.App.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(long id)
         {
+            //var orgIdClaim = User.FindFirst("OrganizationId")?.Value;
             var question = await organizationService.GetById(id);
             return Ok(question);
         }
-        [Authorize(Roles = "Admin")]
         [HttpGet("GetByPage/{pageNumber}/{pageSize}")]
         public async Task<IActionResult> GetByPage(int pageNumber, int pageSize)
         {
@@ -38,19 +38,16 @@ namespace EInvoice.App.Controllers
         {
             return Ok(await organizationService.GetAll());
         }
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Add(OrganizationDTO organizationDTO)
         {
             return Ok(await organizationService.Add(organizationDTO));
         }
-        [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> Edit(OrganizationDTO organizationDTO)
         {
             return Ok(await organizationService.Edit(organizationDTO));
         }
-        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
