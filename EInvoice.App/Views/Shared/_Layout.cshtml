@@ -11,57 +11,61 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EInvoice.App</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">E-Invoice</a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarContent" aria-controls="navbarContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
 
+                <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+                    <!-- Left side: Modules -->
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
                             <li class="nav-item">
-                                <span class="nav-link text-dark">Hello, @User.Identity.Name!</span>
+                                <a class="nav-link" asp-controller="Organization" asp-action="Details">Organization</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Users" asp-action="Logout">Logout</a>
+                                <a class="nav-link" asp-controller="Client" asp-action="Index">Clients</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Organization" asp-action="Details">Organization</a>
+                                <a class="nav-link" asp-controller="Product" asp-action="Index">Products</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Client" asp-action="Index">Clients</a>
+                                <a class="nav-link" asp-controller="Invoice" asp-action="Index">Invoices</a>
+                            </li>
+                        }
+                    </ul>
+
+                    <!-- Right side: User actions -->
+                    <ul class="navbar-nav ms-auto">
+                        @if (User?.Identity?.IsAuthenticated ?? false)
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link">Hello, <strong>@User.Identity.Name</strong></span>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Product" asp-action="Index">Products</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Invoice" asp-action="Index">Invoices</a>
+                                <a class="nav-link" asp-controller="Users" asp-action="Logout">Logout</a>
                             </li>
                         }
                         else
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Users" asp-action="Login">Login</a>
+                                <a class="nav-link" asp-controller="Users" asp-action="Login">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Users" asp-action="Register">Register</a>
+                                <a class="nav-link" asp-controller="Users" asp-action="Register">Register</a>
                             </li>
                         }
                     </ul>
-
                 </div>
             </div>
         </nav>
+
     </header>
     <div class="container">
         <main role="main" class="pb-3">
