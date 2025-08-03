@@ -95,7 +95,7 @@ namespace EInvoice.App.Controllers
                 await organizationService.Edit(model);
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details");
         }
 
         [HttpGet("Delete/{id}")]

@@ -63,7 +63,7 @@ namespace EInvoice.Service.Implements
 
             bool isOrganizationAssociated = user.OrganizationId != null;
             // Add claim if needed (optional)
-            if (!isOrganizationAssociated)
+            if (!isOrganizationAssociated )
             {
                 await _userManager.AddClaimAsync(user,
                     new Claim("IsOrganizationAssociated", "false"));
