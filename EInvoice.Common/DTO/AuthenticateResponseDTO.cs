@@ -8,6 +8,6 @@
         public bool Success { get; set; }
         public string Message { get; set; }
         public IEnumerable<string> Roles { get; set; }
-
+        public bool IsOrganizationAssociated { get; set; }
     }
 }

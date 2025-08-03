@@ -31,6 +31,11 @@ namespace EInvoice.App.Controllers
         {
             return View();
         }
+        [HttpGet("Add")]
+        public ActionResult Add()
+        {
+            return View();
+        }
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(long id)
         {
@@ -67,6 +72,7 @@ namespace EInvoice.App.Controllers
                 var user = await userService.GetById(Int32.Parse(userId));
                 user.OrganizationId = OrganizationRespone.Id;
                 await userService.Edit(user);
+                bool result = await userService.UpdateClaims(user);
             }
             #endregion
             return Ok();

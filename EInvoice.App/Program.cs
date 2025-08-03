@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EInvoice.App.Models;
 using EInvoice.Domain.Entities;
 using EInvoice.Infrastructure;
 using EInvoice.Service.Aggregates;
@@ -23,6 +24,8 @@ builder.Services.AddTransient<IInvoiceService, InvoiceService>();
 builder.Services.AddTransient<IOrganizationService, OrganizationService>();
 builder.Services.AddTransient<IUserService, UserService>();
 #endregion
+
+
 #region IDENTITY CONFIGURATION
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
@@ -33,6 +36,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 .AddEntityFrameworkStores<EInvoiceContext>()
 .AddDefaultTokenProviders();
 
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>, AppClaimsPrincipalFactory>();
 // configure Identity cookie
 builder.Services.ConfigureApplicationCookie(options =>
 {

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EInvoice.Domain.Entities;
 
 namespace EInvoice.Service.Aggregates
 {
@@ -17,5 +18,6 @@ namespace EInvoice.Service.Aggregates
         Task<AuthenticateResponseDTO> Authenticate(AuthenticateRequestDTO request);
         Task<PagedResult<UserDTO>> GetByFilter(UserFilterDTO filterDTO);
         Task<bool> Signout(string userId);
+        Task<bool> UpdateClaims(UserDTO user);
     }
 }

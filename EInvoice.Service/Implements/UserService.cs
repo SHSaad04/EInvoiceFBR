@@ -61,16 +61,29 @@ namespace EInvoice.Service.Implements
             if (!result.Succeeded)
                 return new AuthenticateResponseDTO { Success = false, Message = "Invalid credentials" };
 
-            // Get user roles if needed
-            var userRoles = await _userManager.GetRolesAsync(user);
+            bool isOrganizationAssociated = user.OrganizationId != null;
+            // Add claim if needed (optional)
+            if (!isOrganizationAssociated)
+            {
+                await _userManager.AddClaimAsync(user,
+                    new Claim("IsOrganizationAssociated", "false"));
+            }
+            else
+            {
+                await _userManager.AddClaimAsync(user,
+                    new Claim("IsOrganizationAssociated", "true"));
+                await _userManager.AddClaimAsync(user,
+                    new Claim("OrganizationId", user.OrganizationId.ToString()));
+            }
+
+            await _signInManager.RefreshSignInAsync(user);
 
             return new AuthenticateResponseDTO
             {
                 Success = true,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Roles = userRoles
-                // No longer returning a token
+                IsOrganizationAssociated = isOrganizationAssociated
             };
         }
 
@@ -194,6 +207,26 @@ namespace EInvoice.Service.Implements
             var users = await usersQuery.PaginateAsync(filterDTO.PageNumber, filterDTO.PageSize);
             var userDTOs = mapper.Map<PagedResult<UserDTO>>(users);
             return userDTOs;
+        }
+        public async Task<bool> UpdateClaims(UserDTO userDTO)
+        {
+            User user = new User();
+            mapper.Map(userDTO, user);
+            var existingClaims = await _userManager.GetClaimsAsync(user);
+            foreach (var claim in existingClaims.Where(c => c.Type == "IsOrganizationAssociated" || c.Type == "OrganizationId"))
+            {
+                await _userManager.RemoveClaimAsync(user, claim);
+            }
+
+            // Add new claims
+            await _userManager.AddClaimAsync(user,
+                new Claim("IsOrganizationAssociated", "true"));
+            await _userManager.AddClaimAsync(user,
+                new Claim("OrganizationId", user.OrganizationId.ToString()));
+
+            // Refresh sign-in to update cookie
+            await _signInManager.RefreshSignInAsync(user);
+            return true;
         }
     }
 }

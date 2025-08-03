@@ -7,8 +7,11 @@
 
         apiRequest(AppConfig.HttpMethod.POST, AppConfig.apiBaseUrlUser + "/authenticate", credentials,
             function (res) {
-                alert("Login successful!");
-                window.location.href = "/Organization/Index"; // adjust your post-login page
+                if (res.isOrganizationAssociated) {
+                    window.location.href = "/Organization/Index";
+                } else {
+                    window.location.href = "/Organization/Add";
+                }
             },
             function (err) {
                 alert("Login failed: " + err.responseText);
