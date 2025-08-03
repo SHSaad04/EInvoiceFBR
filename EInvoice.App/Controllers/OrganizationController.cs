@@ -36,6 +36,24 @@ namespace EInvoice.App.Controllers
         {
             return View();
         }
+        [HttpPost("Add")]
+        public async Task<IActionResult> Add(OrganizationDTO organizationDTO)
+        {
+            if (!ModelState.IsValid)
+                return View(organizationDTO);
+            var OrganizationRespone = await organizationService.Add(organizationDTO);
+            #region User Update
+            if (OrganizationRespone != null && OrganizationRespone.Id != 0)
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var user = await userService.GetById(long.Parse(userId));
+                user.OrganizationId = OrganizationRespone.Id;
+                await userService.Edit(user);
+                bool result = await userService.UpdateClaims(user);
+            }
+            #endregion
+            return RedirectToAction("Index");
+        }
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(long id)
         {
@@ -61,22 +79,7 @@ namespace EInvoice.App.Controllers
         {
             return Ok(await organizationService.GetAll());
         }
-        [HttpPost("Add")]
-        public async Task<IActionResult> Add(OrganizationDTO organizationDTO)
-        {
-            var OrganizationRespone = await organizationService.Add(organizationDTO);
-            #region User Update
-            if (OrganizationRespone != null && OrganizationRespone.Id != 0)
-            {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = await userService.GetById(Int32.Parse(userId));
-                user.OrganizationId = OrganizationRespone.Id;
-                await userService.Edit(user);
-                bool result = await userService.UpdateClaims(user);
-            }
-            #endregion
-            return Ok();
-        }
+
         [HttpPut("Edit")]
         public async Task<IActionResult> Edit(OrganizationDTO organizationDTO)
         {

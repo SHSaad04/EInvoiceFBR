@@ -1,10 +1,38 @@
-﻿@{
-    ViewData["Title"] = "Organization - Add";
-}
-<div class="container mt-5">
-    <h2>Organization- Add</h2>
-</div>
+﻿@using EInvoice.Common.Entities
+@model OrganizationDTO
 
-@* @section Scripts { *@
-@*     <script src="~/js/organization/organization-Add.js"></script> *@
-@* } *@
+@{
+    ViewData["Title"] = "Add Organization";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">Add Organization</h2>
+
+    <form asp-controller="Organization" asp-action="Add" method="post">
+        <div class="form-group mb-3">
+            <label asp-for="NTNCNIC" class="form-label">NTN / CNIC</label>
+            <input asp-for="NTNCNIC" class="form-control" placeholder="Enter NTN or CNIC" />
+            <span asp-validation-for="NTNCNIC" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="BusinessName" class="form-label">Business Name</label>
+            <input asp-for="BusinessName" class="form-control" placeholder="Enter business name" />
+            <span asp-validation-for="BusinessName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Province" class="form-label">Province</label>
+            <input asp-for="Province" class="form-control" placeholder="Enter province" />
+            <span asp-validation-for="Province" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Address" class="form-label">Address</label>
+            <textarea asp-for="Address" class="form-control" rows="3" placeholder="Enter address"></textarea>
+            <span asp-validation-for="Address" class="text-danger"></span>
+        </div>
+        <button type="submit" class="btn btn-success">Save Organization</button>
+        <div asp-validation-summary="All" class="text-danger"></div>
+    </form>
+</div>
