@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EInvoice.Common.DTO.Filter;
 using EInvoice.Common.Entities;
+using EInvoice.Common.ViewModel;
 using EInvoice.Domain.Entities;
 using EInvoice.Service.Aggregates;
 using EInvoice.Service.Implements;
@@ -11,50 +12,64 @@ namespace EInvoice.App.Controllers
 {
     [Route("[controller]")]
     [Authorize(Roles = UserRoles.OrganizationAdmin)]
-    public class InvoiceController(IInvoiceService invoiceService, IMapper mapper) : Controller
+    public class InvoiceController(IInvoiceService invoiceService,IClientService clientService,IProductService productService, IMapper mapper) : Controller
     {
-        public ActionResult Index()
+        [HttpGet("Index")]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await invoiceService.GetAll());
         }
-        [HttpGet("GetById/{id}")]
-        public async Task<IActionResult> GetById(long id)
+
+        [HttpGet("Details/{id}")]
+        public async Task<IActionResult> Details(long id)
         {
-            var invoice = await invoiceService.GetById(id);
-            return Ok(invoice);
+            var client = await invoiceService.GetById(id);
+            if (client == null)
+                return NotFound();
+            return View(client);
         }
-        [HttpGet("GetByPage/{pageNumber}/{pageSize}")]
-        public async Task<IActionResult> GetByPage(int pageNumber, int pageSize)
+
+        [HttpGet("Add")]
+        public async Task<IActionResult> Add(long? id)
         {
-            var traits = await invoiceService.GetByPage(pageNumber, pageSize);
-            return Ok(traits);
+            InvoiceViewModel model = new InvoiceViewModel();
+            model.Clients = await clientService.GetAll();
+            model.Products = await productService.GetAll();
+            model.InvoiceDate = DateTime.Now;
+            return View(model);
         }
-        [HttpPost("GetByFilter")]
-        public async Task<IActionResult> GetByFilter(InvoiceFilterDTO filterDTO)
+
+        [HttpPost("Upsert/{id?}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Upsert(InvoiceDTO model)
         {
-            var invoices = await invoiceService.GetByFilter(filterDTO);
-            return Ok(invoices);
+            if (!ModelState.IsValid)
+                return View(model);
+
+            if (model.Id == 0)
+                await invoiceService.Add(model);
+            else
+                await invoiceService.Edit(model);
+
+            return RedirectToAction("Index");
         }
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
-        {
-            return Ok(await invoiceService.GetAll());
-        }
-        [HttpPost("Add")]
-        public async Task<IActionResult> Add(InvoiceDTO invoiceDTO)
-        {
-            return Ok(await invoiceService.Add(invoiceDTO));
-        }
-        [HttpPut("Edit")]
-        public async Task<IActionResult> Edit(InvoiceDTO invoiceDTO)
-        {
-            return Ok(await invoiceService.Edit(invoiceDTO));
-        }
-        [HttpDelete("Delete/{id}")]
+
+        [HttpGet("Delete/{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            await invoiceService.Delete(id);
-            return Ok();
+            var client = await invoiceService.GetById(id);
+            if (client == null)
+                return NotFound();
+            return View(client);
         }
+
+        [HttpPost("DeleteConfirmed/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(long id)
+        {
+            await invoiceService.Delete(id);
+            return RedirectToAction("Index");
+        }
+
     }
 }

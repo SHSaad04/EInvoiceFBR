@@ -1,0 +1,159 @@
+﻿@using EInvoice.Common.ViewModel
+@model InvoiceViewModel
+
+@{
+    ViewData["Title"] = "Add Invoice";
+}
+
+<h2>Add Invoice</h2>
+
+<form asp-action="Add" method="post">
+    <div class="d-flex justify-content-between">
+        <div class="form-group col-4">
+            <label asp-for="InvoiceNumber"></label>
+            <input asp-for="InvoiceNumber" class="form-control" />
+            <span asp-validation-for="InvoiceNumber" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-4">
+            <label asp-for="InvoiceDate"></label>
+            <input asp-for="InvoiceDate" type="date" class="form-control" />
+            <span asp-validation-for="InvoiceDate" class="text-danger"></span>
+        </div>
+
+        <div class="form-group col-4">
+            <label asp-for="ClientId">Buyer</label>
+            <select asp-for="ClientId"
+                    asp-items="@(new SelectList(Model.Clients, "Id", "BusinessName"))"
+                    class="form-control">
+                <option value="">-- Select Buyer --</option>
+            </select>
+            <span asp-validation-for="ClientId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <h4>Invoice Items</h4>
+    <table class="table" id="invoiceItemsTable">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Description</th>
+                <th>HS Code</th>
+                <th>UoM</th>
+                <th>Rate</th>
+                <th>Qty</th>
+                <th>Total</th>
+                <th>Tax Rate</th>
+                <th>Sales Tax</th>
+                <th>Discount</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr data-index="0">
+                <td>
+                    <select name="InvoiceItems[0].ProductId"
+                            class="form-control product-select"
+                            asp-items="@(new SelectList(Model.Products, "Id", "Name"))">
+                        <option value="">-- Select Product --</option>
+                    </select>
+                    @* <select class="form-control product-select" name="InvoiceItems[0].ProductId"> *@
+                    @*     <option value="">--Select--</option> *@
+                    @*     @foreach (var p in Model.Products) *@
+                    @*     { *@
+                    @*         <option value="@p.Id" *@
+                    @*                 data-description="@p.Description" *@
+                    @*                 data-hscode="@p.HsCode" *@
+                    @*                 data-uom="@p.UoM" *@
+                    @*                 data-rate="@p.Price" *@
+                    @*                 data-taxrate="@p.TaxRate"> *@
+                    @*             @p.Name *@
+                    @*         </option> *@
+                    @*     } *@
+                    @* </select> *@
+                </td>
+                <td><input type="text" class="form-control description" name="InvoiceItems[0].ProductDescription" readonly /></td>
+                <td><input type="text" class="form-control hsCode" name="InvoiceItems[0].HsCode" readonly /></td>
+                <td><input type="text" class="form-control uom" name="InvoiceItems[0].UoM" readonly /></td>
+                <td><input type="number" class="form-control rate" name="InvoiceItems[0].Rate" readonly /></td>
+                <td><input type="number" class="form-control quantity" name="InvoiceItems[0].Quantity" value="1" min="1" /></td>
+                <td><input type="number" class="form-control totalValue" name="InvoiceItems[0].TotalValue" readonly /></td>
+                <td><input type="text" class="form-control taxRate" name="InvoiceItems[0].TaxRate" readonly /></td>
+                <td><input type="number" class="form-control salesTax" name="InvoiceItems[0].SalesTaxApplicable" readonly /></td>
+                <td><input type="number" class="form-control discount" name="InvoiceItems[0].Discount" value="0" /></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" id="addItemBtn" class="btn btn-secondary">Add Item</button>
+
+    <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Save Invoice</button>
+    </div>
+</form>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        let rowIndex = 1;
+
+        // Clone row
+        $("#addItemBtn").click(function () {
+            var $clone = $("#invoiceItemsTable tbody tr:first").clone();
+
+            $clone.attr("data-index", rowIndex);
+            $clone.find("input, select").each(function () {
+                var name = $(this).attr("name");
+                if (name) {
+                    var newName = name.replace(/\[\d+\]/, "[" + rowIndex + "]");
+                    $(this).attr("name", newName);
+                }
+                if (!$(this).is("[readonly]")) {
+                    $(this).val($(this).attr("type") === "number" ? "0" : "");
+                }
+            });
+
+            $clone.find("td:last").html('<button type="button" class="btn btn-sm btn-danger removeRow">X</button>');
+            $("#invoiceItemsTable tbody").append($clone);
+            rowIndex++;
+        });
+
+        // Remove row
+        $(document).on("click", ".removeRow", function () {
+            $(this).closest("tr").remove();
+        });
+
+        // Auto-fill product details when product selected
+        $(document).on("change", ".product-select", function () {
+            var $row = $(this).closest("tr");
+            var selected = $(this).find("option:selected");
+
+            $row.find(".description").val(selected.data("description"));
+            $row.find(".hsCode").val(selected.data("hscode"));
+            $row.find(".uom").val(selected.data("uom"));
+            $row.find(".rate").val(selected.data("rate"));
+            $row.find(".taxRate").val(selected.data("taxrate"));
+
+            calculateRow($row);
+        });
+
+        // Recalculate totals on qty or discount change
+        $(document).on("input", ".quantity, .discount", function () {
+            var $row = $(this).closest("tr");
+            calculateRow($row);
+        });
+
+        function calculateRow($row) {
+            var rate = parseFloat($row.find(".rate").val()) || 0;
+            var qty = parseInt($row.find(".quantity").val()) || 0;
+            var discount = parseFloat($row.find(".discount").val()) || 0;
+            var taxRate = parseFloat(($row.find(".taxRate").val() || "0").replace('%', ''));
+
+            var total = (rate * qty) - discount;
+            var tax = (total * taxRate) / 100;
+
+            $row.find(".totalValue").val(total.toFixed(2));
+            $row.find(".salesTax").val(tax.toFixed(2));
+        }
+    </script>
+}
