@@ -15,10 +15,10 @@ namespace EInvoice.Common.Entities
         public string Email { get; set; }
         [Required, DataType(DataType.Password)] 
         public string Password { get; set; }
-        public string Contact { set; get; }
-        public string Country { set; get; }
-        public string City { set; get; }
-        public string PromoCode { get; set; }
+        public string? Contact { set; get; }
+        public string? Country { set; get; }
+        public string? City { set; get; }
+        public string? PromoCode { get; set; }
         public long? OrganizationId { get; set; }
     }
 }

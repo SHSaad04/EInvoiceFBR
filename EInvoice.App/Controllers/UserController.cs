@@ -1,6 +1,7 @@
 ﻿using EInvoice.Common.DTO;
 using EInvoice.Common.DTO.Filter;
 using EInvoice.Common.Entities;
+using EInvoice.Common.Exceptions.Types;
 using EInvoice.Service.Aggregates;
 using EInvoice.Service.Implements;
 using Microsoft.AspNetCore.Authorization;
@@ -49,18 +50,30 @@ namespace EInvoice.App.Controllers
         }
         [AllowAnonymous]
         [HttpPost("Register")]
-        public async Task<IActionResult> Register([FromBody] UserDTO model)
+        public async Task<IActionResult> Register(UserDTO model)
         {
             if (!ModelState.IsValid)
                 return View(model);
-
-            var userId = await userService.Signup(model);
-            if (userId <= 0)
+            try
             {
-                ModelState.AddModelError(string.Empty, "Registration failed.");
+
+                var userId = await userService.Signup(model);
+                if (userId <= 0)
+                {
+                    ModelState.AddModelError(string.Empty, "Registration failed.");
+                    return View(model);
+                }
+                return RedirectToAction("Login", "Users");
+            }
+            catch (UserTypeException ex)
+            {
+                // Split errors and add them to ModelState
+                foreach (var error in ex.Message.Split('\n'))
+                {
+                    ModelState.AddModelError(string.Empty, error);
+                }
                 return View(model);
             }
-            return RedirectToAction("Login", "Users");
         }
         [AllowAnonymous]
         [HttpGet("Logout")]

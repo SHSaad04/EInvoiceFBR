@@ -123,12 +123,16 @@ namespace EInvoice.Service.Implements
             return mapper.Map<List<UserDTO>>(pages);
         }
 
+        public async Task<UserDTO> GetById(string id)
+        {
+            var page = await ctx.Users.FindAsync(id);
+            return mapper.Map<UserDTO>(page);
+        }
         public async Task<UserDTO> GetById(long id)
         {
             var page = await ctx.Users.FindAsync(id);
             return mapper.Map<UserDTO>(page);
         }
-
         public async Task<PagedResult<UserDTO>> GetByPage(int pageNumber, int pageSize)
         {
             var pagedUsers = await ctx.Users.PaginateAsync(pageNumber, pageSize);
@@ -210,22 +214,32 @@ namespace EInvoice.Service.Implements
         }
         public async Task<bool> UpdateClaims(UserDTO userDTO)
         {
-            User user = new User();
-            mapper.Map(userDTO, user);
-            var existingClaims = await _userManager.GetClaimsAsync(user);
-            foreach (var claim in existingClaims.Where(c => c.Type == "IsOrganizationAssociated" || c.Type == "OrganizationId"))
+            var user = await _userManager.FindByIdAsync(userDTO.Id.ToString());
+            if (user == null) return false;
+            
+            var existingClaims = await _userManager.GetClaimsAsync(user); 
+            
+            var oldClaims = existingClaims
+                .Where(c => c.Type == "IsOrganizationAssociated" || c.Type == "OrganizationId")
+                .ToList();
+
+            foreach (var claim in oldClaims)
             {
                 await _userManager.RemoveClaimAsync(user, claim);
             }
 
-            // Add new claims
-            await _userManager.AddClaimAsync(user,
-                new Claim("IsOrganizationAssociated", "true"));
-            await _userManager.AddClaimAsync(user,
-                new Claim("OrganizationId", user.OrganizationId.ToString()));
+            var claims = new List<Claim>
+            {
+                new Claim("IsOrganizationAssociated", "true"),
+                new Claim("OrganizationId", userDTO.OrganizationId.ToString())
+            };
 
-            // Refresh sign-in to update cookie
+            foreach (var claim in claims)
+            {
+                await _userManager.AddClaimAsync(user, claim);
+            }
             await _signInManager.RefreshSignInAsync(user);
+
             return true;
         }
     }

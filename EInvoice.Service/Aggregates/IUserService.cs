@@ -19,5 +19,6 @@ namespace EInvoice.Service.Aggregates
         Task<PagedResult<UserDTO>> GetByFilter(UserFilterDTO filterDTO);
         Task<bool> Signout(string userId);
         Task<bool> UpdateClaims(UserDTO user);
+        Task<UserDTO> GetById(string id);
     }
 }

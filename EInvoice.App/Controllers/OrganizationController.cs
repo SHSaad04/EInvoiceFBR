@@ -46,7 +46,7 @@ namespace EInvoice.App.Controllers
             if (OrganizationRespone != null && OrganizationRespone.Id != 0)
             {
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var user = await userService.GetById(long.Parse(userId));
+                var user = await userService.GetById(userId);
                 user.OrganizationId = OrganizationRespone.Id;
                 await userService.Edit(user);
                 bool result = await userService.UpdateClaims(user);
