@@ -55,6 +55,7 @@ namespace EInvoice.Service.Implements
         public async Task<ClientDTO> Edit(ClientDTO clientDTO)
         {
             var client = mapper.Map<Client>(clientDTO);
+            client.OrganizationId = OrganizationId;
             var clientOld = ctx.Clients.AsNoTracking().FirstOrDefault(x => x.Id == client.Id && x.OrganizationId == OrganizationId);
             if (clientOld == null)
             {

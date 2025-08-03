@@ -1,26 +1,16 @@
 ﻿using AutoMapper;
 using EInvoice.Common.DTO.Filter;
-using EInvoice.Common.DTO;
 using EInvoice.Common.Entities;
+using EInvoice.Common.Exceptions;
 using EInvoice.Common.Exceptions.Types;
 using EInvoice.Common.Pagination;
 using EInvoice.Domain.Entities;
 using EInvoice.Infrastructure;
 using EInvoice.Service.Aggregates;
-using Microsoft.AspNetCore.Identity;
+using EInvoice.Service.Helpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using EInvoice.Common.Exceptions;
-using Microsoft.AspNetCore.Http;
-using EInvoice.Service.Helpers;
 
 namespace EInvoice.Service.Implements
 {
