@@ -13,50 +13,56 @@ namespace EInvoice.Domain.Entities
         [Key]
         public long Id { get; set; }
 
-        [Required, MaxLength(20)]
-        public string HsCode { get; set; }
+        // Link to product (optional - preserves historical data even if product is deleted)
+        public long? ProductId { get; set; }
 
+        [ForeignKey("ProductId")]
+        public virtual Product Product { get; set; }
+
+        // Product details (copied from product at time of invoice creation)
         [Required, MaxLength(500)]
         public string ProductDescription { get; set; }
 
-        [Required, MaxLength(10)]
-        public string Rate { get; set; } // e.g., "18%"
+        [Required, MaxLength(20)]
+        public string HsCode { get; set; }
 
         [Required, MaxLength(100)]
-        public string UoM { get; set; } // Unit of Measurement
+        public string UoM { get; set; }
+
+        [Required]
+        public decimal Rate { get; set; }
 
         [Required]
         public int Quantity { get; set; }
 
+        // Calculated values
         [Required]
-        public double TotalValues { get; set; }
+        public decimal TotalValue { get; set; }
 
         [Required]
-        public double ValueSalesExcludingST { get; set; }
+        public decimal ValueSalesExcludingST { get; set; }
 
-        public double FixedNotifiedValueOrRetailPrice { get; set; }
+        public decimal FixedNotifiedValueOrRetailPrice { get; set; }
+
         [Required]
-        public double SalesTaxApplicable { get; set; }
+        public decimal SalesTaxApplicable { get; set; }
 
-        public double SalesTaxWithheldAtSource { get; set; }
-        public double? ExtraTax { get; set; }
-        public double? FurtherTax { get; set; }
+        public decimal SalesTaxWithheldAtSource { get; set; }
+        public decimal? ExtraTax { get; set; }
+        public decimal? FurtherTax { get; set; }
 
-        [MaxLength(50)]
-        public string SroScheduleNo { get; set; }
+        [Required]
+        public decimal FedPayable { get; set; }
 
-        public double FedPayable { get; set; }
-        public double Discount { get; set; }
+        public decimal Discount { get; set; }
 
         [Required, MaxLength(200)]
         public string SaleType { get; set; }
 
-        [MaxLength(50)]
-        public string SroItemSerialNo { get; set; }
-
         // Relationship
         [Required]
         public long InvoiceId { get; set; }
+
         [ForeignKey("InvoiceId")]
         public virtual Invoice Invoice { get; set; }
     }
