@@ -35,7 +35,7 @@ namespace EInvoice.App.Controllers
             }
             return response.IsOrganizationAssociated
                 ? RedirectToAction("Index", "Organization")
-                : RedirectToAction("Add", "Organization");
+                : RedirectToAction("Upsert", "Organization");
         }
         [AllowAnonymous]
         [HttpGet("Register")]

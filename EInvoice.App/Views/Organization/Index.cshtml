@@ -1,11 +1,35 @@
-﻿@{
-    ViewData["Title"] = "Organization";
+﻿@using EInvoice.Common.Entities
+@model IEnumerable<OrganizationDTO>
+@{
+    ViewData["Title"] = "Organizations";
 }
 
-<div class="container mt-5">
-    <h2>Organization</h2>
-</div>
+<h2>Organizations</h2>
 
-@section Scripts {
-    <script src="~/js/organization/organization.js"></script>
-}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Business Name</th>
+            <th>Province</th>
+            <th>NTN/CNIC</th>
+            <th>Address</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var org in Model)
+        {
+            <tr>
+                <td>@org.BusinessName</td>
+                <td>@org.Province</td>
+                <td>@org.NTNCNIC</td>
+                <td>@org.Address</td>
+                <td>
+                    <a asp-controller="Organization" asp-action="Details" asp-route-id="@org.Id" class="btn btn-info btn-sm">Details</a>
+                    <a asp-controller="Organization" asp-action="Upsert" asp-route-id="@org.Id" class="btn btn-primary btn-sm">Edit</a>
+                    <a asp-controller="Organization" asp-action="Delete" asp-route-id="@org.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -3,6 +3,7 @@ using EInvoice.Common.DTO.Filter;
 using EInvoice.Common.Entities;
 using EInvoice.Domain.Entities;
 using EInvoice.Service.Aggregates;
+using EInvoice.Service.Implements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -27,9 +28,9 @@ namespace EInvoice.App.Controllers
             return Json(claims);
         }
         [HttpGet("Index")]
-        public ActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await organizationService.GetAll());
         }
         [HttpGet("Add")]
         public ActionResult Add()
@@ -54,6 +55,93 @@ namespace EInvoice.App.Controllers
             #endregion
             return RedirectToAction("Index");
         }
+        [HttpGet("Edit/{id}")]
+        public async Task<IActionResult> Edit(long id)
+        {
+            var org = await organizationService.GetById(id);
+            if (org == null)
+                return NotFound();
+
+            return View(org);
+        }
+
+        [HttpPost("Edit/{id}")]
+        public async Task<IActionResult> Edit(long id, OrganizationDTO model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            model.Id = id;
+            await organizationService.Edit(model);
+            return RedirectToAction("Index");
+        }
+        [HttpGet("Upsert/{id?}")]
+        public async Task<IActionResult> Upsert(long? id)
+        {
+            if (id == null || id == 0) // Add
+                return View(new OrganizationDTO());
+
+            // Edit
+            var org = await organizationService.GetById(id.Value);
+            if (org == null)
+                return NotFound();
+
+            return View(org);
+        }
+
+        [HttpPost("Upsert/{id?}")]
+        public async Task<IActionResult> Upsert(long? id, OrganizationDTO model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            if (id == null || id == 0)
+            {
+                // Add
+                await organizationService.Add(model);
+            }
+            else
+            {
+                // Edit
+                model.Id = id.Value;
+                await organizationService.Edit(model);
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet("Delete/{id}")]
+        public async Task<IActionResult> Delete(long id)
+        {
+            var org = await organizationService.GetById(id);
+            if (org == null)
+                return NotFound();
+
+            return View(org);
+        }
+
+        [HttpPost("DeleteConfirmed/{id}")]
+        public async Task<IActionResult> DeleteConfirmed(long id)
+        {
+            await organizationService.Delete(id);
+            return RedirectToAction("Index");
+        }
+        [HttpGet("Details/{id}")]
+        public async Task<IActionResult> Details(long id)
+        {
+            var org = await organizationService.GetById(id);
+            if (org == null)
+                return NotFound();
+
+            return View(org);
+        }
+
+
+
+
+
+
+        #region API METHODS
         [HttpGet("GetById/{id}")]
         public async Task<IActionResult> GetById(long id)
         {
@@ -86,10 +174,11 @@ namespace EInvoice.App.Controllers
             return Ok(await organizationService.Edit(organizationDTO));
         }
         [HttpDelete("Delete/{id}")]
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> DeleteOLD(long id)
         {
             await organizationService.Delete(id);
             return Ok();
         }
+        #endregion
     }
 }
