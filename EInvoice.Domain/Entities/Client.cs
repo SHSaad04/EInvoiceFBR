@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,5 +30,9 @@ namespace EInvoice.Domain.Entities
 
         // Reverse navigation
         public virtual List<Invoice> Invoices { get; set; }
+        public long? OrganizationId { get; set; }
+
+        [ForeignKey("OrganizationId")]
+        public virtual Organization Organization { get; set; }
     }
 }

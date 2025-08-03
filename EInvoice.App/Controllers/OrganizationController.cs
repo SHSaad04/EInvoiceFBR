@@ -69,6 +69,7 @@ namespace EInvoice.App.Controllers
         }
 
         [HttpPost("Upsert/{id?}")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(long? id, OrganizationDTO model)
         {
             if (!ModelState.IsValid)

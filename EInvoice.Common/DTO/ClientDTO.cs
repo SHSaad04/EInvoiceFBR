@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,8 @@ namespace EInvoice.Common.Entities
         public string RegistrationType { get; set; } // Registered / Unregistered
 
         // Reverse navigation
-        public List<InvoiceDTO> Invoices { get; set; }
+        public List<InvoiceDTO>? Invoices { get; set; }
+        public long? OrganizationId { get; set; }
+
     }
 }

@@ -26,7 +26,7 @@ namespace EInvoice.Service.Implements
         {
             if (AlreadyExistByTitle(invoiceDTO.InvoiceRefNo, invoiceDTO.Id))
             {
-                throw new UserTypeException(ExceptionMessages.BookAlreadyExist);
+                throw new UserTypeException(ExceptionMessages.RecordAlreadyExist);
             }
             var invoice = mapper.Map<Invoice>(invoiceDTO);
             ctx.Entry(invoice).State = Microsoft.EntityFrameworkCore.EntityState.Added;
@@ -57,7 +57,7 @@ namespace EInvoice.Service.Implements
             }
             if (AlreadyExistByTitle(invoiceDTO.InvoiceRefNo, invoiceDTO.Id))
             {
-                throw new UserTypeException(ExceptionMessages.BookAlreadyExist);
+                throw new UserTypeException(ExceptionMessages.RecordAlreadyExist);
             }
             ctx.Invoices.Update(invoice);
             ctx.Entry(invoice).State = Microsoft.EntityFrameworkCore.EntityState.Modified;

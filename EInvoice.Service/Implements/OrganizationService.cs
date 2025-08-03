@@ -32,9 +32,9 @@ namespace EInvoice.Service.Implements
         private long? OrganizationId = httpContextAccessor.HttpContext?.User.GetOrganizationId();
         public async Task<OrganizationDTO> Add(OrganizationDTO organizationDTO)
         {
-            if (AlreadyExistByTitle(organizationDTO.BusinessName, organizationDTO.Id))
+            if (AlreadyExistByTitle(organizationDTO.NTNCNIC, organizationDTO.Id))
             {
-                throw new UserTypeException(ExceptionMessages.BookAlreadyExist);
+                throw new UserTypeException(ExceptionMessages.OrganizationAlreadyExist);
             }
             var organization = mapper.Map<Organization>(organizationDTO);
             ctx.Entry(organization).State = Microsoft.EntityFrameworkCore.EntityState.Added;
@@ -63,18 +63,18 @@ namespace EInvoice.Service.Implements
             {
                 throw new UserTypeException(ExceptionMessages.DataNotFoundExceptionMessage);
             }
-            if (AlreadyExistByTitle(organizationDTO.BusinessName, organizationDTO.Id))
+            if (AlreadyExistByTitle(organizationDTO.NTNCNIC, organizationDTO.Id))
             {
-                throw new UserTypeException(ExceptionMessages.BookAlreadyExist);
+                throw new UserTypeException(ExceptionMessages.OrganizationAlreadyExist);
             }
             ctx.Organizations.Update(organization);
             ctx.Entry(organization).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             await ctx.SaveChangesAsync();
             return mapper.Map<OrganizationDTO>(organization);
         }
-        private bool AlreadyExistByTitle(string businessName, long id)
+        private bool AlreadyExistByTitle(string ntncnic, long id)
         {
-            return ctx.Organizations.Any(x => x.BusinessName == businessName && x.Id != id);
+            return ctx.Organizations.Any(x => x.NTNCNIC == ntncnic && x.Id != id);
         }
         public async Task<List<OrganizationDTO>> GetAll()
         {

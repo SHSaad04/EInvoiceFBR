@@ -1,3 +1,35 @@
-﻿@{
-    ViewData["Title"] = "Cliens";
+﻿@using EInvoice.Common.Entities
+@model IEnumerable<ClientDTO>
+@{
+    ViewData["Title"] = "Clients";
 }
+
+<div class="container mt-5">
+    <h2>Clients</h2>
+    <a asp-action="Upsert" class="btn btn-success mb-3">Add Client</a>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Business Name</th>
+                <th>Province</th>
+                <th>Registration Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var client in Model)
+            {
+                <tr>
+                    <td>@client.BusinessName</td>
+                    <td>@client.Province</td>
+                    <td>@client.RegistrationType</td>
+                    <td>
+                        <a asp-action="AddEdit" asp-route-id="@client.Id" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@client.Id" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
