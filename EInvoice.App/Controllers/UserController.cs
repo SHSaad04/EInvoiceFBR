@@ -2,6 +2,7 @@
 using EInvoice.Common.DTO.Filter;
 using EInvoice.Common.Entities;
 using EInvoice.Service.Aggregates;
+using EInvoice.Service.Implements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -13,30 +14,61 @@ namespace EInvoice.App.Controllers
     public class UsersController(IUserService userService) : Controller
     {
         [AllowAnonymous]
-        [HttpPost("signup")]
-        public async Task<IActionResult> Signup([FromBody] UserDTO userDTO)
+        [HttpGet("Login")]
+        public IActionResult Login()
         {
-            var userId = await userService.Signup(userDTO);
-            return Ok();
+            return View();
         }
-        [HttpPost("authenticate")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromBody] AuthenticateRequestDTO request)
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(AuthenticateRequestDTO model)
         {
-            var response = await userService.Authenticate(request);
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var response = await userService.Authenticate(model);
             if (response == null)
-                return Unauthorized("Invalid credentials");
-
-            return Ok(response);
+            {
+                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                return View(model);
+            }
+            if (response.IsOrganizationAssociated)
+            {
+                return RedirectToAction("Index", "Organization");
+            }
+            else
+            {
+                return RedirectToAction("Add", "Organization");
+            }
         }
-
-        [HttpPost("Signoff")]
         [AllowAnonymous]
-        public async Task<IActionResult> Signout()
+        [HttpGet("Register")]
+        public IActionResult Register()
+        {
+            return View();
+        }
+        [AllowAnonymous]
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register([FromBody] UserDTO model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var userId = await userService.Signup(model);
+            if (userId <= 0)
+            {
+                ModelState.AddModelError(string.Empty, "Registration failed.");
+                return View(model);
+            }
+            return RedirectToAction("Login", "Users");
+        }
+        [AllowAnonymous]
+        [HttpGet("Logout")]
+        public async Task<IActionResult> Logout()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var response = await userService.Signout(userId);
-            return Ok(response);
+            await userService.Signout(userId);
+            return RedirectToAction("Login", "Users");
         }
 
         [HttpGet("GetAll")]

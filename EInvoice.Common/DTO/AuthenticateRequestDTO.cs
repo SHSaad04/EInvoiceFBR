@@ -1,11 +1,12 @@
-﻿namespace EInvoice.Common.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace EInvoice.Common.DTO
 {
     public class AuthenticateRequestDTO
     {
+        [Required]
         public string Username { get; set; }
+        [Required, DataType(DataType.Password)] 
         public string Password { get; set; }
-        public string? IpAddress { get; set; }
-        public string? Device { get; set; }
-        public string? Browser { get; set; }
     }
 }
