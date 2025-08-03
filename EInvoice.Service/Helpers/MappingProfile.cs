@@ -32,6 +32,9 @@ namespace EInvoice.Service.Helpers
 
             CreateMap<UserDTO, User>().ReverseMap();
             CreateMap<PagedResult<UserDTO>, PagedResult<User>>().ReverseMap();
+
+            CreateMap<ProductDTO, Product>().ReverseMap();
+            CreateMap<PagedResult<ProductDTO>, PagedResult<Product>>().ReverseMap();
         }
     }
 }

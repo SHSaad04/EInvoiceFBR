@@ -5,6 +5,7 @@
         public static readonly string DataNotFoundExceptionMessage = "Data Not Found.";
         public static readonly string ClientAlreadyExist = "Client with the same NTNCNIC already exists.";
         public static readonly string OrganizationAlreadyExist = "Organization with the same NTNCNIC already exists.";
+        public static readonly string ProductAlreadyExist = "Product with the same NTNCNIC already exists.";
         public static readonly string RecordAlreadyExist = "A record with the same title already exists.";
         public static readonly string BadRequestExceptionMessage = "Bad Request Response.";
         public static readonly string EmailArleadyInUse = "Email is already in use.";

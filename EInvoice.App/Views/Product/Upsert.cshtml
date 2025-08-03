@@ -1,0 +1,83 @@
+﻿@using EInvoice.Common.Entities
+@model ProductDTO
+
+@{
+    ViewData["Title"] = Model.Id == 0 ? "Add Product" : "Edit Product";
+}
+
+<div class="container mt-4">
+    <h2>@ViewData["Title"]</h2>
+
+    <form asp-action="Upsert" method="post">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.OrganizationId)
+
+        <div class="form-group mt-3">
+            @Html.LabelFor(m => m.Name)
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mt-3">
+            @Html.LabelFor(m => m.Code)
+            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Code, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mt-3">
+            @Html.LabelFor(m => m.Description)
+            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 3 })
+            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mt-3">
+            @Html.LabelFor(m => m.HsCode)
+            @Html.TextBoxFor(m => m.HsCode, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.HsCode, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mt-3">
+            @Html.LabelFor(m => m.UoM, "Unit of Measurement")
+            @Html.TextBoxFor(m => m.UoM, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.UoM, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mt-3">
+            @Html.LabelFor(m => m.Price)
+            @Html.TextBoxFor(m => m.Price, new { @class = "form-control", type = "number", step = "0.01" })
+            @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mt-3">
+            @Html.LabelFor(m => m.SroScheduleNo)
+            @Html.TextBoxFor(m => m.SroScheduleNo, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.SroScheduleNo, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mt-3">
+            @Html.LabelFor(m => m.SroItemSerialNo)
+            @Html.TextBoxFor(m => m.SroItemSerialNo, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.SroItemSerialNo, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group mt-3">
+            @Html.LabelFor(m => m.TaxRate)
+            @Html.TextBoxFor(m => m.TaxRate, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TaxRate, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-check mt-3">
+            @Html.CheckBoxFor(m => m.IsTaxable, new { @class = "form-check-input" })
+            @Html.LabelFor(m => m.IsTaxable, new { @class = "form-check-label" })
+        </div>
+
+        <div class="form-check mt-3">
+            @Html.CheckBoxFor(m => m.IsFixedNotified, new { @class = "form-check-input" })
+            @Html.LabelFor(m => m.IsFixedNotified, new { @class = "form-check-label" })
+        </div>
+
+        <button type="submit" class="btn btn-success mt-4">Save</button>
+        <a asp-controller="Product" asp-action="Index" class="btn btn-secondary mt-4">Cancel</a>
+    </form>
+</div>

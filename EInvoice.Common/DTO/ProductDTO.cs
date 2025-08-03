@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EInvoice.Domain.Entities
+namespace EInvoice.Common.Entities
 {
-    public class Product
+    public class ProductDTO
     {
         [Key]
         public long Id { get; set; }
+
         [Required, MaxLength(50)]
         public string Name { get; set; }
         [Required, MaxLength(50)]
@@ -40,12 +41,6 @@ namespace EInvoice.Domain.Entities
         public string TaxRate { get; set; } // e.g., "18%"
         public bool IsTaxable { get; set; } = true;
         public bool IsFixedNotified { get; set; }
-
-        // Organization relationship
-        [Required]
         public long? OrganizationId { get; set; }
-
-        [ForeignKey("OrganizationId")]
-        public virtual Organization Organization { get; set; }
     }
 }

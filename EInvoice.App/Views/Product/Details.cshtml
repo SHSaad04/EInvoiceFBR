@@ -1,0 +1,29 @@
+﻿@using EInvoice.Common.Entities
+@model ProductDTO
+
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<div class="container mt-4">
+    <h2>Product Details</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">@Model.Name (@Model.Code)</h4>
+            <p><strong>Description:</strong> @Model.Description</p>
+            <p><strong>HS Code:</strong> @Model.HsCode</p>
+            <p><strong>Unit of Measurement:</strong> @Model.UoM</p>
+            <p><strong>Price:</strong> @Model.Price.ToString("C")</p>
+            <p><strong>SRO Schedule No:</strong> @Model.SroScheduleNo</p>
+            <p><strong>SRO Item Serial No:</strong> @Model.SroItemSerialNo</p>
+            <p><strong>Tax Rate:</strong> @Model.TaxRate</p>
+            <p><strong>Taxable:</strong> @(Model.IsTaxable ? "Yes" : "No")</p>
+            <p><strong>Fixed Notified:</strong> @(Model.IsFixedNotified ? "Yes" : "No")</p>
+        </div>
+        <div class="card-footer">
+            <a asp-controller="Product" asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <a asp-controller="Product" asp-action="Upsert" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+        </div>
+    </div>
+</div>

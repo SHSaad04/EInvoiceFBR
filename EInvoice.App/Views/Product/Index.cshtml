@@ -1,0 +1,56 @@
+﻿@using EInvoice.Common.Entities
+@model IEnumerable<ProductDTO>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container mt-4">
+    <h2>Products</h2>
+    <p>
+        <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">Add New Product</a>
+    </p>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>HS Code</th>
+                <th>UoM</th>
+                <th>Price</th>
+                <th>Tax Rate</th>
+                <th>Taxable</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var product in Model)
+                {
+                    <tr>
+                        <td>@product.Code</td>
+                        <td>@product.Name</td>
+                        <td>@product.HsCode</td>
+                        <td>@product.UoM</td>
+                        <td>@product.Price.ToString("C")</td>
+                        <td>@product.TaxRate</td>
+                        <td>@(product.IsTaxable ? "Yes" : "No")</td>
+                        <td>
+                            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-info btn-sm">Details</a>
+                            <a asp-controller="Product" asp-action="Upsert" asp-route-id="@product.Id" class="btn btn-warning btn-sm">Edit</a>
+                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="8" class="text-center">No products found.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

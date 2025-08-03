@@ -38,5 +38,6 @@ namespace EInvoice.Infrastructure
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceItem> InvoiceItems { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }

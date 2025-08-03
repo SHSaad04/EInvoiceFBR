@@ -23,6 +23,7 @@ builder.Services.AddTransient<IClientService, ClientService>();
 builder.Services.AddTransient<IInvoiceService, InvoiceService>();
 builder.Services.AddTransient<IOrganizationService, OrganizationService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IProductService, ProductService>();
 #endregion
 #region IDENTITY CONFIGURATION
 builder.Services.AddIdentity<User, IdentityRole>(options =>
