@@ -11,19 +11,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EInvoice.Service.Implements
 {
-    public class UserService(EInvoiceContext einvoiceContext, IMapper mapper, UserManager<User> userManager, IConfiguration configuration) : IUserService
+    public class UserService(EInvoiceContext einvoiceContext, IMapper mapper, UserManager<User> userManager, IConfiguration configuration, SignInManager<User> signInManager) : IUserService
     {
         private readonly UserManager<User> _userManager = userManager;
+        private readonly SignInManager<User> _signInManager = signInManager;
         private readonly IConfiguration _configuration = configuration;
         private readonly EInvoiceContext ctx = einvoiceContext;
         private readonly IMapper mapper = mapper;
@@ -42,34 +39,40 @@ namespace EInvoice.Service.Implements
             if (!result.Succeeded)
                 throw new UserTypeException(string.Join("\n", result.Errors.Select(e => e.Description)));
 
-            await _userManager.AddToRoleAsync(user, "Admin");
+            await _userManager.AddToRoleAsync(user, UserRoles.OrganizationAdmin);
             return mapper.Map<UserDTO>(user);
         }
 
         public async Task<AuthenticateResponseDTO> Authenticate(AuthenticateRequestDTO request)
         {
-            User? user = null;
-            user = await _userManager.FindByNameAsync(request.Username);
-            // If not found, try email
-            if (user == null && request.Username.Contains("@"))
-            {
-                user = await _userManager.FindByEmailAsync(request.Username);
-            }
+            var user = await _userManager.FindByNameAsync(request.Username)
+                        ?? await _userManager.FindByEmailAsync(request.Username);
+            
             if (user == null)
                 return null;
-
-            var result = await _userManager.CheckPasswordAsync(user, request.Password);
-
-            if (!result)
-                return null;
-            var userRoles = await _userManager.GetRolesAsync(user);
-            var role = userRoles.FirstOrDefault() ?? "Client";
-            if (userRoles != null && userRoles.Any())
+            
+            // ensure user is in the correct role BEFORE creating the cookie
+            if (!await _userManager.IsInRoleAsync(user, UserRoles.OrganizationAdmin))
             {
-                role = userRoles.FirstOrDefault();
+                await _userManager.AddToRoleAsync(user, UserRoles.OrganizationAdmin);
+                await _signInManager.RefreshSignInAsync(user); // refresh cookie with new claims
             }
-            var token = GenerateJwtToken(user, role);
 
+            var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, false);
+            //var result = await _userManager.CheckPasswordAsync(user, request.Password);
+            if (!result.Succeeded)
+                return null;
+            if (result.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, isPersistent: false);
+                // this ensures cookie is set
+            }
+
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var role = userRoles.FirstOrDefault();
+            
+            var token = GenerateJwtToken(user, role);
+            
             return new AuthenticateResponseDTO
             {
                 FirstName = user.FirstName,
@@ -150,6 +153,18 @@ namespace EInvoice.Service.Implements
             }
             await _userManager.AddToRoleAsync(user, UserRoles.OrganizationAdmin);
             return user.Id.GetHashCode();
+        }
+        public async Task<bool> Signout(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+                return false;
+            await signInManager.SignOutAsync();
+            // optional: update last logout info
+            // user.LastLogout = DateTime.UtcNow;
+            // await _userManager.UpdateAsync(user);
+
+            return true; // service itself doesn’t handle cookie signout
         }
 
         private string GenerateJwtToken(User user, string role)

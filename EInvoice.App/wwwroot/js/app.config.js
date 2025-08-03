@@ -1,10 +1,10 @@
 ﻿const AppConfig = {
     // Base API endpoints
     apiBaseUrl: "/api",
-    apiBaseUrlUser: "/api/users",
-    apiBaseUrlOrganization: "/api/organization",
-    apiBaseUrlInvoice: "/api/invoice",
-    apiBaseUrlClient: "/api/client",
+    apiBaseUrlUser: "/users",
+    apiBaseUrlOrganization: "/organization",
+    apiBaseUrlInvoice: "/invoice",
+    apiBaseUrlClient: "/client",
 
     // HTTP method types
     HttpMethod: {

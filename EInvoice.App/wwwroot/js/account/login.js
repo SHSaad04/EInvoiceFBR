@@ -9,7 +9,7 @@
             function (res) {
                 localStorage.setItem("jwtToken", res.token);
                 alert("Login successful!");
-                window.location.href = "/Organization/Index"; // adjust your post-login page
+                window.location.href = "/Organization/DebugClaims"; // adjust your post-login page
             },
             function (err) {
                 localStorage.removeItem("jwtToken");

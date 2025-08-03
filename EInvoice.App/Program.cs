@@ -1,9 +1,10 @@
-using AutoMapper;
+﻿using AutoMapper;
 using EInvoice.Domain.Entities;
 using EInvoice.Infrastructure;
 using EInvoice.Service.Aggregates;
 using EInvoice.Service.Helpers;
 using EInvoice.Service.Implements;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,23 +24,36 @@ builder.Services.AddTransient<IOrganizationService, OrganizationService>();
 builder.Services.AddTransient<IUserService, UserService>();
 #endregion
 #region IDENTITY CONFIGURATION
-builder.Services.AddIdentity<User, IdentityRole>()
-    .AddEntityFrameworkStores<EInvoiceContext>()
-    .AddDefaultTokenProviders();
-builder.Services.Configure<IdentityOptions>(options =>
+builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
-    options.User.RequireUniqueEmail = true; // Optional, can be false if not needed.
-    options.SignIn.RequireConfirmedEmail = false;  // Disable email confirmation requirement.
-    options.SignIn.RequireConfirmedPhoneNumber = false; // Disable phone confirmation.
-    options.SignIn.RequireConfirmedPhoneNumber = false; // Disable phone confirmation.
-});
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
-builder.Services.AddAuthentication(x =>
-{
-    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedEmail = false;
+    options.SignIn.RequireConfirmedPhoneNumber = false;
 })
-.AddJwtBearer(x =>
+.AddEntityFrameworkStores<EInvoiceContext>()
+.AddDefaultTokenProviders();
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>,
+    UserClaimsPrincipalFactory<User, IdentityRole>>();
+// configure Identity cookie
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Users/Login";          // redirect when not logged in
+    options.AccessDeniedPath = "/Users/AccessDenied";
+    options.SlidingExpiration = true;
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // cookie lifetime
+});
+
+// JWT config for AJAX calls
+var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme) // ✅ Add Cookie Auth
+.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, x =>
 {
     x.RequireHttpsMetadata = false;
     x.SaveToken = true;
@@ -51,7 +65,9 @@ builder.Services.AddAuthentication(x =>
         ValidateAudience = false
     };
 });
+
 builder.Services.AddAuthorization();
+
 #endregion
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
@@ -71,7 +87,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
@@ -80,6 +96,4 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
-
-
 app.Run();

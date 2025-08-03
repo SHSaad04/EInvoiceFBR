@@ -16,5 +16,6 @@ namespace EInvoice.Service.Aggregates
         Task<int> Signup(UserDTO request);
         Task<AuthenticateResponseDTO> Authenticate(AuthenticateRequestDTO request);
         Task<PagedResult<UserDTO>> GetByFilter(UserFilterDTO filterDTO);
+        Task<bool> Signout(string userId);
     }
 }

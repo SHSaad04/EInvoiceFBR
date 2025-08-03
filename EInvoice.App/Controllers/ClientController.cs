@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using EInvoice.Common.DTO.Filter;
 using EInvoice.Common.Entities;
+using EInvoice.Domain.Entities;
 using EInvoice.Service.Aggregates;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EInvoice.App.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = UserRoles.OrganizationAdmin)]
     [Route("[controller]")]
     public class ClientController(IClientService clientService, IMapper mapper) : Controller
     {

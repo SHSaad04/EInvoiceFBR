@@ -4,6 +4,7 @@ using EInvoice.Common.Entities;
 using EInvoice.Service.Aggregates;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace EInvoice.App.Controllers
 {
@@ -28,6 +29,16 @@ namespace EInvoice.App.Controllers
 
             return Ok(response);
         }
+
+        [HttpPost("Signoff")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Signout()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var response = await userService.Signout(userId);
+            return Ok(response);
+        }
+
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {

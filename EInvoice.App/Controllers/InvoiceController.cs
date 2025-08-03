@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EInvoice.Common.DTO.Filter;
 using EInvoice.Common.Entities;
+using EInvoice.Domain.Entities;
 using EInvoice.Service.Aggregates;
 using EInvoice.Service.Implements;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace EInvoice.App.Controllers
 {
     [Route("[controller]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = UserRoles.OrganizationAdmin)]
     public class InvoiceController(IInvoiceService invoiceService, IMapper mapper) : Controller
     {
         public ActionResult Index()

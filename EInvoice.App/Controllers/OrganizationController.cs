@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EInvoice.Common.DTO.Filter;
 using EInvoice.Common.Entities;
+using EInvoice.Domain.Entities;
 using EInvoice.Service.Aggregates;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -10,9 +11,22 @@ using System.Security.Claims;
 namespace EInvoice.App.Controllers
 {
     [Route("[controller]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = UserRoles.OrganizationAdmin)]
     public class OrganizationController(IOrganizationService organizationService,IUserService userService, IMapper mapper) : Controller
     {
+        [AllowAnonymous]
+        [HttpGet("DebugClaims")]
+        public IActionResult DebugClaims()
+        {
+            if (User?.Identity?.IsAuthenticated != true)
+            {
+                return Json(new { message = "No claims found or user not authenticated" });
+            }
+
+            var claims = User.Claims.Select(c => new { c.Type, c.Value }).ToList();
+            return Json(claims);
+        }
+        [HttpGet("Index")]
         public ActionResult Index()
         {
             return View();

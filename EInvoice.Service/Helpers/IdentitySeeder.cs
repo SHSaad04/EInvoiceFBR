@@ -29,7 +29,7 @@ namespace EInvoice.Service.Helpers
                     UserName = "superadmin",
                     Email = adminEmail,
                     FirstName = "System",
-                    LastName = "Admin",
+                    LastName = UserRoles.OrganizationAdmin,
                     EmailConfirmed = true,
                     IsAdmin = true
                 };
