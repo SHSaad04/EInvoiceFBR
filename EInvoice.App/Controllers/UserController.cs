@@ -28,19 +28,14 @@ namespace EInvoice.App.Controllers
                 return View(model);
 
             var response = await userService.Authenticate(model);
-            if (response == null)
+            if (!response.Success)
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                ModelState.AddModelError(string.Empty, response.Message);
                 return View(model);
             }
-            if (response.IsOrganizationAssociated)
-            {
-                return RedirectToAction("Index", "Organization");
-            }
-            else
-            {
-                return RedirectToAction("Add", "Organization");
-            }
+            return response.IsOrganizationAssociated
+                ? RedirectToAction("Index", "Organization")
+                : RedirectToAction("Add", "Organization");
         }
         [AllowAnonymous]
         [HttpGet("Register")]
