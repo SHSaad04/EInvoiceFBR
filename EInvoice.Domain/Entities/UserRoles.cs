@@ -10,5 +10,6 @@ namespace EInvoice.Domain.Entities
     {
         public const string SuperAdmin = "SuperAdmin";
         public const string OrganizationAdmin = "OrganizationAdmin";
+        public const string SuperAdminANDOrganizationAdmin = "SuperAdmin,OrganizationAdmin";
     }
 }

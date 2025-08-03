@@ -24,8 +24,6 @@ builder.Services.AddTransient<IInvoiceService, InvoiceService>();
 builder.Services.AddTransient<IOrganizationService, OrganizationService>();
 builder.Services.AddTransient<IUserService, UserService>();
 #endregion
-
-
 #region IDENTITY CONFIGURATION
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
@@ -78,8 +76,14 @@ builder.Services.AddAuthorization();
 
 #endregion
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
-
+#region IDENTITY ROLES CREATION
+using (var scope = app.Services.CreateScope())
+{
+    await IdentitySeeder.SeedRolesAndAdmin(scope.ServiceProvider);
+}
+#endregion
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

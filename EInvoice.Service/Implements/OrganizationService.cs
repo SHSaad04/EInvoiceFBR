@@ -19,15 +19,17 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using EInvoice.Common.Exceptions;
+using Microsoft.AspNetCore.Http;
+using EInvoice.Service.Helpers;
 
 namespace EInvoice.Service.Implements
 {
-    public class OrganizationService(EInvoiceContext einvoiceContext, IMapper mapper, IConfiguration configuration) : IOrganizationService
+    public class OrganizationService(EInvoiceContext einvoiceContext, IMapper mapper, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : IOrganizationService
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly EInvoiceContext ctx = einvoiceContext;
         private readonly IMapper mapper = mapper;
-
+        private long? OrganizationId = httpContextAccessor.HttpContext?.User.GetOrganizationId();
         public async Task<OrganizationDTO> Add(OrganizationDTO organizationDTO)
         {
             if (AlreadyExistByTitle(organizationDTO.BusinessName, organizationDTO.Id))
@@ -40,7 +42,6 @@ namespace EInvoice.Service.Implements
             await ctx.SaveChangesAsync();
             return mapper.Map<OrganizationDTO>(organization);
         }
-
         public async Task Delete(long id)
         {
             var organization = await ctx.Organizations.FindAsync(id);
@@ -50,12 +51,10 @@ namespace EInvoice.Service.Implements
                 await ctx.SaveChangesAsync();
             }
         }
-
         public void Dispose()
         {
             ctx?.Dispose();
         }
-
         public async Task<OrganizationDTO> Edit(OrganizationDTO organizationDTO)
         {
             var organization = mapper.Map<Organization>(organizationDTO);
@@ -73,30 +72,26 @@ namespace EInvoice.Service.Implements
             await ctx.SaveChangesAsync();
             return mapper.Map<OrganizationDTO>(organization);
         }
-
         private bool AlreadyExistByTitle(string businessName, long id)
         {
             return ctx.Organizations.Any(x => x.BusinessName == businessName && x.Id != id);
         }
-
         public async Task<List<OrganizationDTO>> GetAll()
         {
             var organizations = await ctx.Organizations.OrderBy(x => x.BusinessName).ToListAsync();
             return mapper.Map<List<OrganizationDTO>>(organizations);
         }
-
         public async Task<OrganizationDTO> GetById(long id)
         {
-            var organization = await ctx.Organizations.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+
+            var organization = await ctx.Organizations.AsNoTracking().FirstOrDefaultAsync(x => x.Id == OrganizationId);
             return mapper.Map<OrganizationDTO>(organization);
         }
-
         public async Task<PagedResult<OrganizationDTO>> GetByPage(int pageNumber, int pageSize)
         {
             var pagedOrganizations = await ctx.Organizations.PaginateAsync(pageNumber, pageSize);
             return mapper.Map<PagedResult<OrganizationDTO>>(pagedOrganizations);
         }
-
         public async Task<PagedResult<OrganizationDTO>> GetByFilter(OrganizationFilterDTO filterDTO)
         {
             var organizationQuery = ctx.Organizations.Where(x => x.BusinessName.Contains(filterDTO.SearchQuery)).AsNoTracking();
