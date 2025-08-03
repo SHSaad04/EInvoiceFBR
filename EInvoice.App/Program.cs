@@ -32,8 +32,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<EInvoiceContext>()
 .AddDefaultTokenProviders();
-builder.Services.AddScoped<IUserClaimsPrincipalFactory<User>,
-    UserClaimsPrincipalFactory<User, IdentityRole>>();
+
 // configure Identity cookie
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -41,42 +40,42 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Users/AccessDenied";
     options.SlidingExpiration = true;
     options.ExpireTimeSpan = TimeSpan.FromMinutes(60); // cookie lifetime
-});
-
-// JWT config for AJAX calls
-var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Key"]);
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-    //options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    //options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme) // ✅ Add Cookie Auth
-.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, x =>
-{
-    x.RequireHttpsMetadata = false;
-    x.SaveToken = true;
-    x.TokenValidationParameters = new TokenValidationParameters
+    // Handle AJAX requests properly
+    options.Events = new CookieAuthenticationEvents
     {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false
+        OnRedirectToLogin = context =>
+        {
+            if (context.Request.Path.StartsWithSegments("/api") &&
+                context.Response.StatusCode == 200)
+            {
+                context.Response.StatusCode = 401;
+                return Task.CompletedTask;
+            }
+            context.Response.Redirect(context.RedirectUri);
+            return Task.CompletedTask;
+        },
+        OnRedirectToAccessDenied = context =>
+        {
+            if (context.Request.Path.StartsWithSegments("/api") &&
+                context.Response.StatusCode == 200)
+            {
+                context.Response.StatusCode = 403;
+                return Task.CompletedTask;
+            }
+            context.Response.Redirect(context.RedirectUri);
+            return Task.CompletedTask;
+        }
     };
 });
-
+// Remove JWT and hybrid authentication - just use this:
+builder.Services.AddAuthentication()
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
 builder.Services.AddAuthorization();
 
 #endregion
 builder.Services.AddControllersWithViews();
 var app = builder.Build();
-#region IDENTITY ROLES CREATION
-using (var scope = app.Services.CreateScope())
-{
-    await IdentitySeeder.SeedRolesAndAdmin(scope.ServiceProvider);
-}
-#endregion
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

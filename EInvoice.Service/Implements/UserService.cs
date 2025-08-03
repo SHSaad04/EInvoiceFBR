@@ -47,37 +47,30 @@ namespace EInvoice.Service.Implements
         {
             var user = await _userManager.FindByNameAsync(request.Username)
                         ?? await _userManager.FindByEmailAsync(request.Username);
-            
+
             if (user == null)
-                return null;
-            
-            // ensure user is in the correct role BEFORE creating the cookie
-            if (!await _userManager.IsInRoleAsync(user, UserRoles.OrganizationAdmin))
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.OrganizationAdmin);
-                await _signInManager.RefreshSignInAsync(user); // refresh cookie with new claims
-            }
+                return new AuthenticateResponseDTO { Success = false, Message = "User not found" };
 
-            var result = await _signInManager.PasswordSignInAsync(user, request.Password, false, false);
-            //var result = await _userManager.CheckPasswordAsync(user, request.Password);
+            // Sign in using cookie authentication
+            var result = await _signInManager.PasswordSignInAsync(
+                user,
+                request.Password,
+                isPersistent: false, // Whether to persist the cookie after browser is closed
+                lockoutOnFailure: false);
+
             if (!result.Succeeded)
-                return null;
-            if (result.Succeeded)
-            {
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                // this ensures cookie is set
-            }
+                return new AuthenticateResponseDTO { Success = false, Message = "Invalid credentials" };
 
+            // Get user roles if needed
             var userRoles = await _userManager.GetRolesAsync(user);
-            var role = userRoles.FirstOrDefault();
-            
-            var token = GenerateJwtToken(user, role);
-            
+
             return new AuthenticateResponseDTO
             {
+                Success = true,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                Token = token
+                Roles = userRoles
+                // No longer returning a token
             };
         }
 
@@ -156,15 +149,11 @@ namespace EInvoice.Service.Implements
         }
         public async Task<bool> Signout(string userId)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null)
-                return false;
+            //var user = await _userManager.FindByIdAsync(userId);
+            //if (user == null)
+            //    return false;
             await signInManager.SignOutAsync();
-            // optional: update last logout info
-            // user.LastLogout = DateTime.UtcNow;
-            // await _userManager.UpdateAsync(user);
-
-            return true; // service itself doesn’t handle cookie signout
+            return true;
         }
 
         private string GenerateJwtToken(User user, string role)
