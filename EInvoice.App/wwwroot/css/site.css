@@ -1,6 +1,10 @@
 html {
   font-size: 14px;
 }
+.menu-sidebar .logo {
+    height: 254px !important;
+}
+
 
 @media (min-width: 768px) {
   html {
