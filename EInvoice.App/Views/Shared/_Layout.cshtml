@@ -43,7 +43,7 @@
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
                         <a class="logo" href="index.html">
-                            <img src="images/E-incoive-logo.png" alt="E-Invoice" />
+                            <img src="~/images/e-incoive-logo.png" alt="E-Invoice" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -165,13 +165,13 @@
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="~/theme/images/E-incoive-logo.png" alt="E-Invoice" />
+                    <img src="~/images/e-incoive-logo.png" alt="E-Invoice" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
-                       
+
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
                             <li class="nav-item">
@@ -327,10 +327,10 @@
                                             <img src="~/theme/images/icon/avatar-1.png" alt="John Doe" />
                                         </div>
                                         <div class="content">
-                                             @if (User?.Identity?.IsAuthenticated ?? false)
-                                                {
-                                                    <span class="nav-link">Hello, <strong>@User.Identity.Name</strong></span>
-                                                }
+                                            @if (User?.Identity?.IsAuthenticated ?? false)
+                                            {
+                                                <span class="nav-link">Hello, <strong>@User.Identity.Name</strong></span>
+                                            }
                                         </div>
                                         <div class="account-dropdown js-dropdown">
                                             <div class="info clearfix">
@@ -373,9 +373,9 @@
                                                 else
                                                 {
                                                     <a class="nav-link" asp-controller="Users" asp-action="Login">Login</a>
-                                                     <a class="nav-link" asp-controller="Users" asp-action="Register">Register</a>
+                                                    <a class="nav-link" asp-controller="Users" asp-action="Register">Register</a>
                                                 }
-                                               
+
                                             </div>
                                         </div>
                                     </div>
@@ -390,43 +390,48 @@
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
-            @RenderBody()
-
-            <!-- END MAIN CONTENT-->
-            <!-- END PAGE CONTAINER-->
+                    @RenderBody()
+                    <!-- END MAIN CONTENT-->
+                    <!-- END PAGE CONTAINER-->
                 </div>
             </div>
-
+        </div>
     </div>
 
-    </div>
-    <!-- Jquery JS-->
-    <script src="~/theme/js/vanilla-utils.js"></script>
-    <!-- Bootstrap JS-->
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2025 - EInvoice.App -
+            <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <!-- jQuery should always come first -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap JS (pick one: your theme version OR the lib one, not both) -->
     <script src="~/theme/vendor/bootstrap-5.3.7.bundle.min.js"></script>
-    <!-- Vendor JS       -->
+    @* If you want to use lib bootstrap instead, comment out the line above and uncomment below *@
+    @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+
+    <!-- Vendor JS -->
     <script src="~/theme/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="~/theme/vendor/chartjs/Chart.bundle.min.js"></script>
 
-    <!-- Main JS-->
+    <!-- Theme / Custom JS -->
+    @* <script src="~/theme/js/vanilla-utils.js"></script> *@
     <script src="~/theme/js/bootstrap5-init.js"></script>
     <script src="~/theme/js/main-vanilla.js"></script>
     <script src="~/theme/js/swiper-bundle.min.js"></script>
     <script src="~/theme/js/aos.js"></script>
     <script src="~/theme/js/modern-plugins.js"></script>
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - EInvoice.App - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- App-specific JS -->
     <script src="~/js/app.config.js"></script>
     <script src="~/js/app.ajax.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @section Scripts {
-        <partial name="_ValidationScriptsPartial" />
-    }
+    <!-- Validation Scripts -->
+    <partial name="_ValidationScriptsPartial" />
+
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

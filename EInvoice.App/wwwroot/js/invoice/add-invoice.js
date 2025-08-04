@@ -1,0 +1,75 @@
+﻿let rowIndex = 1;
+
+// Clone row
+$("#addItemBtn").click(function () {
+    var $clone = $("#invoiceItemsTable tbody tr:first").clone();
+
+    $clone.attr("data-index", rowIndex);
+    $clone.find("input, select").each(function () {
+        var name = $(this).attr("name");
+        if (name) {
+            var newName = name.replace(/\[\d+\]/, "[" + rowIndex + "]");
+            $(this).attr("name", newName);
+        }
+        if (!$(this).is("[readonly]")) {
+            $(this).val($(this).attr("type") === "number" ? "0" : "");
+        }
+    });
+
+    $clone.find("td:last").html('<button type="button" class="btn btn-sm btn-danger removeRow">X</button>');
+    $("#invoiceItemsTable tbody").append($clone);
+    rowIndex++;
+});
+
+// Remove row
+$(document).on("click", ".removeRow", function () {
+    $(this).closest("tr").remove();
+});
+
+// Auto-fill product details when product selected
+$(document).on("change", ".product-select", function () {
+    var $row = $(this).closest("tr");
+    var productId = $(this).val();
+
+    if (!productId) {
+        $row.find(".description, .hsCode, .uom, .rate, .taxRate, .totalValue, .salesTax").val("");
+        return;
+    }
+
+    $.ajax({
+        url: '/Product/GetProduct/' + productId,
+        type: 'GET',
+        success: function (data) {
+            $row.find(".description").val(data.description);
+            $row.find(".hsCode").val(data.hsCode);
+            $row.find(".uom").val(data.uom);
+            $row.find(".rate").val(data.rate);
+            $row.find(".taxRate").val(data.taxRate);
+
+            calculateRow($row);
+        },
+        error: function () {
+            alert("Error fetching product details.");
+        }
+    });
+});
+
+
+// Recalculate totals on qty or discount change
+$(document).on("input", ".quantity, .discount", function () {
+    var $row = $(this).closest("tr");
+    calculateRow($row);
+});
+
+function calculateRow($row) {
+    var rate = parseFloat($row.find(".rate").val()) || 0;
+    var qty = parseInt($row.find(".quantity").val()) || 0;
+    var discount = parseFloat($row.find(".discount").val()) || 0;
+    var taxRate = parseFloat(($row.find(".taxRate").val() || "0").replace('%', ''));
+
+    var total = (rate * qty) - discount;
+    var tax = (total * taxRate) / 100;
+
+    $row.find(".totalValue").val(total.toFixed(2));
+    $row.find(".salesTax").val(tax.toFixed(2));
+}

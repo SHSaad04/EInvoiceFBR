@@ -69,5 +69,22 @@ namespace EInvoice.App.Controllers
             await productService.Delete(id);
             return RedirectToAction("Index");
         }
+        [HttpGet("GetProduct/{id}")]
+        public async Task<IActionResult> GetProduct(long id)
+        {
+            var product = await productService.GetById(id);
+            if (product == null)
+                return NotFound();
+
+            return Json(new
+            {
+                description = product.Description,
+                hsCode = product.HsCode,
+                uom = product.UoM,
+                rate = product.Price,
+                taxRate = product.TaxRate
+            });
+        }
+
     }
 }
