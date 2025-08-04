@@ -38,7 +38,23 @@ namespace EInvoice.App.Controllers
             model.InvoiceDate = DateTime.Now;
             return View(model);
         }
+        [HttpPost("Add")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Add(InvoiceViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                // Re-populate dropdowns because they'll be null on postback
+                model.Clients = await clientService.GetAll();
+                model.Products = await productService.GetAll();
+                return View(model);
+            }
 
+            // Save invoice
+            //await invoiceService.Add(model);
+
+            return RedirectToAction("Index");
+        }
         [HttpPost("Upsert/{id?}")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(InvoiceDTO model)

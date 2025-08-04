@@ -3,28 +3,51 @@
 // Clone row
 $("#addItemBtn").click(function () {
     var $clone = $("#invoiceItemsTable tbody tr:first").clone();
+    var index = $("#invoiceItemsTable tbody tr").length;
 
-    $clone.attr("data-index", rowIndex);
+    $clone.attr("data-index", index);
+
+    // Update input/select names and reset values
     $clone.find("input, select").each(function () {
         var name = $(this).attr("name");
         if (name) {
-            var newName = name.replace(/\[\d+\]/, "[" + rowIndex + "]");
+            var newName = name.replace(/\[\d+\]/, "[" + index + "]");
             $(this).attr("name", newName);
-        }
-        if (!$(this).is("[readonly]")) {
-            $(this).val($(this).attr("type") === "number" ? "0" : "");
+
+            // Reset value (except readonly fields)
+            if (!$(this).is("[readonly]")) {
+                $(this).val($(this).attr("type") === "number" ? "0" : "");
+            } else {
+                $(this).val("");
+            }
         }
     });
 
+    // Update validation spans
+    $clone.find("span[data-valmsg-for]").each(function () {
+        var valmsg = $(this).attr("data-valmsg-for");
+        if (valmsg) {
+            var newValmsg = valmsg.replace(/\[\d+\]/, "[" + index + "]");
+            $(this).attr("data-valmsg-for", newValmsg);
+        }
+        $(this).text(""); // clear previous errors
+    });
+
+    // Add remove button
     $clone.find("td:last").html('<button type="button" class="btn btn-sm btn-danger removeRow">X</button>');
+
+    // Append to table
     $("#invoiceItemsTable tbody").append($clone);
-    rowIndex++;
+
+    // Re-parse unobtrusive validation for the new row
+    $.validator.unobtrusive.parse($clone);
 });
 
 // Remove row
 $(document).on("click", ".removeRow", function () {
     $(this).closest("tr").remove();
 });
+
 
 // Auto-fill product details when product selected
 $(document).on("change", ".product-select", function () {

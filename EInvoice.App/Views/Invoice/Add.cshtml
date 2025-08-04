@@ -57,18 +57,67 @@
                             asp-items="@(new SelectList(Model.Products, "Id", "Name"))">
                         <option value="">-- Select Product --</option>
                     </select>
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="InvoiceItems[0].ProductId"
+                          data-valmsg-replace="true"></span>
                 </td>
-                <td><input type="text" class="form-control description" name="InvoiceItems[0].ProductDescription" readonly /></td>
-                <td><input type="text" class="form-control hsCode" name="InvoiceItems[0].HsCode" readonly /></td>
-                <td><input type="text" class="form-control uom" name="InvoiceItems[0].UoM" readonly /></td>
-                <td><input type="number" class="form-control rate" name="InvoiceItems[0].Rate" readonly /></td>
-                <td><input type="number" class="form-control quantity" name="InvoiceItems[0].Quantity" value="1" min="1" /></td>
-                <td><input type="number" class="form-control totalValue" name="InvoiceItems[0].TotalValue" readonly /></td>
-                <td><input type="text" class="form-control taxRate" name="InvoiceItems[0].TaxRate" readonly /></td>
-                <td><input type="number" class="form-control salesTax" name="InvoiceItems[0].SalesTaxApplicable" readonly /></td>
-                <td><input type="number" class="form-control discount" name="InvoiceItems[0].Discount" value="0" /></td>
+                <td>
+                    <input type="text" class="form-control description" name="InvoiceItems[0].ProductDescription" readonly />
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="InvoiceItems[0].ProductDescription"
+                          data-valmsg-replace="true"></span>
+                </td>
+                <td>
+                    <input type="text" class="form-control hsCode" name="InvoiceItems[0].HsCode" readonly />
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="InvoiceItems[0].HsCode"
+                          data-valmsg-replace="true"></span>
+                </td>
+                <td>
+                    <input type="text" class="form-control uom" name="InvoiceItems[0].UoM" readonly />
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="InvoiceItems[0].UoM"
+                          data-valmsg-replace="true"></span>
+                </td>
+                <td>
+                    <input type="number" class="form-control rate" name="InvoiceItems[0].Rate" readonly />
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="InvoiceItems[0].Rate"
+                          data-valmsg-replace="true"></span>
+                </td>
+                <td>
+                    <input type="number" class="form-control quantity" name="InvoiceItems[0].Quantity" value="1" min="1" />
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="InvoiceItems[0].Quantity"
+                          data-valmsg-replace="true"></span>
+                </td>
+                <td>
+                    <input type="number" class="form-control totalValue" name="InvoiceItems[0].TotalValue" readonly />
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="InvoiceItems[0].TotalValue"
+                          data-valmsg-replace="true"></span>
+                </td>
+                <td>
+                    <input type="text" class="form-control taxRate" name="InvoiceItems[0].TaxRate" readonly />
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="InvoiceItems[0].TaxRate"
+                          data-valmsg-replace="true"></span>
+                </td>
+                <td>
+                    <input type="number" class="form-control salesTax" name="InvoiceItems[0].SalesTaxApplicable" readonly />
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="InvoiceItems[0].SalesTaxApplicable"
+                          data-valmsg-replace="true"></span>
+                </td>
+                <td>
+                    <input type="number" class="form-control discount" name="InvoiceItems[0].Discount" value="0" />
+                    <span class="text-danger field-validation-valid"
+                          data-valmsg-for="InvoiceItems[0].Discount"
+                          data-valmsg-replace="true"></span>
+                </td>
                 <td></td>
             </tr>
+
         </tbody>
     </table>
     <button type="button" id="addItemBtn" class="btn btn-secondary">Add Item</button>
