@@ -43,7 +43,7 @@
                 <div class="container-fluid">
                     <div class="header-mobile-inner">
                         <a class="logo" href="index.html">
-                            <img src="images/icon/logo.png" alt="E-Invoice" />
+                            <img src="images/E-incoive-logo.png" alt="E-Invoice" />
                         </a>
                         <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -165,7 +165,7 @@
         <aside class="menu-sidebar d-none d-lg-block">
             <div class="logo">
                 <a href="#">
-                    <img src="images/icon/logo.png" alt="E-Invoice" />
+                    <img src="~/theme/images/E-incoive-logo.png" alt="E-Invoice" />
                 </a>
             </div>
             <div class="menu-sidebar__content js-scrollbar1">
@@ -175,7 +175,7 @@
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-controller="Organization" asp-action="Details">Dashbopard</a>
+                                <a class="nav-link" asp-controller="Organization" asp-action="Details">Dashboard</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" asp-controller="Organization" asp-action="Details">Organization</a>
