@@ -37,7 +37,7 @@ namespace EInvoice.Domain.Entities
 
         // Tax-related properties
         [Required, MaxLength(10)]
-        public string TaxRate { get; set; } // e.g., "18%"
+        public decimal TaxRate { get; set; } // e.g., "18%"
         public bool IsTaxable { get; set; } = true;
         public bool IsFixedNotified { get; set; }
 
