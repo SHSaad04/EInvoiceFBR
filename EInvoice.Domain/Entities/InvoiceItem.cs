@@ -12,58 +12,45 @@ namespace EInvoice.Domain.Entities
     {
         [Key]
         public long Id { get; set; }
-
-        // Link to product (optional - preserves historical data even if product is deleted)
-        public long? ProductId { get; set; }
-
-        [ForeignKey("ProductId")]
-        public virtual Product Product { get; set; }
-
-        // Product details (copied from product at time of invoice creation)
-        [Required, MaxLength(500)]
-        public string ProductDescription { get; set; }
-
-        [Required, MaxLength(20)]
+        [Required]
         public string HsCode { get; set; }
-
-        [Required, MaxLength(100)]
+        [Required]
+        public string productDescription { get; set; }
+        [Required]
+        public string Rate { get; set; }
+        [Required]
         public string UoM { get; set; }
-
         [Required]
-        public decimal Rate { get; set; }
-
+        public Decimal Quantity { get; set; }
         [Required]
-        public int Quantity { get; set; }
-
-        // Calculated values
-        [Required]
-        public decimal TotalValue { get; set; }
-
+        public decimal TotalValues { get; set; }
         [Required]
         public decimal ValueSalesExcludingST { get; set; }
-
+        [Required]
         public decimal FixedNotifiedValueOrRetailPrice { get; set; }
-
         [Required]
         public decimal SalesTaxApplicable { get; set; }
-
+        [Required]
         public decimal SalesTaxWithheldAtSource { get; set; }
         public decimal? ExtraTax { get; set; }
         public decimal? FurtherTax { get; set; }
-
+        public string? sroScheduleNo { get; set; }
+        public decimal? FedPayable { get; set; }
+        public decimal? Discount { get; set; }
         [Required]
-        public decimal FedPayable { get; set; }
-
-        public decimal Discount { get; set; }
-
-        [Required, MaxLength(200)]
         public string SaleType { get; set; }
+        public string? sroItemSerialNo { get; set; }
 
-        // Relationship
+        #region Relationship
         [Required]
         public long InvoiceId { get; set; }
-
         [ForeignKey("InvoiceId")]
         public virtual Invoice Invoice { get; set; }
+        // Link to product (optional - preserves historical data even if product is deleted)
+        public long? ProductId { get; set; }
+        [ForeignKey("ProductId")]
+        public virtual Product Product { get; set; }
+        // Product details (copied from product at time of invoice creation)
+        #endregion
     }
 }

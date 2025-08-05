@@ -12,21 +12,39 @@ namespace EInvoice.Domain.Entities
     {
         [Key]
         public long Id { get; set; }
-
-        [Required, MaxLength(50)]
+        [Required]
         public string InvoiceType { get; set; }  // e.g., Sale Invoice, Debit Note
-
         [Required]
-        public DateTime InvoiceDate { get; set; }
+        public DateTime InvoiceDate { get; set; } //2025-04-21
 
-        [MaxLength(100)]
-        public string InvoiceRefNo { get; set; } // only for Debit Notes
-
-        [MaxLength(50)]
-        public string ScenarioId { get; set; }   // Sandbox only
-
-        // Relationships
+        #region Seller or Organization Details
         [Required]
+        public string SellerNTNCNIC { get; set; }
+        [Required]
+        public string SellerBusinessName { get; set; }
+        [Required]
+        public string SellerProvince { get; set; }
+        [Required]
+        public string SellerAddress { get; set; }
+        #endregion
+
+        #region Buyer or Client Details
+        public string? BuyerNTNCNIC { get; set; } //Optional in case of Unregistered
+        [Required]
+        public string BuyerBusinessName { get; set; }
+        [Required]
+        public string BuyerProvince { get; set; }
+        [Required]
+        public string BuyerAddress { get; set; }
+        [Required]
+        public string buyerRegistrationType { get; set; }
+        #endregion
+
+        public string? InvoiceRefNo { get; set; } // Required only in case of debit note
+        public string? ScenarioId { get; set; }   // Required for Sandbox only
+
+        #region Relationships
+                [Required]
         public long SellerId { get; set; }
         [ForeignKey("SellerId")]
         public virtual Organization Seller { get; set; }
@@ -36,5 +54,6 @@ namespace EInvoice.Domain.Entities
         [ForeignKey("BuyerId")]
         public virtual Client Buyer { get; set; }
         public virtual List<InvoiceItem> Items { get; set; }
+        #endregion
     }
 }

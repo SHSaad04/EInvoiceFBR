@@ -4,6 +4,7 @@ using EInvoice.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EInvoice.Infrastructure.Migrations
 {
     [DbContext(typeof(EInvoiceContext))]
-    partial class EInvoiceContextModelSnapshot : ModelSnapshot
+    [Migration("20250805194230_UpdateInvoiceAndInvocieItemEntities")]
+    partial class UpdateInvoiceAndInvocieItemEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
