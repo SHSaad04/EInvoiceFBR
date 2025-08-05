@@ -49,9 +49,19 @@ namespace EInvoice.App.Controllers
                 model.Products = await productService.GetAll();
                 return View(model);
             }
+            InvoiceDTO invoiceDTO = new InvoiceDTO();
+            invoiceDTO.InvoiceType = "Debit Note";
+            invoiceDTO.InvoiceDate = model.InvoiceDate;
+            invoiceDTO.InvoiceRefNo = model.InvoiceNumber;
+            invoiceDTO.ScenarioId = "test";
+            
+            //Seller Info
 
-            // Save invoice
-            //await invoiceService.Add(model);
+            //Buyer Info
+
+            //Items
+            
+            await invoiceService.Add(invoiceDTO);
 
             return RedirectToAction("Index");
         }

@@ -37,8 +37,8 @@ namespace EInvoice.Common.Entities
         public string SroItemSerialNo { get; set; }
 
         // Tax-related properties
-        [Required, MaxLength(10)]
-        public string TaxRate { get; set; } // e.g., "18%"
+        [Required]
+        public decimal TaxRate { get; set; } // e.g., "18%"
         public bool IsTaxable { get; set; } = true;
         public bool IsFixedNotified { get; set; }
         public long? OrganizationId { get; set; }

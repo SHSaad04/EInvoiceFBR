@@ -16,8 +16,8 @@ namespace EInvoice.Common.ViewModel
         public DateTime InvoiceDate { get; set; }
         [Required]
         public long ClientId { get; set; }
-        public List<ClientDTO> Clients { get; set; }
-        public List<ProductDTO> Products { get; set; }
+        public List<ClientDTO>? Clients { get; set; }
+        public List<ProductDTO>? Products { get; set; }
         [MinLength(1, ErrorMessage = "At least one item is required")]
         public List<InvoiceItemDTO> InvoiceItems { get; set; } = new();
     }

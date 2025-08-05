@@ -88,7 +88,7 @@ function calculateRow($row) {
     var rate = parseFloat($row.find(".rate").val()) || 0;
     var qty = parseInt($row.find(".quantity").val()) || 0;
     var discount = parseFloat($row.find(".discount").val()) || 0;
-    var taxRate = parseFloat(($row.find(".taxRate").val() || "0").replace('%', ''));
+    var taxRate = parseFloat(($row.find(".taxRate").val() || "0"));
 
     var total = (rate * qty) - discount;
     var tax = (total * taxRate) / 100;
