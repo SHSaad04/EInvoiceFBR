@@ -4,15 +4,17 @@ using EInvoice.Common.Entities;
 using EInvoice.Common.ViewModel;
 using EInvoice.Domain.Entities;
 using EInvoice.Service.Aggregates;
+using EInvoice.Service.Helpers;
 using EInvoice.Service.Implements;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EInvoice.App.Controllers
 {
     [Route("[controller]")]
     [Authorize(Roles = UserRoles.OrganizationAdmin)]
-    public class InvoiceController(IInvoiceService invoiceService,IClientService clientService,IProductService productService, IMapper mapper) : Controller
+    public class InvoiceController(IInvoiceService invoiceService, IClientService clientService, IProductService productService, IOrganizationService organizationService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : Controller
     {
         [HttpGet("Index")]
         public async Task<IActionResult> Index()
@@ -43,6 +45,7 @@ namespace EInvoice.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(InvoiceDTO model)
         {
+            #region Validation
             if (!ModelState.IsValid)
             {
                 // Re-populate dropdowns because they'll be null on postback
@@ -51,22 +54,29 @@ namespace EInvoice.App.Controllers
                 model.InvoiceTypes = await invoiceService.GetAllInvocieTypes();
                 return View(model);
             }
-            //Map Client Data based on Clientid
-            //Map Seller Data based on Organization_id
-            InvoiceDTO invoiceDTO = new InvoiceDTO();
-            invoiceDTO.InvoiceType = "Debit Note";
-            invoiceDTO.InvoiceDate = model.InvoiceDate;
-            //invoiceDTO.InvoiceRefNo = model.InvoiceNumber;
-            invoiceDTO.ScenarioId = "test";
-            
-            //Seller Info
+            #endregion
 
-            //Buyer Info
+            #region Map Seller Data based on Organization_id
+            long? OrganizationId = httpContextAccessor.HttpContext?.User.GetOrganizationId();
+            OrganizationDTO seller = await organizationService.GetById(OrganizationId.Value);
+            model.SellerId = seller.Id;
+            model.SellerNTNCNIC = seller.NTNCNIC;
+            model.SellerBusinessName = seller.BusinessName;
+            model.SellerProvince = seller.Province;
+            model.SellerAddress = seller.Address;
+            #endregion
 
-            //Items
-            
-            await invoiceService.Add(invoiceDTO);
+            #region Map Client Data based on ClientId
+            ClientDTO client = await clientService.GetById(model.BuyerId);
+            model.BuyerId = client.Id;
+            model.BuyerNTNCNIC = client.NTNCNIC;
+            model.BuyerBusinessName = client.BusinessName;
+            model.BuyerProvince = client.Province;
+            model.BuyerAddress = client.Address;
+            model.BuyerRegistrationType = client.RegistrationType;
+            #endregion
 
+            await invoiceService.Add(model);
             return RedirectToAction("Index");
         }
         [HttpPost("Upsert/{id?}")]

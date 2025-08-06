@@ -17,18 +17,18 @@ namespace EInvoice.Common.Entities
         public DateTime InvoiceDate { get; set; } //2025-04-21
 
         #region Seller or Organization Details
-        public string SellerNTNCNIC { get; set; }
-        public string SellerBusinessName { get; set; }
-        public string SellerProvince { get; set; }
-        public string SellerAddress { get; set; }
+        public string? SellerNTNCNIC { get; set; }
+        public string? SellerBusinessName { get; set; }
+        public string? SellerProvince { get; set; }
+        public string? SellerAddress { get; set; }
         #endregion
 
         #region Buyer or Client Details
         public string? BuyerNTNCNIC { get; set; } //Optional in case of Unregistered
-        public string BuyerBusinessName { get; set; }
-        public string BuyerProvince { get; set; }
-        public string BuyerAddress { get; set; }
-        public string BuyerRegistrationType { get; set; }
+        public string? BuyerBusinessName { get; set; }
+        public string? BuyerProvince { get; set; }
+        public string? BuyerAddress { get; set; }
+        public string? BuyerRegistrationType { get; set; }
         #endregion
 
         [Required]
@@ -41,7 +41,6 @@ namespace EInvoice.Common.Entities
         [Required]
         public long BuyerId { get; set; }
         public ClientDTO? Buyer { get; set; }
-        public List<InvoiceItemDTO> Items { get; set; }
         public List<ClientDTO>? Clients { get; set; }
         public List<ProductDTO>? Products { get; set; }
         public List<InvoiceTypeDTO>? InvoiceTypes { get; set; }
