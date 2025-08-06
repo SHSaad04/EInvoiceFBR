@@ -52,7 +52,7 @@ namespace EInvoice.Domain.Entities
         public long BuyerId { get; set; }
         [ForeignKey("BuyerId")]
         public virtual Client Buyer { get; set; }
-        public virtual List<InvoiceItem> Items { get; set; }
+        public virtual List<InvoiceItem> InvoiceItems { get; set; }
         #endregion
     }
 }

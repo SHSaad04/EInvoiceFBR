@@ -30,6 +30,10 @@ namespace EInvoice.Service.Implements
             }
             var invoice = mapper.Map<Invoice>(invoiceDTO);
             ctx.Entry(invoice).State = Microsoft.EntityFrameworkCore.EntityState.Added;
+            foreach (var Item in invoice.InvoiceItems)
+            {
+                ctx.Entry(Item).State = EntityState.Added;
+            }
             await ctx.Invoices.AddAsync(invoice);
             await ctx.SaveChangesAsync();
             return mapper.Map<InvoiceDTO>(invoice);
