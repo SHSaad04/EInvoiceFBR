@@ -12,25 +12,8 @@ namespace EInvoice.Common.Entities
     {
         [Key]
         public long Id { get; set; }
-
-        [MaxLength(20)]
-        public string NTNCNIC { get; set; }
-
-        [Required, MaxLength(200)]
-        public string BusinessName { get; set; }
-
-        [Required, MaxLength(100)]
-        public string Province { get; set; }
-
-        [Required, MaxLength(300)]
-        public string Address { get; set; }
-
-        [Required, MaxLength(50)]
-        public string RegistrationType { get; set; } // Registered / Unregistered
-
-        // Reverse navigation
-        public List<InvoiceDTO>? Invoices { get; set; }
-        public long? OrganizationId { get; set; }
+        [Required]
+        public string Type { get; set; }
 
     }
 }

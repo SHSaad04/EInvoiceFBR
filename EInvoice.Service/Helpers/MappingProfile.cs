@@ -36,8 +36,8 @@ namespace EInvoice.Service.Helpers
             CreateMap<ProductDTO, Product>().ReverseMap();
             CreateMap<PagedResult<ProductDTO>, PagedResult<Product>>().ReverseMap();
 
-            CreateMap<InvoiceTypeDTO, InvoiceDTO>().ReverseMap();
-            CreateMap<PagedResult<InvoiceTypeDTO>, PagedResult<InvoiceDTO>>().ReverseMap();
+            CreateMap<InvoiceTypeDTO, InvoiceType>().ReverseMap();
+            CreateMap<PagedResult<InvoiceTypeDTO>, PagedResult<InvoiceType>>().ReverseMap();
         }
     }
 }
