@@ -1,23 +1,100 @@
 ﻿@using EInvoice.Common.DTO
 @model AuthenticateRequestDTO
 @{
+    Layout = null;
     ViewData["Title"] = "Login";
 }
 
-<div class="container mt-5">
-    <h2>Login</h2>
-    <form asp-action="Login" asp-controller="Users" method="post">
-        <div class="form-group">
-            <label asp-for="Username">Username or Email</label>
-            <input asp-for="Username" class="form-control" />
-            <span asp-validation-for="Username" class="text-danger"></span>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Login Page">
+    <title>@ViewData["Title"]</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="~/theme/css/font-face.css" rel="stylesheet" />
+    <link href="~/theme/vendor/fontawesome-6.7.2/css/all.min.css" rel="stylesheet" />
+    <link href="~/theme/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" />
+
+    <!-- Bootstrap CSS-->
+    <link href="~/theme/vendor/bootstrap-5.3.7.min.css" rel="stylesheet" />
+
+    <!-- Vendor CSS-->
+    <link href="~/theme/css/aos.css" rel="stylesheet" />
+    <link href="~/theme/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" />
+    <link href="~/theme/css/swiper-bundle.min.css" rel="stylesheet" />
+    <link href="~/theme/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" />
+
+    <!-- Main CSS-->
+    <link href="~/theme/css/theme.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="page-content--bge5">
+            <div class="container">
+                <div class="login-wrap">
+                    <div class="login-content">
+                        <div class="login-logo">
+                            <a href="#">
+                                <img src="~/images/e-incoive-logo.png" alt="E-Invoice" />
+                            </a>
+                        </div>
+                        <div class="login-form">
+                            <form asp-action="Login" asp-controller="Users" method="post">
+                                <div class="form-group">
+                                    <label asp-for="Username"></label>
+                                    <input asp-for="Username" class="au-input au-input--full" placeholder="Username or Email" />
+                                    <span asp-validation-for="Username" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Password"></label>
+                                    <input asp-for="Password" type="password" class="au-input au-input--full" placeholder="Password" />
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                </div>
+                                <div class="login-checkbox">
+                                    <label>
+                                        <input type="checkbox" name="RememberMe" /> Remember Me
+                                    </label>
+                                    <label>
+                                        <a href="#">Forgotten Password?</a>
+                                    </label>
+                                </div>
+                                <button type="submit" class="au-btn au-btn--block au-btn--green m-b-20">Sign In</button>
+                                <div asp-validation-summary="All" class="text-danger"></div>
+
+                                <div class="social-login-content">
+                                    <div class="social-button">
+                                        <button type="button" class="au-btn au-btn--block au-btn--blue m-b-20">Sign in with Facebook</button>
+                                        <button type="button" class="au-btn au-btn--block au-btn--blue2">Sign in with Twitter</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="register-link">
+                                <p>
+                                    Don’t you have an account?
+                                    <a href="#">Sign Up Here</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="form-group mt-3">
-            <label asp-for="Password">Password</label>
-            <input asp-for="Password" type="password" class="form-control" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-        <button type="submit" class="btn btn-primary mt-3">Login</button>
-        <div asp-validation-summary="All" class="text-danger"></div>
-    </form>
-</div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/theme/js/vanilla-utils.js"></script>
+    <script src="~/theme/vendor/bootstrap-5.3.7.bundle.min.js"></script>
+    <script src="~/theme/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="~/theme/vendor/chartjs/Chart.bundle.min.js"></script>
+    <script src="~/theme/js/bootstrap5-init.js"></script>
+    <script src="~/theme/js/main-vanilla.js"></script>
+    <script src="~/theme/js/swiper-bundle.min.js"></script>
+    <script src="~/theme/js/aos.js"></script>
+    <script src="~/theme/js/modern-plugins.js"></script>
+</body>
+</html>
