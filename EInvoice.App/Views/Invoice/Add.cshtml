@@ -1,5 +1,5 @@
-﻿@using EInvoice.Common.ViewModel
-@model InvoiceViewModel
+﻿@using EInvoice.Common.Entities
+@model InvoiceDTO
 
 @{
     ViewData["Title"] = "Add Invoice";
@@ -10,9 +10,9 @@
 <form asp-action="Add" method="post">
     <div class="d-flex justify-content-between">
         <div class="form-group col-4">
-            <label asp-for="InvoiceNumber"></label>
-            <input asp-for="InvoiceNumber" class="form-control" />
-            <span asp-validation-for="InvoiceNumber" class="text-danger"></span>
+            <label asp-for="InvoiceRefNo"></label>
+            <input asp-for="InvoiceRefNo" class="form-control" />
+            <span asp-validation-for="InvoiceRefNo" class="text-danger"></span>
         </div>
 
         <div class="form-group col-4">
@@ -20,15 +20,23 @@
             <input asp-for="InvoiceDate" type="date" class="form-control" />
             <span asp-validation-for="InvoiceDate" class="text-danger"></span>
         </div>
-
         <div class="form-group col-4">
-            <label asp-for="ClientId">Buyer</label>
-            <select asp-for="ClientId"
+            <label asp-for="InvoiceType">Invoice Type</label>
+            <select asp-for="InvoiceType"
+                    asp-items="@(new SelectList(Model.InvoiceTypes, "Id", "Type"))"
+                    class="form-control">
+                <option value="">-- Select Invoice Type --</option>
+            </select>
+            <span asp-validation-for="InvoiceType" class="text-danger"></span>
+        </div>
+        <div class="form-group col-4">
+            <label asp-for="BuyerId">Buyer</label>
+            <select asp-for="BuyerId"
                     asp-items="@(new SelectList(Model.Clients, "Id", "BusinessName"))"
                     class="form-control">
                 <option value="">-- Select Buyer --</option>
             </select>
-            <span asp-validation-for="ClientId" class="text-danger"></span>
+            <span asp-validation-for="BuyerId" class="text-danger"></span>
         </div>
     </div>
 

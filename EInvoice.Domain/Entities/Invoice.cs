@@ -37,18 +37,17 @@ namespace EInvoice.Domain.Entities
         [Required]
         public string BuyerAddress { get; set; }
         [Required]
-        public string buyerRegistrationType { get; set; }
+        public string BuyerRegistrationType { get; set; }
         #endregion
 
         public string? InvoiceRefNo { get; set; } // Required only in case of debit note
         public string? ScenarioId { get; set; }   // Required for Sandbox only
 
         #region Relationships
-                [Required]
+        [Required]
         public long SellerId { get; set; }
         [ForeignKey("SellerId")]
         public virtual Organization Seller { get; set; }
-
         [Required]
         public long BuyerId { get; set; }
         [ForeignKey("BuyerId")]

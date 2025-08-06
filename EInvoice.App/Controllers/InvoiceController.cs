@@ -32,27 +32,31 @@ namespace EInvoice.App.Controllers
         [HttpGet("Add")]
         public async Task<IActionResult> Add(long? id)
         {
-            InvoiceViewModel model = new InvoiceViewModel();
+            InvoiceDTO model = new InvoiceDTO();
             model.Clients = await clientService.GetAll();
             model.Products = await productService.GetAll();
+            model.InvoiceTypes = await invoiceService.GetAllInvocieTypes();
             model.InvoiceDate = DateTime.Now;
             return View(model);
         }
         [HttpPost("Add")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(InvoiceViewModel model)
+        public async Task<IActionResult> Add(InvoiceDTO model)
         {
             if (!ModelState.IsValid)
             {
                 // Re-populate dropdowns because they'll be null on postback
                 model.Clients = await clientService.GetAll();
                 model.Products = await productService.GetAll();
+                model.InvoiceTypes = await invoiceService.GetAllInvocieTypes();
                 return View(model);
             }
+            //Map Client Data based on Clientid
+            //Map Seller Data based on Organization_id
             InvoiceDTO invoiceDTO = new InvoiceDTO();
             invoiceDTO.InvoiceType = "Debit Note";
             invoiceDTO.InvoiceDate = model.InvoiceDate;
-            invoiceDTO.InvoiceRefNo = model.InvoiceNumber;
+            //invoiceDTO.InvoiceRefNo = model.InvoiceNumber;
             invoiceDTO.ScenarioId = "test";
             
             //Seller Info

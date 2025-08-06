@@ -94,5 +94,10 @@ namespace EInvoice.Service.Implements
             var invoiceDTOs = mapper.Map<PagedResult<InvoiceDTO>>(invoices);
             return invoiceDTOs;
         }
+        public async Task<List<InvoiceTypeDTO>> GetAllInvocieTypes()
+        {
+            var invoices = await ctx.InvoiceTypes.OrderBy(x => x.Type).ToListAsync();
+            return mapper.Map<List<InvoiceTypeDTO>>(invoices);
+        }
     }
 }

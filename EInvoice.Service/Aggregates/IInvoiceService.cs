@@ -13,5 +13,6 @@ namespace EInvoice.Service.Aggregates
     public interface IInvoiceService : IService<InvoiceDTO>
     {
         Task<PagedResult<InvoiceDTO>> GetByFilter(InvoiceFilterDTO filterDTO);
+        Task<List<InvoiceTypeDTO>> GetAllInvocieTypes();
     }
 }

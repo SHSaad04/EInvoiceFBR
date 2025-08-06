@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EInvoice.Common.Entities;
 
 namespace EInvoice.Infrastructure
 {
@@ -38,6 +39,7 @@ namespace EInvoice.Infrastructure
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceItem> InvoiceItems { get; set; }
+        public DbSet<InvoiceType> InvoiceTypes { get; set; }
         public DbSet<Product> Products { get; set; }
     }
 }
