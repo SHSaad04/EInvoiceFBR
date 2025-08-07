@@ -214,7 +214,7 @@
                                 <div class="noti-wrap">
                                     <!-- Messages -->
                                     <div class="noti__item dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMessages"
+                                        <a href="#" role="button" id="dropdownMessages"
                                            data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="zmdi zmdi-comment-more"></i>
                                             <span class="quantity">1</span>
@@ -251,7 +251,7 @@
 
                                     <!-- Emails -->
                                     <div class="noti__item dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownEmails"
+                                        <a href="#" role="button" id="dropdownEmails"
                                            data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="zmdi zmdi-email"></i>
                                             <span class="quantity">1</span>
@@ -295,7 +295,7 @@
 
                                     <!-- Notifications -->
                                     <div class="noti__item dropdown">
-                                        <a class="dropdown-toggle" href="#" role="button" id="dropdownNotifs"
+                                        <a href="#" role="button" id="dropdownNotifs"
                                            data-bs-toggle="dropdown" aria-expanded="false">
                                             <i class="zmdi zmdi-notifications"></i>
                                             <span class="quantity">3</span>
@@ -349,7 +349,7 @@
                                             <div class="content ms-2">
                                                 @if (User?.Identity?.IsAuthenticated ?? false)
                                                 {
-                                                    <span class="nav-link">Hello, <strong>@User.Identity.Name</strong></span>
+                                                    <span class="nav-link">@User.Identity.Name</span>
                                                 }
                                             </div>
                                         </a>
@@ -403,66 +403,6 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                @* <div class="account-wrap"> *@
-                                @*     <div class="account-item clearfix js-item-menu"> *@
-                                @*         <div class="image"> *@
-                                @*             <img src="~/theme/images/icon/avatar-1.png" alt="John Doe" /> *@
-                                @*         </div> *@
-                                @*         <div class="content"> *@
-                                @*             @if (User?.Identity?.IsAuthenticated ?? false) *@
-                                @*             { *@
-                                @*                 <span class="nav-link">Hello, <strong>@User.Identity.Name</strong></span> *@
-                                @*             } *@
-                                @*         </div> *@
-                                @*         <div class="account-dropdown js-dropdown"> *@
-                                @*             <div class="info clearfix"> *@
-                                @*                 <div class="image"> *@
-                                @*                     <a href="#"> *@
-                                @*                         <img src="~/theme/images/icon/avatar-1.png" alt="John Doe" /> *@
-                                @*                     </a> *@
-                                @*                 </div> *@
-                                @*                 <div class="content"> *@
-                                @*                     <h5 class="name"> *@
-                                @*                         <span class="nav-link">Hello, <strong>@User.Identity.Name</strong></span> *@
-                                @*                     </h5> *@
-                                @*                     <span class="email">@User.Identity.Name</span> *@
-                                @*                 </div> *@
-                                @*             </div> *@
-                                @*             <div class="account-dropdown__body"> *@
-                                @*                 <div class="account-dropdown__item"> *@
-                                @*                     <a href="#"> *@
-                                @*                         <i class="zmdi zmdi-account"></i>Account *@
-                                @*                     </a> *@
-                                @*                 </div> *@
-                                @*                 <div class="account-dropdown__item"> *@
-                                @*                     <a href="#"> *@
-                                @*                         <i class="zmdi zmdi-settings"></i>Setting *@
-                                @*                     </a> *@
-                                @*                 </div> *@
-                                @*                 <div class="account-dropdown__item"> *@
-                                @*                     <a href="#"> *@
-                                @*                         <i class="zmdi zmdi-money-box"></i>Billing *@
-                                @*                     </a> *@
-                                @*                 </div> *@
-                                @*             </div> *@
-                                @*             <div class="account-dropdown__footer"> *@
-
-                                @*                 @if (User?.Identity?.IsAuthenticated ?? false) *@
-                                @*                 { *@
-                                @*                     <a class="nav-link" asp-controller="Users" asp-action="Logout"><i class="zmdi zmdi-power"></i>Logout</a> *@
-
-                                @*                 } *@
-                                @*                 else *@
-                                @*                 { *@
-                                @*                     <a class="nav-link" asp-controller="Users" asp-action="Login">Login</a> *@
-                                @*                     <a class="nav-link" asp-controller="Users" asp-action="Register">Register</a> *@
-                                @*                 } *@
-
-                                @*             </div> *@
-                                @*         </div> *@
-                                @*     </div> *@
-                                @* </div> *@
                             </div>
                         </div>
                     </div>

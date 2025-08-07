@@ -102,6 +102,13 @@ app.MapStaticAssets();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
+    pattern: "{controller=Users}/{action=Login}/{id?}")
     .WithStaticAssets();
+
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/Users/Login");
+    return Task.CompletedTask;
+});
+
 app.Run();
