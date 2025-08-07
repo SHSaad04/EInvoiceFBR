@@ -9,37 +9,9 @@
         <div class="col-md-12">
             <div class="overview-wrap">
                 <h2 class="title-1">Clients</h2>
-                <button asp-action="Upsert" class="au-btn au-btn-icon au-btn--blue" onclick="addNewEvent()">
-                    <i class="zmdi zmdi-plus"></i>Add Client
-                </button>
+                <a asp-action="Upsert" class="au-btn au-btn-icon au-btn--blue"><i class="zmdi zmdi-plus"></i>Add Client</a>
             </div>
         </div>
-    </div>
-    <div class="row m-t-25 d-none">
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Business Name</th>
-                    <th>Province</th>
-                    <th>Registration Type</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var client in Model)
-                {
-                    <tr>
-                        <td>@client.BusinessName</td>
-                        <td>@client.Province</td>
-                        <td>@client.RegistrationType</td>
-                        <td>
-                            <a asp-action="Upsert" asp-route-id="@client.Id" class="btn btn-sm btn-primary">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@client.Id" class="btn btn-sm btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
     </div>
     <div class="row m-t-30">
         <div class="col-md-12">
@@ -63,7 +35,7 @@
                                 <td>@client.RegistrationType</td>
                                 <td>
                                     <a asp-action="Upsert" asp-route-id="@client.Id" class="btn btn-sm btn-primary">Edit</a>
-                                    <a asp-action="Delete" asp-route-id="@client.Id" class="btn btn-sm btn-danger">Delete</a>
+                                    <a href="javascript:void(0);" data-url="@Url.Action("Delete", new { id = client.Id })" class="btn btn-sm btn-danger delete-confirm">Delete</a>
                                 </td>
                             </tr>
                         }
