@@ -4,32 +4,73 @@
     ViewData["Title"] = "Clients";
 }
 
-<div class="container mt-5">
-    <h2>Clients</h2>
-    <a asp-action="Upsert" class="btn btn-success mb-3">Add Client</a>
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Business Name</th>
-                <th>Province</th>
-                <th>Registration Type</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var client in Model)
-            {
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="overview-wrap">
+                <h2 class="title-1">Clients</h2>
+                <button asp-action="Upsert" class="au-btn au-btn-icon au-btn--blue" onclick="addNewEvent()">
+                    <i class="zmdi zmdi-plus"></i>Add Client
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row m-t-25 d-none">
+        <table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>@client.BusinessName</td>
-                    <td>@client.Province</td>
-                    <td>@client.RegistrationType</td>
-                    <td>
-                        <a asp-action="Upsert" asp-route-id="@client.Id" class="btn btn-sm btn-primary">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@client.Id" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
+                    <th>Business Name</th>
+                    <th>Province</th>
+                    <th>Registration Type</th>
+                    <th>Actions</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var client in Model)
+                {
+                    <tr>
+                        <td>@client.BusinessName</td>
+                        <td>@client.Province</td>
+                        <td>@client.RegistrationType</td>
+                        <td>
+                            <a asp-action="Upsert" asp-route-id="@client.Id" class="btn btn-sm btn-primary">Edit</a>
+                            <a asp-action="Delete" asp-route-id="@client.Id" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="row m-t-30">
+        <div class="col-md-12">
+            <!-- DATA TABLE-->
+            <div class="table-responsive m-b-40">
+                <table class="table table-borderless table-data3">
+                    <thead>
+                        <tr>
+                            <th>Business Name</th>
+                            <th>Province</th>
+                            <th>Registration Type</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var client in Model)
+                        {
+                            <tr>
+                                <td>@client.BusinessName</td>
+                                <td>@client.Province</td>
+                                <td>@client.RegistrationType</td>
+                                <td>
+                                    <a asp-action="Upsert" asp-route-id="@client.Id" class="btn btn-sm btn-primary">Edit</a>
+                                    <a asp-action="Delete" asp-route-id="@client.Id" class="btn btn-sm btn-danger">Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- END DATA TABLE-->
+        </div>
+    </div>
 </div>
