@@ -63,7 +63,7 @@ namespace EInvoice.Service.Implements
 
             bool isOrganizationAssociated = user.OrganizationId != null;
             // Add claim if needed (optional)
-            if (!isOrganizationAssociated )
+            if (!isOrganizationAssociated)
             {
                 await _userManager.AddClaimAsync(user,
                     new Claim("IsOrganizationAssociated", "false"));
@@ -139,7 +139,7 @@ namespace EInvoice.Service.Implements
             return mapper.Map<PagedResult<UserDTO>>(pagedUsers);
         }
 
-        public async Task<int> Signup(UserDTO userDTO)
+        public async Task<string> Signup(UserDTO userDTO)
         {
             var user = new User
             {
@@ -161,8 +161,16 @@ namespace EInvoice.Service.Implements
             {
                 throw new UserTypeException(string.Join("\n", result.Errors.Select(e => e.Description)));
             }
-            await _userManager.AddToRoleAsync(user, UserRoles.OrganizationAdmin);
-            return user.Id.GetHashCode();
+            try
+            {
+
+                await _userManager.AddToRoleAsync(user, UserRoles.OrganizationAdmin);
+            }
+            catch (Exception ex)
+            {
+                throw new UserTypeException(string.Join("\n", ex.ToString()));
+            }
+            return user.Id;
         }
         public async Task<bool> Signout(string userId)
         {
@@ -216,9 +224,9 @@ namespace EInvoice.Service.Implements
         {
             var user = await _userManager.FindByIdAsync(userDTO.Id.ToString());
             if (user == null) return false;
-            
-            var existingClaims = await _userManager.GetClaimsAsync(user); 
-            
+
+            var existingClaims = await _userManager.GetClaimsAsync(user);
+
             var oldClaims = existingClaims
                 .Where(c => c.Type == "IsOrganizationAssociated" || c.Type == "OrganizationId")
                 .ToList();

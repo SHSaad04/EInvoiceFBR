@@ -53,7 +53,7 @@ namespace EInvoice.App.Controllers
             {
 
                 var userId = await userService.Signup(model);
-                if (userId <= 0)
+                if (userId == null)
                 {
                     ModelState.AddModelError(string.Empty, "Registration failed.");
                     return View(model);

@@ -8,6 +8,6 @@ namespace EInvoice.Common.DTO.Filter
 {
     public class ProductFilterDTO : FilterDTOBase
     {
-        public string Code { get; set; }
+        public string HsCode { get; set; }
     }
 }

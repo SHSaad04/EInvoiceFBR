@@ -14,21 +14,9 @@
         @Html.HiddenFor(m => m.OrganizationId)
 
         <div class="form-group mt-3">
-            @Html.LabelFor(m => m.Name)
-            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group mt-3">
-            @Html.LabelFor(m => m.Code)
-            @Html.TextBoxFor(m => m.Code, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Code, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group mt-3">
-            @Html.LabelFor(m => m.Description)
-            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", rows = 3 })
-            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+            @Html.LabelFor(m => m.productDescription)
+            @Html.TextAreaFor(m => m.productDescription, new { @class = "form-control", rows = 3 })
+            @Html.ValidationMessageFor(m => m.productDescription, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group mt-3">
@@ -44,37 +32,15 @@
         </div>
 
         <div class="form-group mt-3">
-            @Html.LabelFor(m => m.Price)
-            @Html.TextBoxFor(m => m.Price, new { @class = "form-control", type = "number", step = "0.01" })
-            @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
+            @Html.LabelFor(m => m.FixedNotifiedValueOrRetailPrice)
+            @Html.TextBoxFor(m => m.FixedNotifiedValueOrRetailPrice, new { @class = "form-control", type = "number", step = "0.01" })
+            @Html.ValidationMessageFor(m => m.FixedNotifiedValueOrRetailPrice, "", new { @class = "text-danger" })
         </div>
 
         <div class="form-group mt-3">
-            @Html.LabelFor(m => m.SroScheduleNo)
-            @Html.TextBoxFor(m => m.SroScheduleNo, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.SroScheduleNo, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group mt-3">
-            @Html.LabelFor(m => m.SroItemSerialNo)
-            @Html.TextBoxFor(m => m.SroItemSerialNo, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.SroItemSerialNo, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-group mt-3">
-            @Html.LabelFor(m => m.TaxRate)
-            @Html.TextBoxFor(m => m.TaxRate, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.TaxRate, "", new { @class = "text-danger" })
-        </div>
-
-        <div class="form-check mt-3">
-            @Html.CheckBoxFor(m => m.IsTaxable, new { @class = "form-check-input" })
-            @Html.LabelFor(m => m.IsTaxable, new { @class = "form-check-label" })
-        </div>
-
-        <div class="form-check mt-3">
-            @Html.CheckBoxFor(m => m.IsFixedNotified, new { @class = "form-check-input" })
-            @Html.LabelFor(m => m.IsFixedNotified, new { @class = "form-check-label" })
+            @Html.LabelFor(m => m.Rate)
+            @Html.TextBoxFor(m => m.Rate, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Rate, "", new { @class = "text-danger" })
         </div>
 
         <button type="submit" class="btn btn-success mt-4">Save</button>

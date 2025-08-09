@@ -14,7 +14,7 @@ namespace EInvoice.Service.Aggregates
 {
     public interface IUserService : IService<UserDTO>
     {
-        Task<int> Signup(UserDTO request);
+        Task<string> Signup(UserDTO request);
         Task<AuthenticateResponseDTO> Authenticate(AuthenticateRequestDTO request);
         Task<PagedResult<UserDTO>> GetByFilter(UserFilterDTO filterDTO);
         Task<bool> Signout(string userId);

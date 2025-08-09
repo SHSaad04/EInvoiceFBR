@@ -78,11 +78,11 @@ namespace EInvoice.App.Controllers
 
             return Json(new
             {
-                description = product.Description,
+                description = product.productDescription,
                 hsCode = product.HsCode,
                 uom = product.UoM,
-                rate = product.Price,
-                taxRate = product.TaxRate
+                rate = product.FixedNotifiedValueOrRetailPrice,
+                taxRate = product.Rate
             });
         }
 

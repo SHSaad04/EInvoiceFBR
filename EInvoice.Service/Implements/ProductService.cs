@@ -28,7 +28,7 @@ namespace EInvoice.Service.Implements
 
         public async Task<ProductDTO> Add(ProductDTO productDTO)
         {
-            if (AlreadyExistByTitle(productDTO.Code, productDTO.Id))
+            if (AlreadyExistByTitle(productDTO.HsCode, productDTO.Id))
             {
                 throw new UserTypeException(ExceptionMessages.ProductAlreadyExist);
             }
@@ -61,7 +61,7 @@ namespace EInvoice.Service.Implements
             {
                 throw new UserTypeException(ExceptionMessages.DataNotFoundExceptionMessage);
             }
-            if (AlreadyExistByTitle(productDTO.Code, productDTO.Id))
+            if (AlreadyExistByTitle(productDTO.HsCode, productDTO.Id))
             {
                 throw new UserTypeException(ExceptionMessages.ProductAlreadyExist);
             }
@@ -92,9 +92,9 @@ namespace EInvoice.Service.Implements
         public async Task<PagedResult<ProductDTO>> GetByFilter(ProductFilterDTO filterDTO)
         {
             var productsQuery = ctx.Products.Where(x =>x.OrganizationId == OrganizationId && x.HsCode.Contains(filterDTO.SearchQuery)).AsNoTracking();
-            if (!string.IsNullOrEmpty(filterDTO.Code) && filterDTO.Code != "All")
+            if (!string.IsNullOrEmpty(filterDTO.HsCode) && filterDTO.HsCode != "All")
             {
-                productsQuery = productsQuery.Where(x => x.HsCode == filterDTO.Code);
+                productsQuery = productsQuery.Where(x => x.HsCode == filterDTO.HsCode);
             }
             var products = await productsQuery.OrderBy(x => x.HsCode).PaginateAsync(filterDTO.PageNumber, filterDTO.PageSize);
             var productDTOs = mapper.Map<PagedResult<ProductDTO>>(products);
