@@ -1,4 +1,4 @@
-﻿using EInvoice.Common.Entities;
+﻿using EInvoice.Common.DTO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

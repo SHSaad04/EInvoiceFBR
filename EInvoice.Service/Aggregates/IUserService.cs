@@ -1,6 +1,6 @@
 ﻿using EInvoice.Common.DTO.Filter;
 using EInvoice.Common.DTO;
-using EInvoice.Common.Entities;
+using EInvoice.Common.DTO;
 using EInvoice.Common.Pagination;
 using EInvoice.Service.Aggregates;
 using System;

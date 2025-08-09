@@ -1,6 +1,6 @@
 ﻿using EInvoice.Common.DTO;
 using EInvoice.Common.DTO.Filter;
-using EInvoice.Common.Entities;
+using EInvoice.Common.DTO;
 using EInvoice.Common.Exceptions.Types;
 using EInvoice.Service.Aggregates;
 using EInvoice.Service.Implements;

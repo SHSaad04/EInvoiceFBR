@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EInvoice.Common.Entities
+namespace EInvoice.Common.DTO
 {
     public class UserDTO
     {

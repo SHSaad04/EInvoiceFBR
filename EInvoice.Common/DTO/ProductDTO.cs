@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EInvoice.Common.Entities
+namespace EInvoice.Common.DTO
 {
     public class ProductDTO
     {

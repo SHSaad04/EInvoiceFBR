@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EInvoice.Common.DTO;
 using EInvoice.Common.DTO.Filter;
-using EInvoice.Common.Entities;
+using EInvoice.Common.DTO;
 using EInvoice.Common.Exceptions.Types;
 using EInvoice.Common.Pagination;
 using EInvoice.Domain.Entities;
