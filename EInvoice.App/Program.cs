@@ -83,6 +83,7 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     await IdentitySeeder.SeedRolesAndAdmin(scope.ServiceProvider);
+    await IdentitySeeder.SeedRefEntities(scope.ServiceProvider);
 }
 #endregion
 // Configure the HTTP request pipeline.

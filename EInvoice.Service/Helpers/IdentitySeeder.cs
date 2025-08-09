@@ -1,6 +1,9 @@
 ﻿using EInvoice.Domain.Entities;
+using EInvoice.Infrastructure;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace EInvoice.Service.Helpers
 {
@@ -39,6 +42,24 @@ namespace EInvoice.Service.Helpers
                 {
                     await userManager.AddToRoleAsync(newAdmin, UserRoles.SuperAdmin);
                 }
+            }
+        }
+        public static async Task SeedRefEntities(IServiceProvider serviceProvider)
+        {
+            using (var context = new EInvoiceContext(
+                serviceProvider.GetRequiredService<DbContextOptions<EInvoiceContext>>()))
+            {
+                // Check if table already has data
+                if (context.InvoiceTypes.Any())
+                    return; // Data already exists
+
+                // Add initial data
+                context.InvoiceTypes.AddRange(
+                    new InvoiceType { Type = "Sales Invoice" },
+                    new InvoiceType { Type = "Debit Note" }
+                );
+
+                context.SaveChanges();
             }
         }
     }

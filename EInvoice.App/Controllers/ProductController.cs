@@ -59,13 +59,6 @@ namespace EInvoice.App.Controllers
             var product = await productService.GetById(id);
             if (product == null)
                 return NotFound();
-            return View(product);
-        }
-
-        [HttpPost("DeleteConfirmed/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
-        {
             await productService.Delete(id);
             return RedirectToAction("Index");
         }
@@ -78,7 +71,7 @@ namespace EInvoice.App.Controllers
 
             return Json(new
             {
-                description = product.productDescription,
+                description = product.ProductDescription,
                 hsCode = product.HsCode,
                 uom = product.UoM,
                 rate = product.FixedNotifiedValueOrRetailPrice,

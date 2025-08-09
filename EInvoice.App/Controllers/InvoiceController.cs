@@ -100,13 +100,6 @@ namespace EInvoice.App.Controllers
             var client = await invoiceService.GetById(id);
             if (client == null)
                 return NotFound();
-            return View(client);
-        }
-
-        [HttpPost("DeleteConfirmed/{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
-        {
             await invoiceService.Delete(id);
             return RedirectToAction("Index");
         }
