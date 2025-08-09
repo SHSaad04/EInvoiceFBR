@@ -15,13 +15,13 @@ namespace EInvoice.Domain.Entities
         [Required]
         public string HsCode { get; set; }
         [Required]
-        public string productDescription { get; set; }
+        public string ProductDescription { get; set; }
         [Required]
-        public string Rate { get; set; }
+        public decimal Rate { get; set; }
         [Required]
         public string UoM { get; set; }
         [Required]
-        public Decimal Quantity { get; set; }
+        public decimal Quantity { get; set; }
         [Required]
         public decimal TotalValues { get; set; }
         [Required]
@@ -34,12 +34,12 @@ namespace EInvoice.Domain.Entities
         public decimal SalesTaxWithheldAtSource { get; set; }
         public decimal? ExtraTax { get; set; }
         public decimal? FurtherTax { get; set; }
-        public string? sroScheduleNo { get; set; }
+        public string? SroScheduleNo { get; set; }
         public decimal? FedPayable { get; set; }
         public decimal? Discount { get; set; }
         [Required]
         public string SaleType { get; set; }
-        public string? sroItemSerialNo { get; set; }
+        public string? SroItemSerialNo { get; set; }
 
         #region Relationship
         [Required]

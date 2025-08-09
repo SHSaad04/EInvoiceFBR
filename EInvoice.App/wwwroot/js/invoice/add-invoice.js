@@ -34,7 +34,7 @@ $("#addItemBtn").click(function () {
     });
 
     // Add remove button
-    $clone.find("td:last").html('<button type="button" class="btn btn-sm btn-danger removeRow">X</button>');
+    $clone.find("td:last").html('<button type="button" class="btn btn-sm btn-danger removeRow"><i class="fas fa-trash"></i></button>');
 
     // Append to table
     $("#invoiceItemsTable tbody").append($clone);

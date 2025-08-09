@@ -12,39 +12,20 @@ namespace EInvoice.Domain.Entities
     {
         [Key]
         public long Id { get; set; }
-        [Required, MaxLength(50)]
-        public string Name { get; set; }
-        [Required, MaxLength(50)]
-        public string Code { get; set; }
-
-        [Required, MaxLength(500)]
-        public string Description { get; set; }
-
-        [Required, MaxLength(20)]
-        public string HsCode { get; set; }
-
-        [Required, MaxLength(100)]
-        public string UoM { get; set; } // Unit of Measurement
-
         [Required]
+        public string Name { get; set; }
+        public string HsCode { get; set; }
+        public string productDescription { get; set; }
+        public string UoM { get; set; } // Unit of Measurement
+        public int Quantity { get; set; }
+        public decimal TotalValue { get; set; }
         public decimal Price { get; set; }
-
-        [MaxLength(50)]
         public string SroScheduleNo { get; set; }
-
-        [MaxLength(50)]
         public string SroItemSerialNo { get; set; }
-
-        // Tax-related properties
-        [Required, MaxLength(10)]
         public decimal TaxRate { get; set; } // e.g., "18%"
         public bool IsTaxable { get; set; } = true;
         public bool IsFixedNotified { get; set; }
-
-        // Organization relationship
-        [Required]
         public long? OrganizationId { get; set; }
-
         [ForeignKey("OrganizationId")]
         public virtual Organization Organization { get; set; }
     }

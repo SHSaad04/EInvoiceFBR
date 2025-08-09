@@ -41,11 +41,6 @@
 
 <body>
     <div class="page-wrapper">
-        @{
-            var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-            var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
-        }
-
         <!-- HEADER MOBILE -->
         <header class="header-mobile d-block d-lg-none">
             <div class="header-mobile__bar">
@@ -89,7 +84,7 @@
                             <!-- Bootstrap Dropdown for Products -->
                             <li class="nav-item @(currentController == "Product" ? "active" : "")">
                                 <a class="nav-link" asp-controller="Product" asp-action="Index">
-                                    <i class="fas fa-tachometer-alt"></i> Products
+                                    <i class="fas fa-cart-shopping"></i> Products
                                 </a>
                             </li>
                             <!-- End Dropdown -->
@@ -138,7 +133,7 @@
                             </li>
                             <li class="nav-item @(currentController == "Product" ? "active" : "")">
                                 <a class="nav-link" asp-controller="Product" asp-action="Index">
-                                    <i class="fas fa-tachometer-alt"></i>
+                                    <i class="fas fa-cart-shopping"></i>
                                     Products
                                 </a>
                             </li>

@@ -70,13 +70,13 @@ namespace EInvoice.Service.Implements
             await ctx.SaveChangesAsync();
             return mapper.Map<ProductDTO>(product);
         }
-        private bool AlreadyExistByTitle(string Code, long id)
+        private bool AlreadyExistByTitle(string HsCode, long id)
         {
-            return ctx.Products.Any(x => x.Code == Code && x.Id != id);
+            return ctx.Products.Any(x => x.HsCode == HsCode && x.Id != id);
         }
         public async Task<List<ProductDTO>> GetAll()
         {
-            var products = await ctx.Products.Where(x=>x.OrganizationId == OrganizationId).OrderBy(x => x.Code).ToListAsync();
+            var products = await ctx.Products.Where(x=>x.OrganizationId == OrganizationId).OrderBy(x => x.HsCode).ToListAsync();
             return mapper.Map<List<ProductDTO>>(products);
         }
         public async Task<ProductDTO> GetById(long id)
@@ -91,12 +91,12 @@ namespace EInvoice.Service.Implements
         }
         public async Task<PagedResult<ProductDTO>> GetByFilter(ProductFilterDTO filterDTO)
         {
-            var productsQuery = ctx.Products.Where(x =>x.OrganizationId == OrganizationId && x.Code.Contains(filterDTO.SearchQuery)).AsNoTracking();
+            var productsQuery = ctx.Products.Where(x =>x.OrganizationId == OrganizationId && x.HsCode.Contains(filterDTO.SearchQuery)).AsNoTracking();
             if (!string.IsNullOrEmpty(filterDTO.Code) && filterDTO.Code != "All")
             {
-                productsQuery = productsQuery.Where(x => x.Code == filterDTO.Code);
+                productsQuery = productsQuery.Where(x => x.HsCode == filterDTO.Code);
             }
-            var products = await productsQuery.OrderBy(x => x.Code).PaginateAsync(filterDTO.PageNumber, filterDTO.PageSize);
+            var products = await productsQuery.OrderBy(x => x.HsCode).PaginateAsync(filterDTO.PageNumber, filterDTO.PageSize);
             var productDTOs = mapper.Map<PagedResult<ProductDTO>>(products);
             return productDTOs;
         }
