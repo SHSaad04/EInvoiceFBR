@@ -4,47 +4,65 @@
 @{
     ViewData["Title"] = "Invoices";
 }
-
-<div class="container mt-4">
-    <h2>Invoices</h2>
-    <p>
-        <a asp-controller="Invoice" asp-action="Add" class="btn btn-primary">Add New Invoice</a>
-    </p>
-
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Number</th>
-                <th>InvoiceType</th>
-                <th>InvoiceDate</th>
-                <th>InvoiceRefNo</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null && Model.Any())
-            {
-                foreach (var invoice in Model)
-                {
-                    <tr>
-                        <td>#</td>
-                        <td>@invoice.InvoiceType</td>
-                        <td>@invoice.InvoiceDate</td>
-                        <td>@invoice.InvoiceRefNo</td>
-                        <td>
-                            <a asp-controller="Invoice" asp-action="Details" asp-route-id="@invoice.Id" class="btn btn-info btn-sm">Details</a>
-                            <a asp-controller="Invoice" asp-action="Edit" asp-route-id="@invoice.Id" class="btn btn-warning btn-sm">Edit</a>
-                            <a asp-controller="Invoice" asp-action="Delete" asp-route-id="@invoice.Id" class="btn btn-danger btn-sm">Delete</a>
-                        </td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="8" class="text-center">No invoices found.</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="overview-wrap">
+                <h2 class="title-1">Invoices</h2>
+                <a asp-action="Add" class="au-btn au-btn-icon au-btn--blue"><i class="zmdi zmdi-plus"></i>Add Invoice</a>
+            </div>
+        </div>
+    </div>
+    <div class="row m-t-30">
+        <div class="col-md-12">
+            <!-- DATA TABLE-->
+            <div class="table-responsive m-b-40">
+                <table class="table table-borderless table-data3">
+                    <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>InvoiceType</th>
+                            <th>InvoiceDate</th>
+                            <th>InvoiceRefNo</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var invoice in Model)
+                            {
+                                <tr>
+                                    <td>#</td>
+                                    <td>@invoice.InvoiceType</td>
+                                    <td>@invoice.InvoiceDate</td>
+                                    <td>@invoice.InvoiceRefNo</td>
+                                    <td>
+                                        <div class="table-data-feature">
+                                            <a asp-controller="Invoice" asp-action="Details" asp-route-id="@invoice.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Details" data-bs-original-title="Details">
+                                                <i class="fas fa-info"></i>
+                                            </a>
+                                            <a asp-controller="Invoice" asp-action="Edit" asp-route-id="@invoice.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Edit" data-bs-original-title="Edit">
+                                                <i class="fas fa-pencil"></i>
+                                            </a>
+                                            <a href="javascript:void(0);" data-url="@Url.Action("Delete", new { id = invoice.Id })" class="item delete-confirm">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center">No invoices found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- END DATA TABLE-->
+        </div>
+    </div>
 </div>

@@ -5,52 +5,71 @@
     ViewData["Title"] = "Products";
 }
 
-<div class="container mt-4">
-    <h2>Products</h2>
-    <p>
-        <a asp-controller="Product" asp-action="Upsert" class="btn btn-primary">Add New Product</a>
-    </p>
-
-    <table class="table table-bordered table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th>Code</th>
-                <th>Name</th>
-                <th>HS Code</th>
-                <th>UoM</th>
-                <th>Price</th>
-                <th>Tax Rate</th>
-                <th>Taxable</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @if (Model != null && Model.Any())
-            {
-                foreach (var product in Model)
-                {
-                    <tr>
-                        <td>@product.Code</td>
-                        <td>@product.Name</td>
-                        <td>@product.HsCode</td>
-                        <td>@product.UoM</td>
-                        <td>@product.Price.ToString("C")</td>
-                        <td>@product.TaxRate</td>
-                        <td>@(product.IsTaxable ? "Yes" : "No")</td>
-                        <td>
-                            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="btn btn-info btn-sm">Details</a>
-                            <a asp-controller="Product" asp-action="Upsert" asp-route-id="@product.Id" class="btn btn-warning btn-sm">Edit</a>
-                            <a asp-controller="Product" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger btn-sm">Delete</a>
-                        </td>
-                    </tr>
-                }
-            }
-            else
-            {
-                <tr>
-                    <td colspan="8" class="text-center">No products found.</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="overview-wrap">
+                <h2 class="title-1">Products</h2>
+                <a asp-action="Upsert" class="au-btn au-btn-icon au-btn--blue"><i class="zmdi zmdi-plus"></i>Add Product</a>
+            </div>
+        </div>
+    </div>
+    <div class="row m-t-30">
+        <div class="col-md-12">
+            <!-- DATA TABLE-->
+            <div class="table-responsive m-b-40">
+                <table class="table table-borderless table-data3">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>HS Code</th>
+                            <th>UoM</th>
+                            <th>Price</th>
+                            <th>Tax Rate</th>
+                            <th>Taxable</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            foreach (var product in Model)
+                            {
+                                <tr>
+                                    <td>@product.Code</td>
+                                    <td>@product.Name</td>
+                                    <td>@product.HsCode</td>
+                                    <td>@product.UoM</td>
+                                    <td>@product.Price.ToString("C")</td>
+                                    <td>@product.TaxRate</td>
+                                    <td>@(product.IsTaxable ? "Yes" : "No")</td>
+                                    <td>
+                                        <div class="table-data-feature">
+                                            <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Details" data-bs-original-title="Details">
+                                                <i class="fas fa-info"></i>
+                                            </a>
+                                            <a asp-controller="Product" asp-action="Upsert" asp-route-id="@product.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Edit" data-bs-original-title="Edit">
+                                                <i class="fas fa-pencil"></i>
+                                            </a>
+                                            <a href="javascript:void(0);" data-url="@Url.Action("Delete", new { id = product.Id })" class="item delete-confirm" data-bs-toggle="tooltip" data-placement="top" aria-label="Delete" data-bs-original-title="Delete">
+                                                <i class="fas fa-trash"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr>
+                                <td colspan="8" class="text-center">No products found.</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- END DATA TABLE-->
+        </div>
+    </div>
 </div>
