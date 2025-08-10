@@ -28,7 +28,7 @@
     //}
 
     //Add Item
-    let invoiceItems = [];
+    //let invoiceItems = [];
     let editIndex = null;
     $("#addItemBtn").on("click", function () {
         const newItem = {

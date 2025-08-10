@@ -123,6 +123,9 @@
 </script>
 @await Html.PartialAsync("~/Views/Invoice/Modal/_ItemModal.cshtml", Model.ProductViewModel)
 @section Scripts {
+    <script>
+        let invoiceItems = @Html.Raw(Json.Serialize(Model.InvoiceItems ?? new List<InvoiceItemDTO>()))
+    </script>
     <script src="~/js/invoice/add-invoice.js"></script>
     <script src="~/js/invoice/item-modal.js"></script>
 }

@@ -20,11 +20,11 @@
             dataType: 'json',
             success: function (data) {
                 if (data) {
-                    $("#ProductDescription").val(data.productDescription);
-                    $("#InvoiceItem_HsCode").val(data.hsCode);
-                    $("#InvoiceItem_UoM").val(data.uoM);
-                    $("#InvoiceItem_Rate").val(data.rate);
-                    $("#InvoiceItem_FixedNotifiedValueOrRetailPrice").val(data.fixedNotifiedValueOrRetailPrice);
+                    $("#ProductDescription").val(data.ProductDescription);
+                    $("#InvoiceItem_HsCode").val(data.HsCode);
+                    $("#InvoiceItem_UoM").val(data.UoM);
+                    $("#InvoiceItem_Rate").val(data.Rate);
+                    $("#InvoiceItem_FixedNotifiedValueOrRetailPrice").val(data.FixedNotifiedValueOrRetailPrice);
                     $quantityInput.val(1);
                     calculateTotals();
                 }

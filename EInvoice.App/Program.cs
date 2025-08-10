@@ -76,7 +76,10 @@ builder.Services.AddAuthentication()
 builder.Services.AddAuthorization();
 
 #endregion
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = null;
+});
 builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 #region IDENTITY ROLES CREATION
