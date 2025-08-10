@@ -69,14 +69,7 @@ namespace EInvoice.App.Controllers
             if (product == null)
                 return NotFound();
 
-            return Json(new
-            {
-                description = product.ProductDescription,
-                hsCode = product.HsCode,
-                uom = product.UoM,
-                rate = product.FixedNotifiedValueOrRetailPrice,
-                taxRate = product.Rate
-            });
+            return Json(product);
         }
 
     }

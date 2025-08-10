@@ -1,0 +1,122 @@
+﻿@using EInvoice.Common.ViewModel
+@model ProductViewModel
+@{
+    Layout = null;
+}
+<div class="modal fade" id="itemModal" tabindex="-1" aria-labelledby="itemModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add Invoice Item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="itemForm">
+                <div class="modal-body">
+                    <div class="row g-3">
+                        <div class="col-md-6 col-lg-4">
+                            <label asp-for="InvoiceItem.Id"></label>
+                            <select asp-for="InvoiceItem.Id" class="form-select product-select"
+                                    asp-items="@(new SelectList(Model.Products, "Id", "ProductDescription"))">
+                                <option value="">-- Select Product --</option>
+                            </select>
+                            <span asp-validation-for="InvoiceItem.Id" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <label asp-for="InvoiceItem.HsCode"></label>
+                            <input asp-for="InvoiceItem.HsCode" class="form-control" readonly />
+                            <span asp-validation-for="InvoiceItem.HsCode" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <label asp-for="InvoiceItem.Rate"></label>
+                            <input asp-for="InvoiceItem.Rate" class="form-control" readonly />
+                            <span asp-validation-for="InvoiceItem.Rate" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <label asp-for="InvoiceItem.UoM"></label>
+                            <input asp-for="InvoiceItem.UoM" class="form-control" readonly />
+                            <span asp-validation-for="InvoiceItem.UoM" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <label asp-for="InvoiceItem.FixedNotifiedValueOrRetailPrice"></label>
+                            <input asp-for="InvoiceItem.FixedNotifiedValueOrRetailPrice" class="form-control" readonly />
+                            <span asp-validation-for="InvoiceItem.FixedNotifiedValueOrRetailPrice" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <label asp-for="InvoiceItem.Quantity"></label>
+                            <input asp-for="InvoiceItem.Quantity" class="form-control" type="number" value="0" />
+                            <span asp-validation-for="InvoiceItem.Quantity" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <label asp-for="InvoiceItem.TotalValue"></label>
+                            <input asp-for="InvoiceItem.TotalValue" class="form-control" readonly />
+                            <span asp-validation-for="InvoiceItem.TotalValue" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            <label asp-for="InvoiceItem.ValueSalesExcludingST"></label>
+                            <input asp-for="InvoiceItem.ValueSalesExcludingST" class="form-control" readonly />
+                            <span asp-validation-for="InvoiceItem.ValueSalesExcludingST" class="text-danger"></span>
+                        </div>
+                        <!-- Sales Tax Applicable -->
+                        <div class="col-md-4">
+                            <label asp-for="InvoiceItem.SalesTaxApplicable"></label>
+                            <input asp-for="InvoiceItem.SalesTaxApplicable" class="form-control"/>
+                            <span asp-validation-for="InvoiceItem.SalesTaxApplicable" class="text-danger"></span>
+                        </div>
+                        <!-- Sales Tax Withheld -->
+                        <div class="col-md-4">
+                            <label asp-for="InvoiceItem.SalesTaxWithheldAtSource"></label>
+                            <input asp-for="InvoiceItem.SalesTaxWithheldAtSource" class="form-control"/>
+                            <span asp-validation-for="InvoiceItem.SalesTaxWithheldAtSource" class="text-danger"></span>
+                        </div>
+                        <!-- Extra Tax -->
+                        <div class="col-md-4">
+                            <label asp-for="InvoiceItem.ExtraTax"></label>
+                            <input asp-for="InvoiceItem.ExtraTax" class="form-control"/>
+                            <span asp-validation-for="InvoiceItem.ExtraTax" class="text-danger"></span>
+                        </div>
+                        <!-- Further Tax -->
+                        <div class="col-md-4">
+                            <label asp-for="InvoiceItem.FurtherTax"></label>
+                            <input asp-for="InvoiceItem.FurtherTax" class="form-control"/>
+                            <span asp-validation-for="InvoiceItem.FurtherTax" class="text-danger"></span>
+                        </div>
+                        <!-- SRO Schedule No -->
+                        <div class="col-md-4">
+                            <label asp-for="InvoiceItem.SroScheduleNo"></label>
+                            <input asp-for="InvoiceItem.SroScheduleNo" class="form-control"/>
+                            <span asp-validation-for="InvoiceItem.SroScheduleNo" class="text-danger"></span>
+                        </div>
+                        <!-- FED Payable -->
+                        <div class="col-md-4">
+                            <label asp-for="InvoiceItem.FedPayable"></label>
+                            <input asp-for="InvoiceItem.FedPayable" class="form-control"/>
+                            <span asp-validation-for="InvoiceItem.FedPayable" class="text-danger"></span>
+                        </div>
+                        <!-- Discount -->
+                        <div class="col-md-4">
+                            <label asp-for="InvoiceItem.Discount"></label>
+                            <input asp-for="InvoiceItem.Discount" class="form-control"/>
+                            <span asp-validation-for="InvoiceItem.Discount" class="text-danger"></span>
+                        </div>
+                        <!-- Sale Type -->
+                        <div class="col-md-4">
+                            <label asp-for="InvoiceItem.SaleType"></label>
+                            <input asp-for="InvoiceItem.SaleType" class="form-control" value="Goods at standard rate (default)" />
+                            <span asp-validation-for="InvoiceItem.SaleType" class="text-danger"></span>
+                        </div>
+                        <!-- SRO Item Serial No -->
+                        <div class="col-md-4">
+                            <label asp-for="InvoiceItem.SroItemSerialNo"></label>
+                            <input asp-for="InvoiceItem.SroItemSerialNo" class="form-control"/>
+                            <span asp-validation-for="InvoiceItem.SroItemSerialNo" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="addItemBtn" class="btn btn-primary">Add Item</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

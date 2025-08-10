@@ -13,5 +13,7 @@ namespace EInvoice.Service.Aggregates
     public interface IProductService : IService<ProductDTO>
     {
         Task<PagedResult<ProductDTO>> GetByFilter(ProductFilterDTO filterDTO);
+        Task<List<ProductDTO>> GetDropdown();
+
     }
 }

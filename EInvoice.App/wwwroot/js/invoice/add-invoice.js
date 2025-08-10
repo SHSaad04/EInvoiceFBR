@@ -1,98 +1,124 @@
-﻿let rowIndex = 1;
+﻿$(document).ready(function () {
+    let itemIndex = 0;
 
-// Clone row
-$("#addItemBtn").click(function () {
-    var $clone = $("#invoiceItemsTable tbody tr:first").clone();
-    var index = $("#invoiceItemsTable tbody tr").length;
+    const $productSelect = $("#InvoiceItem_Id");
+    const $quantityInput = $("#InvoiceItem_Quantity");
+    const $retailPrice = $("#InvoiceItem_FixedNotifiedValueOrRetailPrice");
+    const $rateInput = $("#InvoiceItem_Rate");
 
-    $clone.attr("data-index", index);
+    const $totalValueInput = $("#InvoiceItem_TotalValue");
+    const $valueSalesExcludingSTInput = $("#InvoiceItem_ValueSalesExcludingST");
+    const $invoiceItemsTableBody = $("#InvoiceItem_InvoiceItems");
 
-    // Update input/select names and reset values
-    $clone.find("input, select").each(function () {
-        var name = $(this).attr("name");
-        if (name) {
-            var newName = name.replace(/\[\d+\]/, "[" + index + "]");
-            $(this).attr("name", newName);
+    $productSelect.on("change", function () {
+        const productId = $(this).val();
+        if (!productId) return;
 
-            // Reset value (except readonly fields)
-            if (!$(this).is("[readonly]")) {
-                $(this).val($(this).attr("type") === "number" ? "0" : "");
-            } else {
-                $(this).val("");
+        $.ajax({
+            url: '/Product/GetProduct/' + productId,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (data) {
+                    $("#InvoiceItem_HsCode").val(data.hsCode);
+                    $("#InvoiceItem_UoM").val(data.uoM);
+                    $("#InvoiceItem_Rate").val(data.rate);
+                    $("#InvoiceItem_FixedNotifiedValueOrRetailPrice").val(data.fixedNotifiedValueOrRetailPrice);
+                    $quantityInput.val(1);
+                    calculateTotals();
+                }
+                else {
+                    $quantityInput.val(0);
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching product:", error);
+                alert("Failed to load product details.");
             }
-        }
+        });
     });
 
-    // Update validation spans
-    $clone.find("span[data-valmsg-for]").each(function () {
-        var valmsg = $(this).attr("data-valmsg-for");
-        if (valmsg) {
-            var newValmsg = valmsg.replace(/\[\d+\]/, "[" + index + "]");
-            $(this).attr("data-valmsg-for", newValmsg);
-        }
-        $(this).text(""); // clear previous errors
-    });
+    // Quantity change event
+    $quantityInput.on("input", calculateTotals);
 
-    // Add remove button
-    $clone.find("td:last").html('<button type="button" class="btn btn-sm btn-danger removeRow"><i class="fas fa-trash"></i></button>');
+    function calculateTotals() {
+        const qty = parseFloat($quantityInput.val()) || 0;
+        const price = parseFloat($retailPrice.val()) || 0;
+        const taxRate = parseFloat($rateInput.val()) || 0;
 
-    // Append to table
-    $("#invoiceItemsTable tbody").append($clone);
+        const subTotal = qty * price; // Before tax
+        const taxAmount = (subTotal * taxRate) / 100;
+        const total = subTotal + taxAmount; // Including tax
 
-    // Re-parse unobtrusive validation for the new row
-    $.validator.unobtrusive.parse($clone);
-});
-
-// Remove row
-$(document).on("click", ".removeRow", function () {
-    $(this).closest("tr").remove();
-});
-
-
-// Auto-fill product details when product selected
-$(document).on("change", ".product-select", function () {
-    var $row = $(this).closest("tr");
-    var productId = $(this).val();
-
-    if (!productId) {
-        $row.find(".description, .hsCode, .uom, .rate, .taxRate, .totalValue, .salesTax").val("");
-        return;
+        $totalValueInput.val(total.toFixed(2));              // With tax
+        $valueSalesExcludingSTInput.val(subTotal.toFixed(2)); // Without tax
     }
+    // Add Item
+    $("#addItemBtn").on("click", function () {
+        const $form = $("#itemForm"); // form inside your modal
 
-    $.ajax({
-        url: '/Product/GetProduct/' + productId,
-        type: 'GET',
-        success: function (data) {
-            $row.find(".description").val(data.description);
-            $row.find(".hsCode").val(data.hsCode);
-            $row.find(".uom").val(data.uom);
-            $row.find(".rate").val(data.rate);
-            $row.find(".taxRate").val(data.taxRate);
+        // Re-parse validation rules in case modal is dynamically loaded
+        $.validator.unobtrusive.parse($form);
 
-            calculateRow($row);
-        },
-        error: function () {
-            alert("Error fetching product details.");
+        if (!$form.valid()) {
+            // Validation errors will be shown automatically
+            return;
         }
+
+        const productName = $productSelect.find("option:selected").text();
+
+        const row = `
+        <tr>
+            <td>${productName}<input type="hidden" name="InvoiceItems[${itemIndex}].ProductId" value="${$productSelect.val()}" /></td>
+            <td>${$quantityInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].Quantity" value="${$quantityInput.val()}" /></td>
+            <td>${$rateInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].Rate" value="${$rateInput.val()}" /></td>
+            <td>${$totalValueInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].TotalValue" value="${$totalValueInput.val()}" /></td>
+            <td><button type="button" class="btn btn-sm btn-danger removeItem">X</button></td>
+        </tr>
+    `;
+
+        $invoiceItemsTableBody.append(row);
+        itemIndex++;
+
+        $("#itemModal").modal("hide");
+        clearItemForm();
     });
+
+    // Add Item
+    $("#addItemBtnOld").on("click", function () {
+        if (!$productSelect.val()) {
+            alert("Please select a product");
+            return;
+        }
+
+        const productName = $productSelect.find("option:selected").text();
+
+        const row = `
+            <tr>
+                <td>${productName}<input type="hidden" name="InvoiceItems[${itemIndex}].ProductId" value="${$productSelect.val()}" /></td>
+                <td>${$quantityInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].Quantity" value="${$quantityInput.val()}" /></td>
+                <td>${$rateInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].Rate" value="${$rateInput.val()}" /></td>
+                <td>${$totalValueInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].TotalValue" value="${$totalValueInput.val()}" /></td>
+                <td><button type="button" class="btn btn-sm btn-danger removeItem">X</button></td>
+            </tr>
+        `;
+
+        $invoiceItemsTableBody.append(row);
+        itemIndex++;
+
+        // Close modal
+        $("#itemModal").modal("hide");
+
+        clearItemForm();
+    });
+
+    // Remove Item
+    $invoiceItemsTableBody.on("click", ".removeItem", function () {
+        $(this).closest("tr").remove();
+    });
+
+    function clearItemForm() {
+        $("#product, #hsCode, #uom, #rate, #totalValue, #valueSalesExcludingST").val("");
+        $quantityInput.val(1);
+    }
 });
-
-
-// Recalculate totals on qty or discount change
-$(document).on("input", ".quantity, .discount", function () {
-    var $row = $(this).closest("tr");
-    calculateRow($row);
-});
-
-function calculateRow($row) {
-    var rate = parseFloat($row.find(".rate").val()) || 0;
-    var qty = parseInt($row.find(".quantity").val()) || 0;
-    var discount = parseFloat($row.find(".discount").val()) || 0;
-    var taxRate = parseFloat(($row.find(".taxRate").val() || "0"));
-
-    var total = (rate * qty) - discount;
-    var tax = (total * taxRate) / 100;
-
-    $row.find(".totalValue").val(total.toFixed(2));
-    $row.find(".salesTax").val(tax.toFixed(2));
-}

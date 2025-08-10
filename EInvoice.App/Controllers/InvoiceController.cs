@@ -36,7 +36,8 @@ namespace EInvoice.App.Controllers
         {
             InvoiceDTO model = new InvoiceDTO();
             model.Clients = await clientService.GetAll();
-            model.Products = await productService.GetAll();
+            model.ProductViewModel = new ProductViewModel();
+            model.ProductViewModel.Products = await productService.GetDropdown();
             model.InvoiceTypes = await invoiceService.GetAllInvocieTypes();
             model.InvoiceDate = DateTime.Now;
             return View(model);
@@ -50,8 +51,10 @@ namespace EInvoice.App.Controllers
             {
                 // Re-populate dropdowns because they'll be null on postback
                 model.Clients = await clientService.GetAll();
-                model.Products = await productService.GetAll();
+                model.ProductViewModel.Products = await productService.GetDropdown();
                 model.InvoiceTypes = await invoiceService.GetAllInvocieTypes();
+                // Set a flag for JS to detect
+                ViewBag.ShowValidationModal = true;
                 return View(model);
             }
             #endregion

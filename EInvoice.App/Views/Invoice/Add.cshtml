@@ -1,45 +1,36 @@
 ﻿@using EInvoice.Common.DTO
 @model InvoiceDTO
+<style>
+    .modal {
+        z-index: 1060 !important;
+    }
 
+    .modal-backdrop {
+        z-index: 1040 !important;
+    }
+
+    .valdiation-errors {
+        color: #DC3545;
+    }
+</style>
 @{
     ViewData["Title"] = "Add Invoice";
 }
-<style>
-    .addItemBtn {
-        display: flex;
-        margin: 15px 15px 0 0;
-        justify-content: flex-end;
-    }
-
-    .card {
-        border-radius: 5px;
-    }
-
-    .card-body {
-        padding: 20px 40px 20px 40px;
-    }
-</style>
 <div class="container">
-    <div class="row ">
+    <div class="row">
         <div class="col-md-12">
-            <div class="Add Invoice">
-                <h2 class="title-1">Add Invoice</h2>
-            </div>
+            <h3>Add Invoice</h3>
         </div>
     </div>
-    <div class="card m-t-30">
+    <div class="card mt-3">
         <form asp-action="Add" method="post">
-            @* <div class="card-header"> *@
-            @*     <strong>Add Invoice</strong> *@
-            @* </div> *@
-            <div class="card-body card-body">
+            <div class="card-body">
                 <div class="row">
                     <div class="form-group col-4">
                         <label asp-for="InvoiceRefNo"></label>
                         <input asp-for="InvoiceRefNo" class="form-control" />
                         <span asp-validation-for="InvoiceRefNo" class="text-danger"></span>
                     </div>
-
                     <div class="form-group col-4">
                         <label asp-for="InvoiceDate"></label>
                         <input asp-for="InvoiceDate" type="date" class="form-control" />
@@ -64,170 +55,54 @@
                         <span asp-validation-for="BuyerId" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="row">
+
+                <div class="row mt-4">
                     <h4>Invoice Items</h4>
-                    <table class="table" id="invoiceItemsTable">
+                    <div class="text-end mb-2">
+                        @* <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#itemModal"> *@
+                        @*     Add Item *@
+                        @* </button> *@
+
+                        @* <button type="button" class="btn btn-sm btn-warning edit-item" *@
+                        @*         data-id="@item.Id" *@
+                        @*         data-name="@item.Name" *@
+                        @*         data-rate="@item.Rate"> *@
+                        @*     Edit *@
+                        @* </button> *@
+                        <button type="button" class="btn btn-primary" id="btnAddItem">
+                            Add Item
+                        </button>
+
+                    </div>
+                    <table class="table table-sm table-bordered" id="invoiceItemsTable">
                         <thead>
                             <tr>
                                 <th>Product</th>
-                                <th>Description</th>
-                                <th>HS Code</th>
-                                <th>UoM</th>
-                                <th>Rate</th>
                                 <th>Qty</th>
+                                <th>Rate</th>
                                 <th>Total</th>
-                                <th>Tax Rate</th>
-                                <th>Sales Tax</th>
-                                <th>Discount</th>
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            @if (Model.InvoiceItems != null)
-                            {
-                                @for (int i = 0; i < Model.InvoiceItems.Count; i++)
-                                {
-                                    <tr data-index="@i">
-                                        <td>
-                                            <select name="InvoiceItems[@i].ProductId"
-                                                    class="form-control product-select"
-                                                    asp-items="@(new SelectList(Model.Products, "Id", "productDescription", Model.InvoiceItems[i].ProductId))">
-                                                <option value="">-- Select Product --</option>
-                                            </select>
-                                            <span asp-validation-for="InvoiceItems[i].ProductId" class="text-danger"></span>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control hsCode" name="InvoiceItems[@i].HsCode"
-                                                   value="@Model.InvoiceItems[@i].HsCode" readonly />
-                                            <span asp-validation-for="InvoiceItems[i].HsCode" class="text-danger"></span>
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control uom" name="InvoiceItems[@i].UoM" value="@Model.InvoiceItems[@i].UoM" readonly />
-                                            <span asp-validation-for="InvoiceItems[i].UoM" class="text-danger"></span>
-
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control rate" name="InvoiceItems[@i].Rate" value="@Model.InvoiceItems[@i].Rate" readonly />
-                                            <span asp-validation-for="InvoiceItems[i].Rate" class="text-danger"></span>
-
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control quantity" name="InvoiceItems[@i].Quantity" value="@Model.InvoiceItems[@i].Quantity" min="1" />
-                                            <span asp-validation-for="InvoiceItems[i].Quantity" class="text-danger"></span>
-
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control totalValue" name="InvoiceItems[@i].TotalValue" value="@Model.InvoiceItems[@i].TotalValue" readonly />
-                                            <span asp-validation-for="InvoiceItems[i].TotalValue" class="text-danger"></span>
-
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control taxRate" name="InvoiceItems[@i].TaxRate" value="@Model.InvoiceItems[@i].Rate" readonly />
-                                            <span asp-validation-for="InvoiceItems[i].Rate" class="text-danger"></span>
-
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control salesTax" name="InvoiceItems[@i].SalesTaxApplicable" value="@Model.InvoiceItems[@i].SalesTaxApplicable" readonly />
-                                            <span asp-validation-for="InvoiceItems[i].SalesTaxApplicable" class="text-danger"></span>
-
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control discount" name="InvoiceItems[@i].Discount" value="@Model.InvoiceItems[@i].Discount" />
-                                            <span asp-validation-for="InvoiceItems[i].Discount" class="text-danger"></span>
-
-                                        </td>
-                                        <td></td>
-                                    </tr>
-                                }
-                            }
-                            else
-                            {
-                                <tr data-index="0">
-                                    <td>
-                                        <select name="InvoiceItems[0].ProductId"
-                                                class="form-control product-select"
-                                                asp-items="@(new SelectList(Model.Products, "Id", "Name"))">
-                                            <option value="">-- Select Product --</option>
-                                        </select>
-                                        <span class="text-danger field-validation-valid"
-                                              data-valmsg-for="InvoiceItems[0].ProductId"
-                                              data-valmsg-replace="true"></span>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control description" name="InvoiceItems[0].ProductDescription" readonly />
-                                        <span class="text-danger field-validation-valid"
-                                              data-valmsg-for="InvoiceItems[0].ProductDescription"
-                                              data-valmsg-replace="true"></span>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control hsCode" name="InvoiceItems[0].HsCode" readonly />
-                                        <span class="text-danger field-validation-valid"
-                                              data-valmsg-for="InvoiceItems[0].HsCode"
-                                              data-valmsg-replace="true"></span>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control uom" name="InvoiceItems[0].UoM" readonly />
-                                        <span class="text-danger field-validation-valid"
-                                              data-valmsg-for="InvoiceItems[0].UoM"
-                                              data-valmsg-replace="true"></span>
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control rate" name="InvoiceItems[0].Rate" readonly />
-                                        <span class="text-danger field-validation-valid"
-                                              data-valmsg-for="InvoiceItems[0].Rate"
-                                              data-valmsg-replace="true"></span>
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control quantity" name="InvoiceItems[0].Quantity" value="1" min="1" />
-                                        <span class="text-danger field-validation-valid"
-                                              data-valmsg-for="InvoiceItems[0].Quantity"
-                                              data-valmsg-replace="true"></span>
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control totalValue" name="InvoiceItems[0].TotalValue" readonly />
-                                        <span class="text-danger field-validation-valid"
-                                              data-valmsg-for="InvoiceItems[0].TotalValue"
-                                              data-valmsg-replace="true"></span>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control taxRate" name="InvoiceItems[0].TaxRate" readonly />
-                                        <span class="text-danger field-validation-valid"
-                                              data-valmsg-for="InvoiceItems[0].TaxRate"
-                                              data-valmsg-replace="true"></span>
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control salesTax" name="InvoiceItems[0].SalesTaxApplicable" readonly />
-                                        <span class="text-danger field-validation-valid"
-                                              data-valmsg-for="InvoiceItems[0].SalesTaxApplicable"
-                                              data-valmsg-replace="true"></span>
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control discount" name="InvoiceItems[0].Discount" value="0" />
-                                        <span class="text-danger field-validation-valid"
-                                              data-valmsg-for="InvoiceItems[0].Discount"
-                                              data-valmsg-replace="true"></span>
-                                    </td>
-                                    <td></td>
-                                </tr>
-                            }
-                        </tbody>
+                        <tbody id="invoiceItems"></tbody>
                     </table>
-                    <div class="addItemBtn">
-                        <button type="button" id="addItemBtn" class="flex-end btn btn-secondary">Add Item</button>
-                    </div>
+                </div>
+                <div class="row mt-4 valdiation-errors">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
                 </div>
             </div>
             <div class="card-footer">
-                <button type="submit" class="btn btn-primary btn-sm">
-                    <i class="fa fa-dot-circle-o"></i> Save Invoice
-                </button>
-                <button type="reset" class="btn btn-danger btn-sm">
-                    <i class="fa fa-ban"></i> Reset
-                </button>
+                <button type="submit" class="btn btn-primary btn-sm">Save Invoice</button>
+                <button type="reset" class="btn btn-danger btn-sm">Reset</button>
             </div>
         </form>
     </div>
 </div>
+@await Html.PartialAsync("~/Views/Invoice/Modal/_ItemModal.cshtml", Model.ProductViewModel)
 @section Scripts {
     <script src="~/js/invoice/add-invoice.js"></script>
+    <script src="~/js/invoice/item-modal.js"></script>
 }

@@ -79,6 +79,20 @@ namespace EInvoice.Service.Implements
             var products = await ctx.Products.Where(x=>x.OrganizationId == OrganizationId).OrderBy(x => x.HsCode).ToListAsync();
             return mapper.Map<List<ProductDTO>>(products);
         }
+        public async Task<List<ProductDTO>> GetDropdown()
+        {
+            var products = await ctx.Products
+                .Where(x => x.OrganizationId == OrganizationId)
+                .OrderBy(x => x.HsCode)
+                .Select(x => new ProductDTO
+                {
+                    Id = x.Id,
+                    ProductDescription = $"({x.HsCode}) {x.productDescription}"
+                })
+                .ToListAsync();
+
+            return products;
+        }
         public async Task<ProductDTO> GetById(long id)
         {
             var product = await ctx.Products.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id && x.OrganizationId == OrganizationId);

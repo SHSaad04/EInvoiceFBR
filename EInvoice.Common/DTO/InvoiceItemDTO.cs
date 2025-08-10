@@ -61,7 +61,7 @@ namespace EInvoice.Common.DTO
         [Required]
         [Display(Name = "Type of Sale")]
         public string SaleType { get; set; }
-        [Display(Name = "Item serial number in SRO ")]
+        [Display(Name = "Item serial number in SRO")]
         public string? SroItemSerialNo { get; set; }
     }
 }
