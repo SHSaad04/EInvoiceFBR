@@ -59,33 +59,13 @@
                 <div class="row mt-4">
                     <h4>Invoice Items</h4>
                     <div class="text-end mb-2">
-                        @* <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#itemModal"> *@
-                        @*     Add Item *@
-                        @* </button> *@
-
-                        @* <button type="button" class="btn btn-sm btn-warning edit-item" *@
-                        @*         data-id="@item.Id" *@
-                        @*         data-name="@item.Name" *@
-                        @*         data-rate="@item.Rate"> *@
-                        @*     Edit *@
-                        @* </button> *@
                         <button type="button" class="btn btn-primary" id="btnAddItem">
                             Add Item
                         </button>
-
                     </div>
-                    <table class="table table-sm table-bordered" id="invoiceItemsTable">
-                        <thead>
-                            <tr>
-                                <th>Product</th>
-                                <th>Qty</th>
-                                <th>Rate</th>
-                                <th>Total</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="invoiceItems"></tbody>
-                    </table>
+                    <div class="row" id="invoiceItemsCards">
+                        <!-- Cards will be rendered here -->
+                    </div>
                 </div>
                 <div class="row mt-4 valdiation-errors">
                     @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
@@ -101,6 +81,21 @@
         </form>
     </div>
 </div>
+<script type="text/template" id="invoiceItemCardTemplate">
+    <div class="col-md-4 mb-3">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{ProductDescription}</h5>
+                <p class="card-text"><strong>HS Code:</strong> {HsCode}</p>
+                <p class="card-text"><strong>Qty:</strong> {Quantity} {UoM}</p>
+                <p class="card-text"><strong>Rate:</strong> {Rate}</p>
+                <p class="card-text fw-bold"><strong>Total:</strong> {TotalValue}</p>
+                <button class="btn btn-sm btn-primary edit-item" data-index="{Index}">Edit</button>
+                <button class="btn btn-sm btn-danger remove-item" data-index="{Index}">Remove</button>
+            </div>
+        </div>
+    </div>
+</script>
 @await Html.PartialAsync("~/Views/Invoice/Modal/_ItemModal.cshtml", Model.ProductViewModel)
 @section Scripts {
     <script src="~/js/invoice/add-invoice.js"></script>

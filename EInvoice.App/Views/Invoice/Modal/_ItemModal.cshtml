@@ -19,6 +19,7 @@
                                     asp-items="@(new SelectList(Model.Products, "Id", "ProductDescription"))">
                                 <option value="">-- Select Product --</option>
                             </select>
+                            <input id="ProductDescription" class="form-control" hidden />
                             <span asp-validation-for="InvoiceItem.Id" class="text-danger"></span>
                         </div>
                         <div class="col-md-6 col-lg-4">

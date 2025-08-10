@@ -20,6 +20,7 @@
             dataType: 'json',
             success: function (data) {
                 if (data) {
+                    $("#ProductDescription").val(data.productDescription);
                     $("#InvoiceItem_HsCode").val(data.hsCode);
                     $("#InvoiceItem_UoM").val(data.uoM);
                     $("#InvoiceItem_Rate").val(data.rate);
@@ -54,63 +55,63 @@
         $valueSalesExcludingSTInput.val(subTotal.toFixed(2)); // Without tax
     }
     // Add Item
-    $("#addItemBtn").on("click", function () {
-        const $form = $("#itemForm"); // form inside your modal
+    //$("#addItemBtn").on("click", function () {
+    //    const $form = $("#itemForm"); // form inside your modal
 
-        // Re-parse validation rules in case modal is dynamically loaded
-        $.validator.unobtrusive.parse($form);
+    //    // Re-parse validation rules in case modal is dynamically loaded
+    //    $.validator.unobtrusive.parse($form);
 
-        if (!$form.valid()) {
-            // Validation errors will be shown automatically
-            return;
-        }
+    //    if (!$form.valid()) {
+    //        // Validation errors will be shown automatically
+    //        return;
+    //    }
 
-        const productName = $productSelect.find("option:selected").text();
+    //    const productName = $productSelect.find("option:selected").text();
 
-        const row = `
-        <tr>
-            <td>${productName}<input type="hidden" name="InvoiceItems[${itemIndex}].ProductId" value="${$productSelect.val()}" /></td>
-            <td>${$quantityInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].Quantity" value="${$quantityInput.val()}" /></td>
-            <td>${$rateInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].Rate" value="${$rateInput.val()}" /></td>
-            <td>${$totalValueInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].TotalValue" value="${$totalValueInput.val()}" /></td>
-            <td><button type="button" class="btn btn-sm btn-danger removeItem">X</button></td>
-        </tr>
-    `;
+    //    const row = `
+    //    <tr>
+    //        <td>${productName}<input type="hidden" name="InvoiceItems[${itemIndex}].ProductId" value="${$productSelect.val()}" /></td>
+    //        <td>${$quantityInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].Quantity" value="${$quantityInput.val()}" /></td>
+    //        <td>${$rateInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].Rate" value="${$rateInput.val()}" /></td>
+    //        <td>${$totalValueInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].TotalValue" value="${$totalValueInput.val()}" /></td>
+    //        <td><button type="button" class="btn btn-sm btn-danger removeItem">X</button></td>
+    //    </tr>
+    //`;
 
-        $invoiceItemsTableBody.append(row);
-        itemIndex++;
+    //    $invoiceItemsTableBody.append(row);
+    //    itemIndex++;
 
-        $("#itemModal").modal("hide");
-        clearItemForm();
-    });
+    //    $("#itemModal").modal("hide");
+    //    clearItemForm();
+    //});
 
-    // Add Item
-    $("#addItemBtnOld").on("click", function () {
-        if (!$productSelect.val()) {
-            alert("Please select a product");
-            return;
-        }
+    //// Add Item
+    //$("#addItemBtnOld").on("click", function () {
+    //    if (!$productSelect.val()) {
+    //        alert("Please select a product");
+    //        return;
+    //    }
 
-        const productName = $productSelect.find("option:selected").text();
+    //    const productName = $productSelect.find("option:selected").text();
 
-        const row = `
-            <tr>
-                <td>${productName}<input type="hidden" name="InvoiceItems[${itemIndex}].ProductId" value="${$productSelect.val()}" /></td>
-                <td>${$quantityInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].Quantity" value="${$quantityInput.val()}" /></td>
-                <td>${$rateInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].Rate" value="${$rateInput.val()}" /></td>
-                <td>${$totalValueInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].TotalValue" value="${$totalValueInput.val()}" /></td>
-                <td><button type="button" class="btn btn-sm btn-danger removeItem">X</button></td>
-            </tr>
-        `;
+    //    const row = `
+    //        <tr>
+    //            <td>${productName}<input type="hidden" name="InvoiceItems[${itemIndex}].ProductId" value="${$productSelect.val()}" /></td>
+    //            <td>${$quantityInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].Quantity" value="${$quantityInput.val()}" /></td>
+    //            <td>${$rateInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].Rate" value="${$rateInput.val()}" /></td>
+    //            <td>${$totalValueInput.val()}<input type="hidden" name="InvoiceItems[${itemIndex}].TotalValue" value="${$totalValueInput.val()}" /></td>
+    //            <td><button type="button" class="btn btn-sm btn-danger removeItem">X</button></td>
+    //        </tr>
+    //    `;
 
-        $invoiceItemsTableBody.append(row);
-        itemIndex++;
+    //    $invoiceItemsTableBody.append(row);
+    //    itemIndex++;
 
-        // Close modal
-        $("#itemModal").modal("hide");
+    //    // Close modal
+    //    $("#itemModal").modal("hide");
 
-        clearItemForm();
-    });
+    //    clearItemForm();
+    //});
 
     // Remove Item
     $invoiceItemsTableBody.on("click", ".removeItem", function () {
