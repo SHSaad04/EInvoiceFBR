@@ -96,7 +96,7 @@
                         <!-- Discount -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.Discount"></label>
-                            <input asp-for="InvoiceItem.Discount" class="form-control"/>
+                            <input asp-for="InvoiceItem.Discount" class="form-control" type="number" step="0.01" />
                             <span asp-validation-for="InvoiceItem.Discount" class="text-danger"></span>
                         </div>
                         <!-- Sale Type -->

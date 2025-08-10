@@ -39,7 +39,11 @@
                     <div class="form-group col-4">
                         <label asp-for="InvoiceType">Invoice Type</label>
                         <select asp-for="InvoiceType"
-                                asp-items="@(new SelectList(Model.InvoiceTypes, "Id", "Type"))"
+                                asp-items="@(new SelectList(Model.InvoiceTypes
+                                .Select(t => new {
+                                    Value = t.Type, // combine both
+                                    Text = t.Type
+                                }), "Value", "Text"))"
                                 class="form-control">
                             <option value="">-- Select Invoice Type --</option>
                         </select>
@@ -64,7 +68,28 @@
                         </button>
                     </div>
                     <div class="row" id="invoiceItemsCards">
-                        <!-- Cards will be rendered here -->
+                        @if (Model.InvoiceItems != null && Model.InvoiceItems.Count > 0)
+                        {
+                            var index = 0;
+                            foreach (var item in Model.InvoiceItems)
+                            {
+                                <div class="col-md-4 mb-3">
+                                    <div class="card">
+                                        <div class="card-body">
+
+                                            <h5 class="card-title">@item.ProductDescription</h5>
+                                            <p class="card-text"><strong>HS Code:</strong>@item.HsCode</p>
+                                            <p class="card-text"><strong>Qty:</strong> @item.Quantity @item.UoM</p>
+                                            <p class="card-text"><strong>Rate:</strong> @item.Rate</p>
+                                            <p class="card-text fw-bold"><strong>Total:</strong> @item.TotalValue</p>
+                                            <button type="button" class="btn btn-sm btn-primary edit-item" data-index="@index">Edit</button>
+                                            <button type="button" class="btn btn-sm btn-danger remove-item" data-index="@index">Remove</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                index++;
+                            }
+                        }
                     </div>
                 </div>
                 <div class="row mt-4 valdiation-errors">
@@ -90,8 +115,8 @@
                 <p class="card-text"><strong>Qty:</strong> {Quantity} {UoM}</p>
                 <p class="card-text"><strong>Rate:</strong> {Rate}</p>
                 <p class="card-text fw-bold"><strong>Total:</strong> {TotalValue}</p>
-                <button class="btn btn-sm btn-primary edit-item" data-index="{Index}">Edit</button>
-                <button class="btn btn-sm btn-danger remove-item" data-index="{Index}">Remove</button>
+                <button type="button" class="btn btn-sm btn-primary edit-item" data-index="{Index}">Edit</button>
+                <button type="button" class="btn btn-sm btn-danger remove-item" data-index="{Index}">Remove</button>
             </div>
         </div>
     </div>
