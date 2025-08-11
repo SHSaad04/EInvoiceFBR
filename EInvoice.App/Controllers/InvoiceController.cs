@@ -9,6 +9,8 @@ using EInvoice.Service.Implements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace EInvoice.App.Controllers
 {
@@ -31,7 +33,7 @@ namespace EInvoice.App.Controllers
             return View(client);
         }
 
-        [HttpGet("Add")]
+        [HttpGet]
         public async Task<IActionResult> Add(long? id)
         {
             InvoiceDTO model = new InvoiceDTO();
@@ -42,10 +44,19 @@ namespace EInvoice.App.Controllers
             model.InvoiceDate = DateTime.Now;
             return View(model);
         }
-        [HttpPost("Add")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(InvoiceDTO model)
+        public async Task<IActionResult> Add(InvoiceDTO model, string InvoiceItemsJson)
         {
+            if (!string.IsNullOrEmpty(InvoiceItemsJson))
+            {
+                var options = new JsonSerializerOptions
+                {
+                    NumberHandling = JsonNumberHandling.AllowReadingFromString
+                };
+
+                model.InvoiceItems = JsonSerializer.Deserialize<List<InvoiceItemDTO>>(InvoiceItemsJson, options);
+            }
             #region Validation
             if (!ModelState.IsValid)
             {

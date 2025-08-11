@@ -54,6 +54,9 @@
 
         if (editIndex !== null) {
             // Update existing item
+            let existing = invoiceItems[editIndex];
+            // Keep ProductDescription from the existing item
+            newItem.ProductDescription = existing.ProductDescription;
             invoiceItems[editIndex] = newItem;
             editIndex = null;
             $('#addItemBtn').text('Add Item');

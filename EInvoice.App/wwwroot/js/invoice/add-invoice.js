@@ -122,4 +122,7 @@
         $("#product, #hsCode, #uom, #rate, #totalValue, #valueSalesExcludingST").val("");
         $quantityInput.val(1);
     }
+    $('#Invoice-form').on('submit', function () {
+        $('#InvoiceItemsJson').val(JSON.stringify(invoiceItems));
+    });
 });
