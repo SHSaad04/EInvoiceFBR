@@ -129,6 +129,7 @@ namespace EInvoice.App.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(InvoiceDTO model, string InvoiceItemsJson)
         {
+            model.InvoiceItems.Clear();
             if (!string.IsNullOrEmpty(InvoiceItemsJson))
             {
                 var options = new JsonSerializerOptions

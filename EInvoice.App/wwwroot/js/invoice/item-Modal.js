@@ -7,13 +7,6 @@
         form[0].reset();
         itemModal.show();
     });
-
-    // Edit Item (when clicking edit buttons in the table)
-    //$(document).on("click", ".edit-item", function () {
-    //    fillModal($(this).data());
-    //    itemModal.show();
-    //});
-
     function clearModal() {
         $("#ProductId").val("");
         $("#ProductName").val("");
@@ -21,25 +14,14 @@
         // Clear other fields if needed
     }
 
-    //function fillModal(data) {
-    //    $("#ProductId").val(data.id);
-    //    $("#ProductName").val(data.name);
-    //    $("#ProductRate").val(data.rate);
-    //    // Map other fields if needed
-    //}
-
-    //Add Item
-    //let invoiceItems = [];
     let editIndex = null;
     $("#addItemBtn").on("click", function (e) {
-        e.preventDefault(); // prevent default button action if it's in a form
+        e.preventDefault();
 
-        // Check if the form is valid using jQuery Validate or native checkValidity
-
-        // Trigger unobtrusive validation manually
         if (!form.valid()) {
-            return; // Stop if validation fails
+            return;
         }
+
         const newItem = {
             ProductId: $("#InvoiceItem_Id").val(),
             HsCode: $("#InvoiceItem_HsCode").val(),
@@ -62,15 +44,14 @@
         };
 
         if (editIndex !== null) {
-            // Update existing item
+
             let existing = invoiceItems[editIndex];
-            // Keep ProductDescription from the existing item
+
             newItem.ProductDescription = existing.ProductDescription;
             invoiceItems[editIndex] = newItem;
             editIndex = null;
             $('#addItemBtn').text('Add Item');
         } else {
-            // Add new item
             invoiceItems.push(newItem);
         }
         renderInvoiceCards();
