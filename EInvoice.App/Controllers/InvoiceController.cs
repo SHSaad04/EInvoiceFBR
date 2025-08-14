@@ -33,7 +33,7 @@ namespace EInvoice.App.Controllers
             return View(client);
         }
 
-        [HttpGet]
+        [HttpGet("Add/{id}")]
         public async Task<IActionResult> Add(long? id)
         {
             InvoiceDTO model = new InvoiceDTO();
@@ -44,7 +44,7 @@ namespace EInvoice.App.Controllers
             model.InvoiceDate = DateTime.Now;
             return View(model);
         }
-        [HttpPost]
+        [HttpPost("AddPOST")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(InvoiceDTO model, string InvoiceItemsJson)
         {
@@ -94,13 +94,85 @@ namespace EInvoice.App.Controllers
             await invoiceService.Add(model);
             return RedirectToAction("Index");
         }
-        [HttpPost("Upsert/{id?}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Upsert(InvoiceDTO model)
+        [HttpGet]
+        public async Task<IActionResult> Upsert(long? id)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+            InvoiceDTO model;
 
+            if (id.HasValue && id.Value > 0)
+            {
+                // Editing: Load existing invoice
+                model = await invoiceService.GetById(id.Value);
+            }
+            else
+            {
+                // Adding: Create a new invoice
+                model = new InvoiceDTO
+                {
+                    InvoiceDate = DateTime.Now,
+                    ProductViewModel = new ProductViewModel()
+                };
+            }
+
+            // Populate dropdowns
+            model.Clients = await clientService.GetAll();
+            model.ProductViewModel = new ProductViewModel
+            {
+                Products = await productService.GetDropdown()
+            };
+            model.InvoiceTypes = await invoiceService.GetAllInvocieTypes();
+
+            return View("Add", model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Upsert(InvoiceDTO model, string InvoiceItemsJson)
+        {
+            if (!string.IsNullOrEmpty(InvoiceItemsJson))
+            {
+                var options = new JsonSerializerOptions
+                {
+                    NumberHandling = JsonNumberHandling.AllowReadingFromString
+                };
+                model.InvoiceItems = JsonSerializer.Deserialize<List<InvoiceItemDTO>>(InvoiceItemsJson, options);
+                // Remove old modelstate errors for InvoiceItems
+                ModelState.Remove(nameof(model.InvoiceItems));
+            }
+            // Now revalidate the entire model
+            TryValidateModel(model);
+            // Validation
+            if (!ModelState.IsValid)
+            {
+                model.Clients = await clientService.GetAll();
+                model.ProductViewModel = new ProductViewModel
+                {
+                    Products = await productService.GetDropdown()
+                };
+                model.InvoiceTypes = await invoiceService.GetAllInvocieTypes();
+                ViewBag.ShowValidationModal = true;
+                return View("Add", model);
+            }
+
+            // Map Seller
+            long? OrganizationId = httpContextAccessor.HttpContext?.User.GetOrganizationId();
+            OrganizationDTO seller = await organizationService.GetById(OrganizationId.Value);
+            model.SellerId = seller.Id;
+            model.SellerNTNCNIC = seller.NTNCNIC;
+            model.SellerBusinessName = seller.BusinessName;
+            model.SellerProvince = seller.Province;
+            model.SellerAddress = seller.Address;
+
+            // Map Buyer
+            ClientDTO client = await clientService.GetById(model.BuyerId);
+            model.BuyerId = client.Id;
+            model.BuyerNTNCNIC = client.NTNCNIC;
+            model.BuyerBusinessName = client.BusinessName;
+            model.BuyerProvince = client.Province;
+            model.BuyerAddress = client.Address;
+            model.BuyerRegistrationType = client.RegistrationType;
+
+            // Save
             if (model.Id == 0)
                 await invoiceService.Add(model);
             else

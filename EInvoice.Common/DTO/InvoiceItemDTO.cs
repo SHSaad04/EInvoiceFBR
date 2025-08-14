@@ -12,6 +12,7 @@ namespace EInvoice.Common.DTO
     {
         [Key]
         [Display(Name = "Product")]
+        [Required(ErrorMessage = "Product is required")]
         public long Id { get; set; }
         [Required(ErrorMessage = "Product is required")]
         public long? ProductId { get; set; }

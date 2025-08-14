@@ -79,7 +79,7 @@ namespace EInvoice.Service.Implements
         }
         public async Task<InvoiceDTO> GetById(long id)
         {
-            var invoice = await ctx.Invoices.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            var invoice = await ctx.Invoices.Include(x=>x.InvoiceItems).AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
             return mapper.Map<InvoiceDTO>(invoice);
         }
         public async Task<PagedResult<InvoiceDTO>> GetByPage(int pageNumber, int pageSize)

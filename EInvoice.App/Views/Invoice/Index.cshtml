@@ -9,7 +9,7 @@
         <div class="col-md-12">
             <div class="overview-wrap">
                 <h2 class="title-1">Invoices</h2>
-                <a asp-action="Add" class="au-btn au-btn-icon au-btn--blue"><i class="zmdi zmdi-plus"></i>Add Invoice</a>
+                <a asp-action="Upsert" asp-controller="Invoice" class="au-btn au-btn-icon au-btn--blue"><i class="zmdi zmdi-plus"></i>Add Invoice</a>
             </div>
         </div>
     </div>
@@ -39,10 +39,10 @@
                                     <td>@invoice.InvoiceRefNo</td>
                                     <td>
                                         <div class="table-data-feature">
-                                            <a asp-controller="Invoice" asp-action="Details" asp-route-id="@invoice.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Details" data-bs-original-title="Details">
+                                            <a asp-controller="Invoice" asp-action="Upsert" asp-route-id="@invoice.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Details" data-bs-original-title="Details">
                                                 <i class="fas fa-info"></i>
                                             </a>
-                                            <a asp-controller="Invoice" asp-action="Edit" asp-route-id="@invoice.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Edit" data-bs-original-title="Edit">
+                                            <a asp-controller="Invoice" asp-action="Upsert" asp-route-id="@invoice.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Edit" data-bs-original-title="Edit">
                                                 <i class="fas fa-pencil"></i>
                                             </a>
                                             <a href="javascript:void(0);" data-url="@Url.Action("Delete", new { id = invoice.Id })" class="item delete-confirm">

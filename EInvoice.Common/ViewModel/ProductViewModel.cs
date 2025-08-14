@@ -9,7 +9,7 @@ namespace EInvoice.Common.ViewModel
 {
     public class ProductViewModel
     {
-        public List<ProductDTO>? Products { get; set; }
+        public List<ProductDTO> Products { get; set; }
         //public ProductDTO? Product { get; set; }
         public InvoiceItemDTO InvoiceItem { get; set; } = new();
     }

@@ -12,6 +12,7 @@ namespace EInvoice.Common.DTO
     {
         [Key]
         [Display(Name = "Products")]
+        [Required]
         public long Id { get; set; }
         [Required]
         [Display(Name = "Harmonized System (HS) Code")]
