@@ -10,7 +10,7 @@
                 <h5 class="modal-title">Add Invoice Item</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form id="itemForm">
+            <form id="itemForm" novalidate>
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6 col-lg-4">
@@ -72,13 +72,13 @@
                         <!-- Extra Tax -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.ExtraTax"></label>
-                            <input asp-for="InvoiceItem.ExtraTax" class="form-control" type="number" step="0.01" min="0.01" />
+                            <input asp-for="InvoiceItem.ExtraTax" class="form-control" type="number" step="0.01" min="0.01" value=""/>
                             <span asp-validation-for="InvoiceItem.ExtraTax" class="text-danger"></span>
                         </div>
                         <!-- Further Tax -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.FurtherTax"></label>
-                            <input asp-for="InvoiceItem.FurtherTax" class="form-control" type="number" step="0.01" min="0.01" />
+                            <input asp-for="InvoiceItem.FurtherTax" class="form-control" type="number" step="0.01" min="0.01" value=""/>
                             <span asp-validation-for="InvoiceItem.FurtherTax" class="text-danger"></span>
                         </div>
                         <!-- SRO Schedule No -->
@@ -90,13 +90,13 @@
                         <!-- FED Payable -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.FedPayable"></label>
-                            <input asp-for="InvoiceItem.FedPayable" class="form-control" type="number" step="0.01" min="0.01" />
+                            <input asp-for="InvoiceItem.FedPayable" class="form-control" type="number" step="0.01" min="0.01" value=""/>
                             <span asp-validation-for="InvoiceItem.FedPayable" class="text-danger"></span>
                         </div>
                         <!-- Discount -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.Discount"></label>
-                            <input asp-for="InvoiceItem.Discount" class="form-control" type="number" step="0.01" min="0.01" />
+                            <input asp-for="InvoiceItem.Discount" class="form-control" type="number" step="0.01" min="0.01" value=""/>
                             <span asp-validation-for="InvoiceItem.Discount" class="text-danger"></span>
                         </div>
                         <!-- Sale Type -->

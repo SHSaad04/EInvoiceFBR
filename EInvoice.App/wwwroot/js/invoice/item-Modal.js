@@ -1,9 +1,10 @@
 ﻿$(function () {
     const itemModal = new bootstrap.Modal($("#itemModal")[0]);
+    const form = $("#itemForm");
 
     // Add Item
     $("#btnAddItem").on("click", function () {
-        clearModal();
+        form[0].reset();
         itemModal.show();
     });
 
@@ -30,7 +31,15 @@
     //Add Item
     //let invoiceItems = [];
     let editIndex = null;
-    $("#addItemBtn").on("click", function () {
+    $("#addItemBtn").on("click", function (e) {
+        e.preventDefault(); // prevent default button action if it's in a form
+
+        // Check if the form is valid using jQuery Validate or native checkValidity
+
+        // Trigger unobtrusive validation manually
+        if (!form.valid()) {
+            return; // Stop if validation fails
+        }
         const newItem = {
             ProductId: $("#InvoiceItem_Id").val(),
             HsCode: $("#InvoiceItem_HsCode").val(),
