@@ -15,7 +15,7 @@ namespace EInvoice.Common.DTO
         [Required(ErrorMessage = "Product is required")]
         public long Id { get; set; }
         [Required(ErrorMessage = "Product is required")]
-        public long? ProductId { get; set; }
+        public long ProductId { get; set; }
         [Required(ErrorMessage = "HS HsCode is required")]
         [Display(Name = "Harmonized System (HS) Code of the product")]
         public string HsCode { get; set; }

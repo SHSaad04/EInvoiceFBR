@@ -51,10 +51,10 @@ namespace EInvoice.Service.Implements
         {
             ctx?.Dispose();
         }
-        public async Task<InvoiceDTO> Edit(InvoiceDTO invoiceDTO)
+        public async Task<InvoiceDTO> EditOLD(InvoiceDTO invoiceDTO)
         {
             var invoice = mapper.Map<Invoice>(invoiceDTO);
-            var invoiceOld = ctx.Invoices.AsNoTracking().FirstOrDefault(x => x.Id == invoice.Id);
+            var invoiceOld = ctx.Invoices.Include(i => i.InvoiceItems).AsNoTracking().FirstOrDefault(x => x.Id == invoice.Id);
             if (invoiceOld == null)
             {
                 throw new UserTypeException(ExceptionMessages.DataNotFoundExceptionMessage);
@@ -65,6 +65,35 @@ namespace EInvoice.Service.Implements
             }
             ctx.Invoices.Update(invoice);
             ctx.Entry(invoice).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            await ctx.SaveChangesAsync();
+            return mapper.Map<InvoiceDTO>(invoice);
+        }
+        public async Task<InvoiceDTO> Edit(InvoiceDTO invoiceDTO)
+        {
+            var invoice = mapper.Map<Invoice>(invoiceDTO);
+            var invoiceOld = ctx.Invoices.Include(o => o.InvoiceItems).AsNoTracking().FirstOrDefault(x => x.Id == invoice.Id);
+            if (invoiceOld == null)
+            {
+                throw new UserTypeException(ExceptionMessages.DataNotFoundExceptionMessage);
+            }
+
+            var deletedInvoiceItems = invoiceOld.InvoiceItems
+            .Where(oldItem => !invoice.InvoiceItems.Any(newItem => newItem.Id == oldItem.Id))
+            .ToList();
+
+            ctx.InvoiceItems.RemoveRange(deletedInvoiceItems);
+            var trackedEntity = ctx.ChangeTracker.Entries<Invoice>().FirstOrDefault(e => e.Entity.Id == invoice.Id);
+            if (trackedEntity != null)
+            {
+                ctx.Entry(trackedEntity.Entity).State = EntityState.Detached;
+            }
+            ctx.Attach(invoice);
+            ctx.Entry(invoice).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            foreach (var option in invoice.InvoiceItems)
+            {
+                ctx.Entry(option).State = option.Id != 0 ? EntityState.Modified : EntityState.Added;
+            }
+            ctx.Invoices.Update(invoice);
             await ctx.SaveChangesAsync();
             return mapper.Map<InvoiceDTO>(invoice);
         }
@@ -79,7 +108,7 @@ namespace EInvoice.Service.Implements
         }
         public async Task<InvoiceDTO> GetById(long id)
         {
-            var invoice = await ctx.Invoices.Include(x=>x.InvoiceItems).AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            var invoice = await ctx.Invoices.Include(x => x.InvoiceItems).AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
             return mapper.Map<InvoiceDTO>(invoice);
         }
         public async Task<PagedResult<InvoiceDTO>> GetByPage(int pageNumber, int pageSize)

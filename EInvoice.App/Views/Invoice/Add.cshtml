@@ -84,8 +84,17 @@
                                             <p class="card-text"><strong>Qty:</strong> @item.Quantity @item.UoM</p>
                                             <p class="card-text"><strong>Rate:</strong> @item.Rate</p>
                                             <p class="card-text fw-bold"><strong>Total:</strong> @item.TotalValue</p>
-                                            <button type="button" class="btn btn-sm btn-primary edit-item" data-index="@index">Edit</button>
-                                            <button type="button" class="btn btn-sm btn-danger remove-item" data-index="@index">Remove</button>
+                                            <button type="button" class="btn btn-sm btn-primary edit-item" data-index="@index">
+                                                <i class="fas fa-pencil"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-danger  remove-item" data-id="@item.Id">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        @*     <a href="javascript:void(0);" *@
+                                        @*         data-url="@Url.Action("Delete", new { id = item.Id })" *@
+                                        @*        class="btn btn-sm btn-danger remove-item"> *@
+                                        @*         <i class="fa fa-trash"></i> *@
+                                        @*     </a> *@
                                         </div>
                                     </div>
                                 </div>
@@ -119,11 +128,23 @@
                 <p class="card-text"><strong>Rate:</strong> {Rate}</p>
                 <p class="card-text fw-bold"><strong>Total:</strong> {TotalValue}</p>
                 <button type="button" class="btn btn-sm btn-primary edit-item" data-index="{Index}">Edit</button>
-                <button type="button" class="btn btn-sm btn-danger remove-item" data-index="{Index}">Remove</button>
+                <button type="button" class="btn btn-sm btn-danger remove-item" data-index="{Index}">
+                    <i class="fa fa-trash"></i>
+                </button>
+                @* <a href="javascript:void(0);" *@
+                @*     data-url="@Url.Action("Delete", new { id = InvoiceItem.Id })" *@
+                @*     class="btn btn-sm btn-danger delete-confirm"> *@
+                @*     <i class="fa fa-trash"></i> *@
+                @* </a> *@
+                @* <button type="button" class="btn btn-sm btn-danger remove-item" data-index="{Index}">Remove</button> *@
             </div>
         </div>
     </div>
 </script>
+<script>
+    var deleteBaseUrl = '@Url.Action("Delete", "InvoiceItem")'; // /InvoiceItem/Delete
+</script>
+
 @await Html.PartialAsync("~/Views/Invoice/Modal/_ItemModal.cshtml", Model.ProductViewModel)
 @section Scripts {
     <script>

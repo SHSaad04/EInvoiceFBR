@@ -18,15 +18,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <form id="itemForm" novalidate>
+                <input asp-for="InvoiceItem.Id" hidden />
+                <input id="ProductDescription" hidden />
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6 col-lg-4">
-                            <label asp-for="InvoiceItem.Id"></label>
-                            <select asp-for="InvoiceItem.Id" class="form-select product-select"
+                            <label asp-for="InvoiceItem.ProductId"></label>
+                            <select asp-for="InvoiceItem.ProductId" class="form-select product-select"
                                     asp-items="@(new SelectList(Model.Products, "Id", "ProductDescription"))">
                                 <option value="">-- Select Product --</option>
                             </select>
-                            <input id="ProductDescription" class="form-control" value="" hidden />
                             <span asp-validation-for="InvoiceItem.Id" class="text-danger"></span>
                         </div>
                         <div class="col-md-6 col-lg-4">
@@ -67,43 +68,43 @@
                         <!-- Sales Tax Applicable -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.SalesTaxApplicable"></label>
-                            <input asp-for="InvoiceItem.SalesTaxApplicable" class="form-control"/>
+                            <input asp-for="InvoiceItem.SalesTaxApplicable" class="form-control" />
                             <span asp-validation-for="InvoiceItem.SalesTaxApplicable" class="text-danger"></span>
                         </div>
                         <!-- Sales Tax Withheld -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.SalesTaxWithheldAtSource"></label>
-                            <input asp-for="InvoiceItem.SalesTaxWithheldAtSource" class="form-control" type="number" step="0.01" min="0.01"/>
+                            <input asp-for="InvoiceItem.SalesTaxWithheldAtSource" class="form-control" type="number" step="0.01" min="0.01" />
                             <span asp-validation-for="InvoiceItem.SalesTaxWithheldAtSource" class="text-danger"></span>
                         </div>
                         <!-- Extra Tax -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.ExtraTax"></label>
-                            <input asp-for="InvoiceItem.ExtraTax" class="form-control" type="number" step="0.01" min="0" value="0"/>
+                            <input asp-for="InvoiceItem.ExtraTax" class="form-control" type="number" step="0.01" min="0" value="0" />
                             <span asp-validation-for="InvoiceItem.ExtraTax" class="text-danger"></span>
                         </div>
                         <!-- Further Tax -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.FurtherTax"></label>
-                            <input asp-for="InvoiceItem.FurtherTax" class="form-control" type="number" step="0.01" min="0" value="0"/>
+                            <input asp-for="InvoiceItem.FurtherTax" class="form-control" type="number" step="0.01" min="0" value="0" />
                             <span asp-validation-for="InvoiceItem.FurtherTax" class="text-danger"></span>
                         </div>
                         <!-- SRO Schedule No -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.SroScheduleNo"></label>
-                            <input asp-for="InvoiceItem.SroScheduleNo" class="form-control"/>
+                            <input asp-for="InvoiceItem.SroScheduleNo" class="form-control" />
                             <span asp-validation-for="InvoiceItem.SroScheduleNo" class="text-danger"></span>
                         </div>
                         <!-- FED Payable -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.FedPayable"></label>
-                            <input asp-for="InvoiceItem.FedPayable" class="form-control" type="number" step="0.01" min="0" value="0"/>
+                            <input asp-for="InvoiceItem.FedPayable" class="form-control" type="number" step="0.01" min="0" value="0" />
                             <span asp-validation-for="InvoiceItem.FedPayable" class="text-danger"></span>
                         </div>
                         <!-- Discount -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.Discount"></label>
-                            <input asp-for="InvoiceItem.Discount" class="form-control" type="number" step="0.01" min="0" value="0"/>
+                            <input asp-for="InvoiceItem.Discount" class="form-control" type="number" step="0.01" min="0" value="0" />
                             <span asp-validation-for="InvoiceItem.Discount" class="text-danger"></span>
                         </div>
                         <!-- Sale Type -->
@@ -115,7 +116,7 @@
                         <!-- SRO Item Serial No -->
                         <div class="col-md-4">
                             <label asp-for="InvoiceItem.SroItemSerialNo"></label>
-                            <input asp-for="InvoiceItem.SroItemSerialNo" class="form-control"/>
+                            <input asp-for="InvoiceItem.SroItemSerialNo" class="form-control" />
                             <span asp-validation-for="InvoiceItem.SroItemSerialNo" class="text-danger"></span>
                         </div>
                     </div>

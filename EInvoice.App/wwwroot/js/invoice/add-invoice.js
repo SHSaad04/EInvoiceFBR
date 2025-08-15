@@ -1,7 +1,7 @@
 ﻿$(document).ready(function () {
     let itemIndex = 0;
 
-    const $productSelect = $("#InvoiceItem_Id");
+    const $productSelect = $("#InvoiceItem_ProductId");
     const $quantityInput = $("#InvoiceItem_Quantity");
     const $retailPrice = $("#InvoiceItem_FixedNotifiedValueOrRetailPrice");
     const $rateInput = $("#InvoiceItem_Rate");

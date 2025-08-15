@@ -21,6 +21,7 @@ builder.Services.AddDbContext<EInvoiceContext>();
 builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 builder.Services.AddTransient<IClientService, ClientService>();
 builder.Services.AddTransient<IInvoiceService, InvoiceService>();
+builder.Services.AddTransient<IInvoiceItemService, InvoiceItemService>();
 builder.Services.AddTransient<IOrganizationService, OrganizationService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IProductService, ProductService>();

@@ -16,7 +16,7 @@ namespace EInvoice.App.Controllers
 {
     [Route("[controller]")]
     [Authorize(Roles = UserRoles.OrganizationAdmin)]
-    public class InvoiceController(IInvoiceService invoiceService, IClientService clientService, IProductService productService, IOrganizationService organizationService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : Controller
+    public class InvoiceController(IInvoiceService invoiceService, IInvoiceItemService invoiceItemService, IClientService clientService, IProductService productService, IOrganizationService organizationService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : Controller
     {
         [HttpGet("Index")]
         public async Task<IActionResult> Index()
@@ -185,12 +185,20 @@ namespace EInvoice.App.Controllers
         [HttpGet("Delete/{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var client = await invoiceService.GetById(id);
-            if (client == null)
+            var invoice = await invoiceService.GetById(id);
+            if (invoice == null)
                 return NotFound();
             await invoiceService.Delete(id);
             return RedirectToAction("Index");
         }
-
+        [HttpDelete("DeleteItem/{id}")]
+        public async Task<IActionResult> DeleteItem(long id)
+        {
+            var InvoiceItem = await invoiceItemService.GetById(id);
+            if (InvoiceItem == null)
+                return NotFound();
+            await invoiceItemService.Delete(id);
+            return Json(new { success = true, message = "Item deleted successfully" });
+        }
     }
 }
