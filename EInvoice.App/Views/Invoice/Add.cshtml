@@ -65,7 +65,7 @@
                 <div class="row mt-4">
                     <h4>Invoice Items</h4>
                     <div class="text-end mb-2">
-                        <button type="button" class="btn btn-primary" id="btnAddItem">
+                        <button type="button" class="btn btn-primary" id="addItemModal">
                             Add Item
                         </button>
                     </div>
@@ -90,11 +90,6 @@
                                             <button type="button" class="btn btn-sm btn-danger  remove-item" data-id="@item.Id">
                                                 <i class="fa fa-trash"></i>
                                             </button>
-                                        @*     <a href="javascript:void(0);" *@
-                                        @*         data-url="@Url.Action("Delete", new { id = item.Id })" *@
-                                        @*        class="btn btn-sm btn-danger remove-item"> *@
-                                        @*         <i class="fa fa-trash"></i> *@
-                                        @*     </a> *@
                                         </div>
                                     </div>
                                 </div>
@@ -131,12 +126,6 @@
                 <button type="button" class="btn btn-sm btn-danger remove-item" data-index="{Index}">
                     <i class="fa fa-trash"></i>
                 </button>
-                @* <a href="javascript:void(0);" *@
-                @*     data-url="@Url.Action("Delete", new { id = InvoiceItem.Id })" *@
-                @*     class="btn btn-sm btn-danger delete-confirm"> *@
-                @*     <i class="fa fa-trash"></i> *@
-                @* </a> *@
-                @* <button type="button" class="btn btn-sm btn-danger remove-item" data-index="{Index}">Remove</button> *@
             </div>
         </div>
     </div>

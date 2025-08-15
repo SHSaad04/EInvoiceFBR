@@ -3,7 +3,7 @@
     const form = $("#itemForm");
 
     // Add Item Modal
-    $("#btnAddItem").on("click", function () {
+    $("#addItemModal").on("click", function () {
         form[0].reset();
         itemModal.show();
     });
@@ -97,13 +97,6 @@
         });
     }
 
-    // Remove Item
-    //$(document).on("click", ".remove-item", function () {
-    //    const index = $(this).data("index");
-    //    invoiceItems.splice(index, 1);
-    //    renderInvoiceCards();
-    //});
-
     // Edit Item
     $(document).on("click", ".edit-item", function () {
         editIndex = $(this).data('index');
@@ -154,26 +147,9 @@
                 invoiceItems.splice(index, 1);
                 toastr.success("Item deleted successfully.");
                 renderInvoiceCards();
-                //$.ajax({
-                //    url: "/Invoice/DeleteItem/" + encodeURIComponent(id),
-                //    type: "DELETE",
-                //    success: function (response) {
-                //        if (response.success) {
-                //            toastr.success(response.message || "Item deleted successfully.");
-                //            invoiceItems.splice(index, 1);
-                //            renderInvoiceCards();
-                //        } else {
-                //            toastr.error(response.message || "Failed to delete item.");
-                //        }
-                //    },
-                //    error: function () {
-                //        toastr.error("Something went wrong while deleting.");
-                //    }
-                //});
             } else {
-                // CASE 2: Delete from UI only
-                invoiceItems.splice(index, 1); // Remove from array
-                renderInvoiceCards(); // Re-render invoice cards
+                invoiceItems.splice(index, 1);
+                renderInvoiceCards();
                 toastr.success("Item removed from invoice.");
             }
         });

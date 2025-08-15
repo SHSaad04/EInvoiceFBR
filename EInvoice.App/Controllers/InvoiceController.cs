@@ -16,7 +16,7 @@ namespace EInvoice.App.Controllers
 {
     [Route("[controller]")]
     [Authorize(Roles = UserRoles.OrganizationAdmin)]
-    public class InvoiceController(IInvoiceService invoiceService, IInvoiceItemService invoiceItemService, IClientService clientService, IProductService productService, IOrganizationService organizationService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : Controller
+    public class InvoiceController(IInvoiceService invoiceService, IClientService clientService, IProductService productService, IOrganizationService organizationService, IMapper mapper, IHttpContextAccessor httpContextAccessor) : Controller
     {
         [HttpGet("Index")]
         public async Task<IActionResult> Index()
@@ -33,67 +33,6 @@ namespace EInvoice.App.Controllers
             return View(client);
         }
 
-        [HttpGet("Add/{id}")]
-        public async Task<IActionResult> Add(long? id)
-        {
-            InvoiceDTO model = new InvoiceDTO();
-            model.Clients = await clientService.GetAll();
-            model.ProductViewModel = new ProductViewModel();
-            model.ProductViewModel.Products = await productService.GetDropdown();
-            model.InvoiceTypes = await invoiceService.GetAllInvocieTypes();
-            model.InvoiceDate = DateTime.Now;
-            return View(model);
-        }
-        [HttpPost("AddPOST")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Add(InvoiceDTO model, string InvoiceItemsJson)
-        {
-            if (!string.IsNullOrEmpty(InvoiceItemsJson))
-            {
-                var options = new JsonSerializerOptions
-                {
-                    NumberHandling = JsonNumberHandling.AllowReadingFromString
-                };
-
-                model.InvoiceItems = JsonSerializer.Deserialize<List<InvoiceItemDTO>>(InvoiceItemsJson, options);
-            }
-            #region Validation
-            if (!ModelState.IsValid)
-            {
-                // Re-populate dropdowns because they'll be null on postback
-                model.Clients = await clientService.GetAll();
-                model.ProductViewModel = new ProductViewModel();
-                model.ProductViewModel.Products = await productService.GetDropdown();
-                model.InvoiceTypes = await invoiceService.GetAllInvocieTypes();
-                // Set a flag for JS to detect
-                ViewBag.ShowValidationModal = true;
-                return View(model);
-            }
-            #endregion
-
-            #region Map Seller Data based on Organization_id
-            long? OrganizationId = httpContextAccessor.HttpContext?.User.GetOrganizationId();
-            OrganizationDTO seller = await organizationService.GetById(OrganizationId.Value);
-            model.SellerId = seller.Id;
-            model.SellerNTNCNIC = seller.NTNCNIC;
-            model.SellerBusinessName = seller.BusinessName;
-            model.SellerProvince = seller.Province;
-            model.SellerAddress = seller.Address;
-            #endregion
-
-            #region Map Client Data based on ClientId
-            ClientDTO client = await clientService.GetById(model.BuyerId);
-            model.BuyerId = client.Id;
-            model.BuyerNTNCNIC = client.NTNCNIC;
-            model.BuyerBusinessName = client.BusinessName;
-            model.BuyerProvince = client.Province;
-            model.BuyerAddress = client.Address;
-            model.BuyerRegistrationType = client.RegistrationType;
-            #endregion
-
-            await invoiceService.Add(model);
-            return RedirectToAction("Index");
-        }
         [HttpGet]
         public async Task<IActionResult> Upsert(long? id)
         {
@@ -137,12 +76,9 @@ namespace EInvoice.App.Controllers
                     NumberHandling = JsonNumberHandling.AllowReadingFromString
                 };
                 model.InvoiceItems = JsonSerializer.Deserialize<List<InvoiceItemDTO>>(InvoiceItemsJson, options);
-                // Remove old modelstate errors for InvoiceItems
                 ModelState.Remove(nameof(model.InvoiceItems));
             }
-            // Now revalidate the entire model
             TryValidateModel(model);
-            // Validation
             if (!ModelState.IsValid)
             {
                 model.Clients = await clientService.GetAll();
@@ -190,15 +126,6 @@ namespace EInvoice.App.Controllers
                 return NotFound();
             await invoiceService.Delete(id);
             return RedirectToAction("Index");
-        }
-        [HttpDelete("DeleteItem/{id}")]
-        public async Task<IActionResult> DeleteItem(long id)
-        {
-            var InvoiceItem = await invoiceItemService.GetById(id);
-            if (InvoiceItem == null)
-                return NotFound();
-            await invoiceItemService.Delete(id);
-            return Json(new { success = true, message = "Item deleted successfully" });
         }
     }
 }
