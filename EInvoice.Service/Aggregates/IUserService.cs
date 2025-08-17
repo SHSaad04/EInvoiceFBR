@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EInvoice.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 
 namespace EInvoice.Service.Aggregates
 {
@@ -20,5 +21,8 @@ namespace EInvoice.Service.Aggregates
         Task<bool> Signout(string userId);
         Task<bool> UpdateClaims(UserDTO user);
         Task<UserDTO> GetById(string id);
+        Task<UserDTO?> FindByEmailAsync(string email);
+        Task<string> GeneratePasswordResetTokenAsync(UserDTO user);
+        Task<IdentityResult> ResetPasswordAsync(UserDTO user, string token, string password);
     }
 }

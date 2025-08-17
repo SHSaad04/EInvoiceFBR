@@ -7,6 +7,7 @@ using EInvoice.Service.Implements;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace EInvoice.App.Controllers
 {
@@ -114,5 +115,69 @@ namespace EInvoice.App.Controllers
             await userService.Delete(id);
             return NoContent();
         }
+
+        [AllowAnonymous]
+        [HttpGet("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword()
+        { 
+            return View();
+        }
+            [AllowAnonymous]
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordDTO model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await userService.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                // Don't reveal if the email exists to avoid enumeration attacks
+                return RedirectToAction("ForgotPasswordConfirmation");
+            }
+
+            var token = await userService.GeneratePasswordResetTokenAsync(user);
+            var resetLink = Url.Action("ResetPassword", "Users",
+                new { token, email = user.Email }, Request.Scheme);
+
+            // Send email here (SMTP or log for testing)
+            Console.WriteLine("Reset Password Link: " + resetLink);
+
+            return RedirectToAction("ForgotPasswordConfirmation");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("ResetPassword")]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            return View(new ResetPasswordDTO { Token = token, Email = email });
+        }
+
+        [AllowAnonymous]
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(ResetPasswordDTO model)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = await userService.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return RedirectToAction("ResetPasswordConfirmation");
+            }
+
+            var result = await userService.ResetPasswordAsync(user, model.Token, model.Password);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(model);
+            }
+
+            return RedirectToAction("ResetPasswordConfirmation");
+        }
+
     }
 }
