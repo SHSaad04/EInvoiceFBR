@@ -20,23 +20,16 @@ namespace EInvoice.App.Models
         {
             var identity = await base.GenerateClaimsAsync(user);
 
-            // Get all claims first
-            var claims = await UserManager.GetClaimsAsync(user);
+            bool isAssociated = user.OrganizationId != null;
+            identity.AddClaim(new Claim("IsOrganizationAssociated", isAssociated.ToString().ToLower()));
 
-            // Check for organization association
-            var isAssociated = claims.Any(c => c.Type == "IsOrganizationAssociated");
-
-            identity.AddClaim(new Claim("IsOrganizationAssociated",
-                isAssociated.ToString().ToLower()));
-
-            // Add organization ID if exists
-            var orgIdClaim = claims.FirstOrDefault(c => c.Type == "OrganizationId");
-            if (orgIdClaim != null)
+            if (isAssociated)
             {
-                identity.AddClaim(orgIdClaim);
+                identity.AddClaim(new Claim("OrganizationId", user.OrganizationId.ToString()));
             }
 
             return identity;
         }
+
     }
 }

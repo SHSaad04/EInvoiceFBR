@@ -1,6 +1,9 @@
-﻿@{
+﻿@using EInvoice.Service.Helpers
+@{
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+    long? organizationId = User.GetOrganizationId();
+    bool isOrgAssociated = User.HasClaim("IsOrganizationAssociated", "true");
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -63,37 +66,39 @@
                     <ul class="navbar-mobile__list list-unstyled">
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Organization" asp-action="Details">
-                                    <i class="fas fa-tachometer-alt"></i> Dashboard
-                                </a>
-                            </li>
+                            @* <li class="nav-item"> *@
+                            @*     <a class="nav-link" asp-controller="Organization" asp-action="Details"> *@
+                            @*         <i class="fas fa-tachometer-alt"></i> Dashboard *@
+                            @*     </a> *@
+                            @* </li> *@
 
                             <li class="nav-item @(currentController == "Organization" ? "active" : "")">
                                 <a class="nav-link" asp-controller="Organization" asp-action="Details">
                                     <i class="fas fa-building"></i> Organization
                                 </a>
                             </li>
+                            if (isOrgAssociated)
+                            {
+                                <li class="nav-item @(currentController == "Client" ? "active" : "")">
+                                    <a class="nav-link" asp-controller="Client" asp-action="Index">
+                                        <i class="fas fa-users"></i> Clients
+                                    </a>
+                                </li>
 
-                            <li class="nav-item @(currentController == "Client" ? "active" : "")">
-                                <a class="nav-link" asp-controller="Client" asp-action="Index">
-                                    <i class="fas fa-users"></i> Clients
-                                </a>
-                            </li>
+                                <!-- Bootstrap Dropdown for Products -->
+                                <li class="nav-item @(currentController == "Product" ? "active" : "")">
+                                    <a class="nav-link" asp-controller="Product" asp-action="Index">
+                                        <i class="fas fa-cart-shopping"></i> Products
+                                    </a>
+                                </li>
+                                <!-- End Dropdown -->
 
-                            <!-- Bootstrap Dropdown for Products -->
-                            <li class="nav-item @(currentController == "Product" ? "active" : "")">
-                                <a class="nav-link" asp-controller="Product" asp-action="Index">
-                                    <i class="fas fa-cart-shopping"></i> Products
-                                </a>
-                            </li>
-                            <!-- End Dropdown -->
-
-                            <li class="nav-item @(currentController == "Invoice" ? "active" : "")">
-                                <a class="nav-link" asp-controller="Invoice" asp-action="Index">
-                                    <i class="fas fa-file-lines"></i> Invoices
-                                </a>
-                            </li>
+                                <li class="nav-item @(currentController == "Invoice" ? "active" : "")">
+                                    <a class="nav-link" asp-controller="Invoice" asp-action="Index">
+                                        <i class="fas fa-file-lines"></i> Invoices
+                                    </a>
+                                </li>
+                            }
                         }
                     </ul>
                 </div>
@@ -113,36 +118,40 @@
 
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Organization" asp-action="Details">
-                                    <i class="fas fa-tachometer-alt"></i>
-                                    Dashboard
-                                </a>
-                            </li>
+                            @* <li class="nav-item"> *@
+                            @*     <a class="nav-link" asp-controller="Organization" asp-action="Details"> *@
+                            @*         <i class="fas fa-tachometer-alt"></i> *@
+                            @*         Dashboard *@
+                            @*     </a> *@
+                            @* </li> *@
                             <li class="nav-item @(currentController == "Organization" ? "active" : "")">
                                 <a class="nav-link" asp-controller="Organization" asp-action="Details">
                                     <i class="fas fa-building"></i>
                                     Organization
                                 </a>
                             </li>
-                            <li class="nav-item @(currentController == "Client" ? "active" : "")">
-                                <a class="nav-link" asp-controller="Client" asp-action="Index">
-                                    <i class="fas fa-users"></i>
-                                    Clients
-                                </a>
-                            </li>
-                            <li class="nav-item @(currentController == "Product" ? "active" : "")">
-                                <a class="nav-link" asp-controller="Product" asp-action="Index">
-                                    <i class="fas fa-cart-shopping"></i>
-                                    Products
-                                </a>
-                            </li>
-                            <li class="nav-item @(currentController == "Invoice" ? "active" : "")">
-                                <a class="nav-link" asp-controller="Invoice" asp-action="Index">
-                                    <i class="fas fa-file-lines"></i>
-                                    Invoices
-                                </a>
-                            </li>
+                            if (isOrgAssociated)
+                            {
+
+                                <li class="nav-item @(currentController == "Client" ? "active" : "")">
+                                    <a class="nav-link" asp-controller="Client" asp-action="Index">
+                                        <i class="fas fa-users"></i>
+                                        Clients
+                                    </a>
+                                </li>
+                                <li class="nav-item @(currentController == "Product" ? "active" : "")">
+                                    <a class="nav-link" asp-controller="Product" asp-action="Index">
+                                        <i class="fas fa-cart-shopping"></i>
+                                        Products
+                                    </a>
+                                </li>
+                                <li class="nav-item @(currentController == "Invoice" ? "active" : "")">
+                                    <a class="nav-link" asp-controller="Invoice" asp-action="Index">
+                                        <i class="fas fa-file-lines"></i>
+                                        Invoices
+                                    </a>
+                                </li>
+                            }
                         }
                     </ul>
                 </nav>
@@ -404,14 +413,14 @@
 
     <!-- SweetAlert2 -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <!-- Toastr -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- App-specific JS -->
     <script src="~/js/app.config.js"></script>
     <script src="~/js/app.ajax.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    
+
     <!-- Validation Scripts -->
     <partial name="_ValidationScriptsPartial" />
 

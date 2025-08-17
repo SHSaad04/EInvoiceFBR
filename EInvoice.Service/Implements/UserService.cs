@@ -49,33 +49,30 @@ namespace EInvoice.Service.Implements
                         ?? await _userManager.FindByEmailAsync(request.Username);
 
             if (user == null)
-                return new AuthenticateResponseDTO { Success = false, Message = "User not found" };
+                return new AuthenticateResponseDTO
+                {
+                    Success = false,
+                    Message = "User not found"
+                };
 
             // Sign in using cookie authentication
             var result = await _signInManager.PasswordSignInAsync(
                 user,
                 request.Password,
-                isPersistent: false, // Whether to persist the cookie after browser is closed
+                isPersistent: false,   // Whether to persist the cookie after browser is closed
                 lockoutOnFailure: false);
 
             if (!result.Succeeded)
-                return new AuthenticateResponseDTO { Success = false, Message = "Invalid credentials" };
+                return new AuthenticateResponseDTO
+                {
+                    Success = false,
+                    Message = "Invalid credentials"
+                };
 
-            bool isOrganizationAssociated = user.OrganizationId != null;
-            // Add claim if needed (optional)
-            if (!isOrganizationAssociated)
-            {
-                await _userManager.AddClaimAsync(user,
-                    new Claim("IsOrganizationAssociated", "false"));
-            }
-            else
-            {
-                await _userManager.AddClaimAsync(user,
-                    new Claim("IsOrganizationAssociated", "true"));
-                await _userManager.AddClaimAsync(user,
-                    new Claim("OrganizationId", user.OrganizationId.ToString()));
-            }
+            // No manual claim manipulation here at all.
+            // The AppClaimsPrincipalFactory will handle adding IsOrganizationAssociated + OrganizationId claims.
 
+            // Refresh sign-in to make sure the cookie is rebuilt with claims from AppClaimsPrincipalFactory
             await _signInManager.RefreshSignInAsync(user);
 
             return new AuthenticateResponseDTO
@@ -83,9 +80,11 @@ namespace EInvoice.Service.Implements
                 Success = true,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
-                IsOrganizationAssociated = isOrganizationAssociated
+                IsOrganizationAssociated = user.OrganizationId != null
             };
         }
+
+
 
         public async Task Delete(long id)
         {
@@ -250,5 +249,28 @@ namespace EInvoice.Service.Implements
 
             return true;
         }
+        public async Task<UserDTO?> FindByEmailAsync(string email)
+        {
+            User user = new User();
+            user = await _userManager.FindByEmailAsync(email);
+            UserDTO userDTO = new UserDTO();
+            mapper.Map(user, userDTO);
+            return userDTO;
+        }
+
+        public async Task<string> GeneratePasswordResetTokenAsync(UserDTO userDTO)
+        {
+            User user = new User();
+            mapper.Map(userDTO, user);
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
+        }
+
+        public async Task<IdentityResult> ResetPasswordAsync(UserDTO userDTO, string token, string newPassword)
+        {
+            User user = new User();
+            mapper.Map(userDTO, user);
+            return await _userManager.ResetPasswordAsync(user, token, newPassword);
+        }
+
     }
 }
