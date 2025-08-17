@@ -14,14 +14,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
+using EInvoice.Service.Helpers;
 
 namespace EInvoice.Service.Implements
 {
-    public class InvoiceService(EInvoiceContext einvoiceContext, IMapper mapper, IConfiguration configuration) : IInvoiceService
+    public class InvoiceService(EInvoiceContext einvoiceContext, IMapper mapper, IConfiguration configuration, IHttpContextAccessor httpContextAccessor) : IInvoiceService
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly EInvoiceContext ctx = einvoiceContext;
         private readonly IMapper mapper = mapper;
+        private long? OrganizationId = httpContextAccessor.HttpContext?.User.GetOrganizationId();
+
         public async Task<InvoiceDTO> Add(InvoiceDTO invoiceDTO)
         {
             if (AlreadyExistByTitle(invoiceDTO.InvoiceRefNo, invoiceDTO.Id))
@@ -103,7 +107,7 @@ namespace EInvoice.Service.Implements
         }
         public async Task<List<InvoiceDTO>> GetAll()
         {
-            var invoices = await ctx.Invoices.OrderBy(x => x.InvoiceRefNo).ToListAsync();
+            var invoices = await ctx.Invoices.Where(x => x.SellerId == OrganizationId).OrderBy(x => x.InvoiceRefNo).ToListAsync();
             return mapper.Map<List<InvoiceDTO>>(invoices);
         }
         public async Task<InvoiceDTO> GetById(long id)
