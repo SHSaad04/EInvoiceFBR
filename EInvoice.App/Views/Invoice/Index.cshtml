@@ -4,7 +4,77 @@
 @{
     ViewData["Title"] = "Invoices";
 }
-<div class="container">
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-md-flex align-items-center">
+                        <div>
+                            <h4 class="card-title">Invoices</h4>
+                        </div>
+                        <div class="ms-auto mt-3 mt-md-0">
+                            <a asp-action="Upsert" asp-controller="Invoice" class="au-btn au-btn-icon au-btn--blue"><i class="zmdi zmdi-plus"></i>Add Invoice</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-4">
+                        <table class="table mb-0 text-nowrap varient-table align-middle fs-3">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Number</th>
+                                    <th scope="col">InvoiceType</th>
+                                    <th scope="col">InvoiceDate</th>
+                                    <th scope="col">InvoiceRefNo</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model != null && Model.Any())
+                                {
+                                    foreach (var invoice in Model)
+                                    {
+                                        <tr>
+                                            <td>#</td>
+                                            <td>@invoice.InvoiceType</td>
+                                            <td>@invoice.InvoiceDate</td>
+                                            <td>@invoice.InvoiceRefNo</td>
+                                            <td>
+                                                <a asp-controller="Invoice" asp-action="Upsert" asp-route-id="@invoice.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Details" data-bs-original-title="Details">
+                                                    <i class="ti ti-info"></i>
+                                                </a>
+                                                <a asp-controller="Invoice" asp-action="Upsert" asp-route-id="@invoice.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Edit" data-bs-original-title="Edit">
+                                                    <i class="ti ti-pencil"></i>
+                                                </a>
+                                                <a href="javascript:void(0);" data-url="@Url.Action("Delete", new { id = invoice.Id })" class="item delete-confirm">
+                                                    <i class="ti ti-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="8">No invoices found.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="py-6 px-6 text-center">
+        <p class="mb-0 fs-4">Design and Developed by <a href="https://www.wrappixel.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">Wrappixel.com</a></p>
+    </div>
+</div>
+
+
+<div class="container d-none">
     <div class="row">
         <div class="col-md-12">
             <div class="overview-wrap">

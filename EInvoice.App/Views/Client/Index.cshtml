@@ -20,20 +20,20 @@
                         <table class="table mb-0 text-nowrap varient-table align-middle fs-3">
                             <thead>
                                 <tr>
-                                    <th scope="col" class="px-0 text-muted">Business Name</th>
-                                    <th scope="col" class="px-0 text-muted">Province</th>
-                                    <th scope="col" class="px-0 text-muted">Registration Type</th>
-                                    <th scope="col" class="px-0 text-muted text-end">Actions</th>
+                                    <th scope="col">Business Name</th>
+                                    <th scope="col">Province</th>
+                                    <th scope="col">Registration Type</th>
+                                    <th scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var client in Model)
                                 {
                                     <tr>
-                                        <td class="fw-medium"><h6 class="mb-0 fw-medium">@client.BusinessName</h6></td>
-                                        <td class="fw-medium">@client.Province</td>
-                                        <td class="fw-medium">@client.RegistrationType</td>
-                                        <td class="px-0 text-end fw-medium">
+                                        <td><h6 class="mb-0 fw-medium">@client.BusinessName</h6></td>
+                                        <td>@client.Province</td>
+                                        <td>@client.RegistrationType</td>
+                                        <td>
                                             <a asp-action="Upsert" asp-route-id="@client.Id" class="btn btn-sm btn-primary">Edit</a>
                                             <a href="javascript:void(0);" data-url="@Url.Action("Delete", new { id = client.Id })" class="btn btn-sm btn-danger delete-confirm">Delete</a>
                                         </td>
@@ -50,49 +50,5 @@
     </div>
     <div class="py-6 px-6 text-center">
         <p class="mb-0 fs-4">Design and Developed by <a href="https://www.wrappixel.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">Wrappixel.com</a></p>
-    </div>
-</div>
-
-
-<div class="container d-none">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="overview-wrap">
-                <h2 class="title-1">Clients</h2>
-                <a asp-action="Upsert" class="au-btn au-btn-icon au-btn--blue"><i class="zmdi zmdi-plus"></i>Add Client</a>
-            </div>
-        </div>
-    </div>
-    <div class="row m-t-30">
-        <div class="col-md-12">
-            <!-- DATA TABLE-->
-            <div class="table-responsive m-b-40">
-                <table class="table table-borderless table-data3">
-                    <thead>
-                        <tr>
-                            <th>Business Name</th>
-                            <th>Province</th>
-                            <th>Registration Type</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var client in Model)
-                        {
-                            <tr>
-                                <td>@client.BusinessName</td>
-                                <td>@client.Province</td>
-                                <td>@client.RegistrationType</td>
-                                <td>
-                                    <a asp-action="Upsert" asp-route-id="@client.Id" class="btn btn-sm btn-primary">Edit</a>
-                                    <a href="javascript:void(0);" data-url="@Url.Action("Delete", new { id = client.Id })" class="btn btn-sm btn-danger delete-confirm">Delete</a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-            <!-- END DATA TABLE-->
-        </div>
     </div>
 </div>

@@ -1,0 +1,30 @@
+/* Style all tables with this class */
+.varient-table th,
+.varient-table td {
+    padding-left: 0;
+    padding-right: 0;
+    font-weight: 500; /* fw-medium */
+    vertical-align: middle;
+}
+
+/* Style table headers separately if needed */
+.varient-table thead th {
+    color: #6c757d; /* text-muted */
+}
+
+    /* Text-end for the last column */
+    .varient-table thead th:last-child,
+    .varient-table tbody td:last-child {
+        text-align: end;
+    }
+
+/* Optional: If you want heading-like style inside first column */
+.varient-table tbody td:first-child h6 {
+    margin-bottom: 0;
+    font-weight: 500; /* fw-medium */
+}
+/* Apply right alignment automatically to last column of both header and body */
+.varient-table th:last-child,
+.varient-table td:last-child {
+    text-align: end;
+}
