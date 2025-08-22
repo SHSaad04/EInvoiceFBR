@@ -39,7 +39,7 @@
                         {
                             <li class="sidebar-item @(currentController == "Organization" ? "active" : "")">
                                 <a class="sidebar-link" asp-controller="Organization" asp-action="Details" aria-expanded="false">
-                                    <i class="ti ti-atom"></i>
+                                    <i class="ti ti-dashboard"></i>
                                     <span class="hide-menu">Dashboard</span>
                                 </a>
                             </li>
@@ -47,7 +47,7 @@
                             {
                                 <li class="sidebar-item @(currentController == "Client" ? "active" : "")">
                                     <a class="sidebar-link" asp-controller="Client" asp-action="Index" aria-expanded="false">
-                                        <i class="ti ti-atom"></i>
+                                        <i class="ti ti-user"></i>
                                         <span class="hide-menu">Clients</span>
                                     </a>
                                 </li>
@@ -55,7 +55,7 @@
                                 <!-- Bootstrap Dropdown for Products -->
                                 <li class="sidebar-item @(currentController == "Product" ? "active" : "")">
                                     <a class="sidebar-link" asp-controller="Product" asp-action="Index" aria-expanded="false">
-                                        <i class="ti ti-atom"></i>
+                                        <i class="ti ti-package"></i>
                                         <span class="hide-menu">Products</span>
                                     </a>
                                 </li>
@@ -63,7 +63,7 @@
 
                                 <li class="sidebar-item @(currentController == "Invoice" ? "active" : "")">
                                     <a class="sidebar-link" asp-controller="Invoice" asp-action="Index" aria-expanded="false">
-                                        <i class="ti ti-atom"></i>
+                                        <i class="ti ti-clipboard"></i>
                                         <span class="hide-menu">Invoices</span>
                                     </a>
                                 </li>
@@ -139,6 +139,11 @@
             </div>
         </div>
     </div>
+    <footer>
+        <div class="py-6 px-6 text-center">
+            <p class="mb-0 fs-4">Design and Developed by <a href="https://www.wrappixel.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">Wrappixel.com</a></p>
+        </div>
+    </footer>
     <script src="~/flexy-theme/assets/libs/jquery/dist/jquery.min.js"></script>
     <script src="~/flexy-theme/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/flexy-theme/assets/js/sidebarmenu.js"></script>

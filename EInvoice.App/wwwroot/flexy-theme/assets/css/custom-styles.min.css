@@ -28,3 +28,9 @@
 .varient-table td:last-child {
     text-align: end;
 }
+i.info-icon {
+    font-size: larger;
+    font-weight: 500;
+    font-style: normal;
+    font-family: math;
+}

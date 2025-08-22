@@ -15,7 +15,7 @@
                             <h4 class="card-title">Invoices</h4>
                         </div>
                         <div class="ms-auto mt-3 mt-md-0">
-                            <a asp-action="Upsert" asp-controller="Invoice" class="au-btn au-btn-icon au-btn--blue"><i class="zmdi zmdi-plus"></i>Add Invoice</a>
+                            <a asp-action="Upsert" asp-controller="Invoice" class="btn btn-secondary m-1"><i class="ti ti-plus"></i>Add Invoice</a>
                         </div>
                     </div>
                     <div class="table-responsive mt-4">
@@ -41,7 +41,7 @@
                                             <td>@invoice.InvoiceRefNo</td>
                                             <td>
                                                 <a asp-controller="Invoice" asp-action="Upsert" asp-route-id="@invoice.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Details" data-bs-original-title="Details">
-                                                    <i class="ti ti-info"></i>
+                                                    <i class="info-icon">i</i>
                                                 </a>
                                                 <a asp-controller="Invoice" asp-action="Upsert" asp-route-id="@invoice.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Edit" data-bs-original-title="Edit">
                                                     <i class="ti ti-pencil"></i>
@@ -65,11 +65,6 @@
                 </div>
             </div>
         </div>
-
-
-    </div>
-    <div class="py-6 px-6 text-center">
-        <p class="mb-0 fs-4">Design and Developed by <a href="https://www.wrappixel.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">Wrappixel.com</a></p>
     </div>
 </div>
 

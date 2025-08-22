@@ -15,7 +15,7 @@
                             <h4 class="card-title">Products</h4>
                         </div>
                         <div class="ms-auto mt-3 mt-md-0">
-                            <a asp-action="Upsert" class="au-btn au-btn-icon au-btn--blue"><i class="zmdi zmdi-plus"></i>Add Product</a>
+                            <a asp-action="Upsert" class="btn btn-secondary m-1"><i class="ti ti-plus"></i>Add Product</a>
                         </div>
                     </div>
                     <div class="table-responsive mt-4">
@@ -43,7 +43,7 @@
                                             <td>@product.Rate</td>
                                             <td>
                                                     <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Details" data-bs-original-title="Details">
-                                                        <i class="ti ti-info"></i>
+                                                    <i class="info-icon">i</i>
                                                     </a>
                                                     <a asp-controller="Product" asp-action="Upsert" asp-route-id="@product.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Edit" data-bs-original-title="Edit">
                                                         <i class="ti ti-pencil"></i>
@@ -67,11 +67,6 @@
                 </div>
             </div>
         </div>
-
-
-    </div>
-    <div class="py-6 px-6 text-center">
-        <p class="mb-0 fs-4">Design and Developed by <a href="https://www.wrappixel.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">Wrappixel.com</a></p>
     </div>
 </div>
 
