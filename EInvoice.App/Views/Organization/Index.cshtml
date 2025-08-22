@@ -32,3 +32,73 @@
         }
     </tbody>
 </table>
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-md-flex align-items-center">
+                        <div>
+                            <h4 class="card-title">Organizations</h4>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-4">
+                        <table class="table mb-0 text-nowrap varient-table align-middle fs-3">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="px-0 text-muted">Business Name</th>
+                                    <th scope="col" class="px-0 text-muted">Province</th>
+                                    <th scope="col" class="px-0 text-muted">NTN/CNIC</th>
+                                    <th scope="col" class="px-0 text-muted">Address</th>
+                                    <th scope="col" class="px-0 text-muted text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var org in Model)
+                                {
+                                    <tr>
+                                        <td>@org.BusinessName</td>
+                                        <td>@org.Province</td>
+                                        <td>@org.NTNCNIC</td>
+                                        <td>@org.Address</td>
+                                        <td>
+                                            <a asp-controller="Organization" asp-action="Details" asp-route-id="@org.Id" class="btn btn-info btn-sm">Details</a>
+                                            <a asp-controller="Organization" asp-action="Upsert" asp-route-id="@org.Id" class="btn btn-primary btn-sm">Edit</a>
+                                            <a asp-controller="Organization" asp-action="Delete" asp-route-id="@org.Id" class="btn btn-danger btn-sm">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                                @* <tr> *@
+                                @*     <td class="px-0"> *@
+                                @*         <div class="d-flex align-items-center"> *@
+                                @*             <img src="../assets/images/profile/user-3.jpg" class="rounded-circle" width="40" alt="flexy"> *@
+                                @*             <div class="ms-3"> *@
+                                @*                 <h6 class="mb-0 fw-medium">Sunil Joshi</h6> *@
+                                @*                 <span class="text-muted">Web Designer</span> *@
+                                @*             </div> *@
+                                @*         </div> *@
+                                @*     </td> *@
+                                @*     <td class="px-0">Elite Admin</td> *@
+                                @*     <td class="px-0"> *@
+                                @*         <span class="badge bg-info">Low</span> *@
+                                @*     </td> *@
+                                @*     <td class="px-0 text-dark fw-medium text-end"> *@
+                                @*         $3.9K *@
+                                @*     </td> *@
+                                @* </tr> *@
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="py-6 px-6 text-center">
+        <p class="mb-0 fs-4">Design and Developed by <a href="https://www.wrappixel.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">Wrappixel.com</a></p>
+    </div>
+</div>

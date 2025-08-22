@@ -3,8 +3,58 @@
 @{
     ViewData["Title"] = "Clients";
 }
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-md-flex align-items-center">
+                        <div>
+                            <h4 class="card-title">Clients</h4>
+                        </div>
+                        <div class="ms-auto mt-3 mt-md-0">
+                            <a asp-action="Upsert" class="btn btn-secondary m-1"><i class="zmdi zmdi-plus"></i>Add Client</a>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-4">
+                        <table class="table mb-0 text-nowrap varient-table align-middle fs-3">
+                            <thead>
+                                <tr>
+                                    <th scope="col" class="px-0 text-muted">Business Name</th>
+                                    <th scope="col" class="px-0 text-muted">Province</th>
+                                    <th scope="col" class="px-0 text-muted">Registration Type</th>
+                                    <th scope="col" class="px-0 text-muted text-end">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var client in Model)
+                                {
+                                    <tr>
+                                        <td class="fw-medium"><h6 class="mb-0 fw-medium">@client.BusinessName</h6></td>
+                                        <td class="fw-medium">@client.Province</td>
+                                        <td class="fw-medium">@client.RegistrationType</td>
+                                        <td class="px-0 text-end fw-medium">
+                                            <a asp-action="Upsert" asp-route-id="@client.Id" class="btn btn-sm btn-primary">Edit</a>
+                                            <a href="javascript:void(0);" data-url="@Url.Action("Delete", new { id = client.Id })" class="btn btn-sm btn-danger delete-confirm">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<div class="container">
+
+    </div>
+    <div class="py-6 px-6 text-center">
+        <p class="mb-0 fs-4">Design and Developed by <a href="https://www.wrappixel.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">Wrappixel.com</a></p>
+    </div>
+</div>
+
+
+<div class="container d-none">
     <div class="row">
         <div class="col-md-12">
             <div class="overview-wrap">
