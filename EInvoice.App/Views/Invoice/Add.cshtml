@@ -16,102 +16,115 @@
 @{
     ViewData["Title"] = "Add Invoice";
 }
-<div class="container">
+
+
+
+<div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
-            <h3>@(Model.Id == 0 ? "Add Invoice" : "Edit Invoice")</h3>
-        </div>
-    </div>
-    <div class="card mt-3">
-        <form asp-action="Upsert" method="post" id="Invoice-form">
-            <input type="hidden" asp-for="Id" />
-            <input type="hidden" id="InvoiceItemsJson" name="InvoiceItemsJson" />
-            <div class="card-body">
-                <div class="row">
-                    <div class="form-group col-4">
-                        <label asp-for="InvoiceRefNo"></label>
-                        <input asp-for="InvoiceRefNo" class="form-control" />
-                        <span asp-validation-for="InvoiceRefNo" class="text-danger"></span>
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-md-flex align-items-center">
+                        <div>
+                            <h4 class="card-title">@(Model.Id == 0 ? "Add Invoice" : "Edit Invoice")</h4>
+                        </div>
                     </div>
-                    <div class="form-group col-4">
-                        <label asp-for="InvoiceDate"></label>
-                        <input asp-for="InvoiceDate" type="date" class="form-control" />
-                        <span asp-validation-for="InvoiceDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-4">
-                        <label asp-for="InvoiceType">Invoice Type</label>
-                        <select asp-for="InvoiceType"
-                                asp-items="@(new SelectList(Model.InvoiceTypes
+                    <div class="mt-4">
+                        <form asp-action="Upsert" method="post" id="Invoice-form">
+                            <input type="hidden" asp-for="Id" />
+                            <input type="hidden" id="InvoiceItemsJson" name="InvoiceItemsJson" />
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="form-group col-4">
+                                        <label asp-for="InvoiceRefNo"></label>
+                                        <input asp-for="InvoiceRefNo" class="form-control" />
+                                        <span asp-validation-for="InvoiceRefNo" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label asp-for="InvoiceDate"></label>
+                                        <input asp-for="InvoiceDate" type="date" class="form-control" />
+                                        <span asp-validation-for="InvoiceDate" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label asp-for="InvoiceType">Invoice Type</label>
+                                        <select asp-for="InvoiceType"
+                                                asp-items="@(new SelectList(Model.InvoiceTypes
                                 .Select(t => new {
                                     Value = t.Type, // combine both
                                     Text = t.Type
                                 }), "Value", "Text"))"
-                                class="form-control">
-                            <option value="">-- Select Invoice Type --</option>
-                        </select>
-                        <span asp-validation-for="InvoiceType" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-4">
-                        <label asp-for="BuyerId">Buyer</label>
-                        <select asp-for="BuyerId"
-                                asp-items="@(new SelectList(Model.Clients, "Id", "BusinessName"))"
-                                class="form-control">
-                            <option value="">-- Select Buyer --</option>
-                        </select>
-                        <span asp-validation-for="BuyerId" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="row mt-4">
-                    <h4>Invoice Items</h4>
-                    <div class="text-end mb-2">
-                        <button type="button" class="btn btn-primary" id="addItemModal">
-                            Add Item
-                        </button>
-                    </div>
-                    <div class="row" id="invoiceItemsCards">
-                        @if (Model.InvoiceItems != null && Model.InvoiceItems.Count > 0)
-                        {
-                            var index = 0;
-                            foreach (var item in Model.InvoiceItems)
-                            {
-                                <div class="col-md-4 mb-3">
-                                    <div class="card">
-                                        <div class="card-body">
-
-                                            <h5 class="card-title">@item.ProductDescription</h5>
-                                            <p class="card-text"><strong>HS Code:</strong>@item.HsCode</p>
-                                            <p class="card-text"><strong>Qty:</strong> @item.Quantity @item.UoM</p>
-                                            <p class="card-text"><strong>Rate:</strong> @item.Rate</p>
-                                            <p class="card-text fw-bold"><strong>Total:</strong> @item.TotalValue</p>
-                                            <button type="button" class="btn btn-sm btn-primary edit-item" data-index="@index">
-                                                <i class="fas fa-pencil"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-sm btn-danger  remove-item" data-id="@item.Id">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </div>
+                                                class="form-control">
+                                            <option value="">-- Select Invoice Type --</option>
+                                        </select>
+                                        <span asp-validation-for="InvoiceType" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group col-4">
+                                        <label asp-for="BuyerId">Buyer</label>
+                                        <select asp-for="BuyerId"
+                                                asp-items="@(new SelectList(Model.Clients, "Id", "BusinessName"))"
+                                                class="form-control">
+                                            <option value="">-- Select Buyer --</option>
+                                        </select>
+                                        <span asp-validation-for="BuyerId" class="text-danger"></span>
                                     </div>
                                 </div>
-                                index++;
-                            }
-                        }
+
+                                <div class="row mt-4">
+                                    <h4>Invoice Items</h4>
+                                    <div class="text-end mb-2">
+                                        <button type="button" class="btn btn-primary" id="addItemModal">
+                                            Add Item
+                                        </button>
+                                    </div>
+                                    <div class="row" id="invoiceItemsCards">
+                                        @if (Model.InvoiceItems != null && Model.InvoiceItems.Count > 0)
+                                        {
+                                            var index = 0;
+                                            foreach (var item in Model.InvoiceItems)
+                                            {
+                                                <div class="col-md-4 mb-3">
+                                                    <div class="card">
+                                                        <div class="card-body">
+
+                                                            <h5 class="card-title">@item.ProductDescription</h5>
+                                                            <p class="card-text"><strong>HS Code:</strong>@item.HsCode</p>
+                                                            <p class="card-text"><strong>Qty:</strong> @item.Quantity @item.UoM</p>
+                                                            <p class="card-text"><strong>Rate:</strong> @item.Rate</p>
+                                                            <p class="card-text fw-bold"><strong>Total:</strong> @item.TotalValue</p>
+                                                            <button type="button" class="btn btn-sm btn-primary edit-item" data-index="@index">
+                                                                <i class="fas fa-pencil"></i>
+                                                            </button>
+                                                            <button type="button" class="btn btn-sm btn-danger  remove-item" data-id="@item.Id">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                index++;
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <div class="row mt-4 valdiation-errors">
+                                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                    {
+                                        <li>@error.ErrorMessage</li>
+                                    }
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary btn-sm">Save Invoice</button>
+                                <button type="reset" class="btn btn-danger btn-sm">Reset</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="row mt-4 valdiation-errors">
-                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-                    {
-                        <li>@error.ErrorMessage</li>
-                    }
-                </div>
             </div>
-            <div class="card-footer">
-                <button type="submit" class="btn btn-primary btn-sm">Save Invoice</button>
-                <button type="reset" class="btn btn-danger btn-sm">Reset</button>
-            </div>
-        </form>
+        </div>
     </div>
 </div>
+
+
 <input type="hidden" name="InvoiceItemsJson" id="InvoiceItemsJson" />
 <script type="text/template" id="invoiceItemCardTemplate">
     <div class="col-md-4 mb-3">
@@ -124,7 +137,7 @@
                 <p class="card-text fw-bold"><strong>Total:</strong> {TotalValue}</p>
                 <button type="button" class="btn btn-sm btn-primary edit-item" data-index="{Index}">Edit</button>
                 <button type="button" class="btn btn-sm btn-danger remove-item" data-index="{Index}">
-                    <i class="fa fa-trash"></i>
+                    <i class="ti ti-trash"></i>
                 </button>
             </div>
         </div>
