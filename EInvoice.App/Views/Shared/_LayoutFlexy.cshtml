@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="~/flexy-theme/assets/css/styles.min.css" />
     <link rel="stylesheet" href="~/flexy-theme/assets/css/custom-styles.min.css" />
 </head>
+
 <body>
     <!--  Body Wrapper -->
     <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
@@ -152,7 +153,23 @@
     <script src="~/flexy-theme/assets/libs/simplebar/dist/simplebar.js"></script>
     <script src="~/flexy-theme/assets/js/dashboard.js"></script>
     <!-- solar icons -->
-    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
+    @* <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script> *@
+
+    <!-- SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Toastr -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- App-specific JS -->
+    <script src="~/js/app.config.js"></script>
+    <script src="~/js/app.ajax.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Validation Scripts -->
+    <partial name="_ValidationScriptsPartial" />
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
 <!-- end document-->
