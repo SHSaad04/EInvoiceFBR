@@ -34,3 +34,15 @@ i.info-icon {
     font-style: normal;
     font-family: math;
 }
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+}

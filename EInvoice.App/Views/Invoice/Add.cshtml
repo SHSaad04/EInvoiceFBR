@@ -16,9 +16,6 @@
 @{
     ViewData["Title"] = "Add Invoice";
 }
-
-
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -92,10 +89,10 @@
                                                             <p class="card-text"><strong>Rate:</strong> @item.Rate</p>
                                                             <p class="card-text fw-bold"><strong>Total:</strong> @item.TotalValue</p>
                                                             <button type="button" class="btn btn-sm btn-primary edit-item" data-index="@index">
-                                                                <i class="fas fa-pencil"></i>
+                                                                <i class="ti ti-pencil"></i>
                                                             </button>
                                                             <button type="button" class="btn btn-sm btn-danger  remove-item" data-id="@item.Id">
-                                                                <i class="fa fa-trash"></i>
+                                                                <i class="ti ti-trash"></i>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -135,7 +132,9 @@
                 <p class="card-text"><strong>Qty:</strong> {Quantity} {UoM}</p>
                 <p class="card-text"><strong>Rate:</strong> {Rate}</p>
                 <p class="card-text fw-bold"><strong>Total:</strong> {TotalValue}</p>
-                <button type="button" class="btn btn-sm btn-primary edit-item" data-index="{Index}">Edit</button>
+                <button type="button" class="btn btn-sm btn-primary edit-item" data-index="{Index}">
+                    <i class="ti ti-pencil"></i>
+                </button>
                 <button type="button" class="btn btn-sm btn-danger remove-item" data-index="{Index}">
                     <i class="ti ti-trash"></i>
                 </button>

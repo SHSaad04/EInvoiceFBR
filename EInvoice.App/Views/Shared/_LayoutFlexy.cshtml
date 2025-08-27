@@ -4,6 +4,18 @@
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
     long? organizationId = User.GetOrganizationId();
     bool isOrgAssociated = User.HasClaim("IsOrganizationAssociated", "true");
+    var fullName = User.Identity.Name ?? "Guest User";
+    var initials = string.Join("", fullName
+                                .Split(new[] { ' ', '.' }, StringSplitOptions.RemoveEmptyEntries)
+                                .Select(n => n[0]))
+                                .ToUpper();
+
+    // Pick first letter for color mapping
+    char firstLetter = initials.FirstOrDefault();
+    string[] colors = { "#007bff", "#28a745", "#ffc107", "#17a2b8", "#6f42c1", "#fd7e14", "#e83e8c" };
+    // Simple hash to pick a color index
+    int colorIndex = (firstLetter % colors.Length);
+    string avatarColor = colors[colorIndex];
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -110,7 +122,13 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link " href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
                                    aria-expanded="false">
-                                    <img src="~/flexy-theme/assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle">
+                                    @* <div class="user-avatar" title="@fullName"> *@
+                                    @*     <span>@initials</span> *@
+                                    @* </div> *@
+                                    <div class="user-avatar" style="background-color:@avatarColor;" title="@fullName">
+                                        @initials
+                                    </div>
+                                    @* <img src="~/flexy-theme/assets/images/profile/user-1.jpg" alt="" width="35" height="35" class="rounded-circle"> *@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animate-up" aria-labelledby="drop2">
                                     <div class="message-body">
@@ -150,7 +168,7 @@
     </div>
     <footer>
         <div class="py-6 px-6 text-center">
-            <p class="mb-0 fs-4">Design and Developed by <a href="https://www.wrappixel.com/" target="_blank" class="pe-1 text-primary text-decoration-underline">Wrappixel.com</a></p>
+            <p class="mb-0 fs-4">Design and Developed by <a href="https://connectsystems.pk/" target="_blank" class="pe-1 text-primary text-decoration-underline">Connect Systems pvt. ltd.</a></p>
         </div>
     </footer>
     <script src="~/flexy-theme/assets/libs/jquery/dist/jquery.min.js"></script>
