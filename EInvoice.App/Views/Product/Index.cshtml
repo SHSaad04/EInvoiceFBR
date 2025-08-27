@@ -42,13 +42,13 @@
                                             <td>@product.FixedNotifiedValueOrRetailPrice.ToString("C")</td>
                                             <td>@product.Rate</td>
                                             <td>
-                                                    <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Details" data-bs-original-title="Details">
+                                                    <a asp-controller="Product" asp-action="Details" asp-route-id="@product.Id" class="item" title="Details">
                                                     <i class="info-icon">i</i>
                                                     </a>
-                                                    <a asp-controller="Product" asp-action="Upsert" asp-route-id="@product.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Edit" data-bs-original-title="Edit">
+                                                    <a asp-controller="Product" asp-action="Upsert" asp-route-id="@product.Id" class="item" title="Edit">
                                                         <i class="ti ti-pencil"></i>
                                                     </a>
-                                                    <a href="javascript:void(0);" data-url="@Url.Action("Delete", new { id = product.Id })" class="item delete-confirm" data-bs-toggle="tooltip" data-placement="top" aria-label="Delete" data-bs-original-title="Delete">
+                                                    <a href="javascript:void(0);" data-url="@Url.Action("Delete", new { id = product.Id })" class="item delete-confirm" title="Delete">
                                                         <i class="ti ti-trash"></i>
                                                     </a>
                                             </td>

@@ -28,6 +28,9 @@
 .varient-table td:last-child {
     text-align: end;
 }
+td:last-child a{
+    margin-right: 5px;
+}
 i.info-icon {
     font-size: larger;
     font-weight: 500;

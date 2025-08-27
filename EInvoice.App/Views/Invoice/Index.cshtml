@@ -18,21 +18,21 @@
                             <a asp-action="Upsert" asp-controller="Invoice" class="btn btn-secondary m-1"><i class="ti ti-plus"></i>Add Invoice</a>
                         </div>
                     </div>
-                    <div class="table-responsive mt-4">
-                        <table class="table mb-0 text-nowrap varient-table align-middle fs-3">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Number</th>
-                                    <th scope="col">InvoiceType</th>
-                                    <th scope="col">InvoiceDate</th>
-                                    <th scope="col">InvoiceRefNo</th>
-                                    <th scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if (Model != null && Model.Any())
-                                {
-                                    foreach (var invoice in Model)
+                    @if (Model != null && Model.Any())
+                    {
+                        <div class="table-responsive mt-4">
+                            <table class="table mb-0 text-nowrap varient-table align-middle fs-3">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Number</th>
+                                        <th scope="col">InvoiceType</th>
+                                        <th scope="col">InvoiceDate</th>
+                                        <th scope="col">InvoiceRefNo</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var invoice in Model)
                                     {
                                         <tr>
                                             <td>#</td>
@@ -40,28 +40,28 @@
                                             <td>@invoice.InvoiceDate</td>
                                             <td>@invoice.InvoiceRefNo</td>
                                             <td>
-                                                <a asp-controller="Invoice" asp-action="Upsert" asp-route-id="@invoice.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Details" data-bs-original-title="Details">
+                                                <a asp-controller="Invoice" asp-action="Upsert" asp-route-id="@invoice.Id" class="item" title="Details">
                                                     <i class="info-icon">i</i>
                                                 </a>
-                                                <a asp-controller="Invoice" asp-action="Upsert" asp-route-id="@invoice.Id" class="item" data-bs-toggle="tooltip" data-placement="top" aria-label="Edit" data-bs-original-title="Edit">
+                                                <a asp-controller="Invoice" asp-action="Upsert" asp-route-id="@invoice.Id" class="item" title="Edit">
                                                     <i class="ti ti-pencil"></i>
                                                 </a>
-                                                <a href="javascript:void(0);" data-url="@Url.Action("Delete", new { id = invoice.Id })" class="item delete-confirm">
+                                                <a href="javascript:void(0);" data-url="@Url.Action("Delete", new { id = invoice.Id })" class="item delete-confirm" title="Delete">
                                                     <i class="ti ti-trash"></i>
                                                 </a>
                                             </td>
                                         </tr>
                                     }
-                                }
-                                else
-                                {
-                                    <tr>
-                                        <td colspan="8">No invoices found.</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row justify-content-center">
+                            No invoices found.
+                        </div>
+                    }
                 </div>
             </div>
         </div>
