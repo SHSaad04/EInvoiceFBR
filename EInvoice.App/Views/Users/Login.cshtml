@@ -7,77 +7,54 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Login Page">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@ViewData["Title"]</title>
-
-    <!-- Fontfaces CSS-->
-    <link href="~/theme/css/font-face.css" rel="stylesheet" />
-    <link href="~/theme/vendor/fontawesome-6.7.2/css/all.min.css" rel="stylesheet" />
-    <link href="~/theme/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" />
-
-    <!-- Bootstrap CSS-->
-    <link href="~/theme/vendor/bootstrap-5.3.7.min.css" rel="stylesheet" />
-
-    <!-- Vendor CSS-->
-    <link href="~/theme/css/aos.css" rel="stylesheet" />
-    <link href="~/theme/vendor/css-hamburgers/hamburgers.min.css" rel="stylesheet" />
-    <link href="~/theme/css/swiper-bundle.min.css" rel="stylesheet" />
-    <link href="~/theme/vendor/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" />
-
-    <!-- Main CSS-->
-    <link href="~/theme/css/theme.css" rel="stylesheet" />
+    <link rel="shortcut icon" type="image/png" href="~/flexy-theme/assets/images/logos/favicon.png" />
+    <link rel="stylesheet" href="~/flexy-theme/assets/css/styles.min.css" />
 </head>
-
 <body>
-    <div class="page-wrapper">
-        <div class="page-content--bge5">
-            <div class="container">
-                <div class="login-wrap">
-                    <div class="login-content">
-                        <div class="login-logo">
-                            <a href="#">
-                                <img src="~/images/e-incoive-logo.png" alt="E-Invoice" />
-                            </a>
-                        </div>
-                        <div class="login-form">
-                            <form asp-action="Login" asp-controller="Users" method="post">
-                                <div class="form-group">
-                                    <label asp-for="Username"></label>
-                                    <input asp-for="Username" class="au-input au-input--full" placeholder="Username or Email" />
-                                    <span asp-validation-for="Username" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="Password"></label>
-                                    <input asp-for="Password" type="password" class="au-input au-input--full" placeholder="Password" />
-                                    <span asp-validation-for="Password" class="text-danger"></span>
-                                </div>
-                                <div class="login-checkbox">
-                                    <label>
-                                        <input type="checkbox" name="RememberMe" /> Remember Me
-                                    </label>
-                                    <label>
-                                        <a asp-action="ForgotPassword">Forgotten Password?</a>
-                                    </label>
-                                </div>
-                                <button type="submit" class="au-btn au-btn--block au-btn--green m-b-20">Sign In</button>
-                                <div asp-validation-summary="All" class="text-danger"></div>
-
-                                <div class="social-login-content d-none">
-                                    <div class="social-button">
-                                        <button type="button" class="au-btn au-btn--block au-btn--blue m-b-20">Sign in with Facebook</button>
-                                        <button type="button" class="au-btn au-btn--block au-btn--blue2">Sign in with Twitter</button>
+    <!--  Body Wrapper -->
+    <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
+         data-sidebar-position="fixed" data-header-position="fixed">
+        <div class="position-relative overflow-hidden text-bg-light min-vh-100 d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center w-100">
+                <div class="row justify-content-center w-100">
+                    <div class="col-md-8 col-lg-6 col-xxl-4">
+                        <div class="card mb-0">
+                            <div class="card-body">
+                                <a href="./index.html" class="text-nowrap logo-img text-center d-block py-3 w-100">
+                                    <img src="~/flexy-theme/assets/images/logos/logo.svg" alt="">
+                                </a>
+                                <p class="text-center">Integrated with FBR Digital Invoice</p>
+                                <form asp-action="Login" asp-controller="Users" method="post">
+                                    <div class="mb-3">
+                                        <label asp-for="Username" class="form-label"></label>
+                                        <input asp-for="Username" class="form-control" aria-describedby="emailHelp" placeholder="Username or Email" />
+                                        <span asp-validation-for="Username" class="text-danger"></span>
                                     </div>
-                                </div>
-                            </form>
-                            <div class="register-link">
-                                <p>
-                                    Don’t you have an account?
-                                    <a class="nav-link" asp-controller="Users" asp-action="Register">Sign Up Here</a>
-                                </p>
+                                    <div class="mb-4">
+                                        <label asp-for="Password" class="form-label"></label>
+                                        <input asp-for="Password" type="password" class="form-control" placeholder="Password" />
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between mb-4">
+                                        <div class="form-check">
+                                            <input class="form-check-input primary" type="checkbox" value="" id="flexCheckChecked" checked>
+                                            <label class="form-check-label text-dark" for="flexCheckChecked">
+                                                Remeber this Device
+                                            </label>
+                                        </div>
+                                        <a asp-action="ForgotPassword" class="text-primary fw-bold">Forgot Password ?</a>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary w-100 py-8 fs-4 mb-4 rounded-2">Sign In</button>
+                                    <div asp-validation-summary="All" class="text-danger"></div>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <p class="fs-4 mb-0 fw-bold">New to E-Invoice?</p>
+                                        <a class="text-primary fw-bold ms-2" asp-controller="Users" asp-action="Register">Create an account</a>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -85,16 +62,9 @@
             </div>
         </div>
     </div>
-
-    <!-- Scripts -->
-    <script src="~/theme/js/vanilla-utils.js"></script>
-    <script src="~/theme/vendor/bootstrap-5.3.7.bundle.min.js"></script>
-    <script src="~/theme/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
-    <script src="~/theme/vendor/chartjs/Chart.bundle.min.js"></script>
-    <script src="~/theme/js/bootstrap5-init.js"></script>
-    <script src="~/theme/js/main-vanilla.js"></script>
-    <script src="~/theme/js/swiper-bundle.min.js"></script>
-    <script src="~/theme/js/aos.js"></script>
-    <script src="~/theme/js/modern-plugins.js"></script>
+    <script src="~/flexy-theme/assets/libs/jquery/dist/jquery.min.js"></script>
+    <script src="~/flexy-theme/assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- solar icons -->
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.8/dist/iconify-icon.min.js"></script>
 </body>
 </html>
