@@ -50,14 +50,14 @@
                     <ul id="sidebarnav">
                         @if (User?.Identity?.IsAuthenticated ?? false)
                         {
-                            <li class="sidebar-item @(currentController == "Organization" ? "active" : "")">
-                                <a class="sidebar-link" asp-controller="Organization" asp-action="Details" aria-expanded="false">
-                                    <i class="ti ti-dashboard"></i>
-                                    <span class="hide-menu">Dashboard</span>
-                                </a>
-                            </li>
                             if (isOrgAssociated)
                             {
+                                <li class="sidebar-item @(currentController == "Organization" ? "active" : "")">
+                                    <a class="sidebar-link" asp-controller="Organization" asp-action="Details" aria-expanded="false">
+                                        <i class="ti ti-dashboard"></i>
+                                        <span class="hide-menu">Dashboard</span>
+                                    </a>
+                                </li>
                                 <li class="sidebar-item @(currentController == "Client" ? "active" : "")">
                                     <a class="sidebar-link" asp-controller="Client" asp-action="Index" aria-expanded="false">
                                         <i class="ti ti-user"></i>
@@ -146,7 +146,7 @@
                                         </a>
                                         @if (User?.Identity?.IsAuthenticated ?? false)
                                         {
-                                            <a asp-controller ="Users" asp-action="Logout" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
+                                            <a asp-controller="Users" asp-action="Logout" class="btn btn-outline-primary mx-3 mt-2 d-block">Logout</a>
                                         }
                                         else
                                         {
