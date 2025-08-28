@@ -49,3 +49,10 @@ i.info-icon {
     justify-content: center;
     text-transform: uppercase;
 }
+.message-body {
+    border: 1px solid #dbdbdb;
+    border-radius: 19px;
+    padding: 25px 20px;
+    text-align: center !important;
+    margin-top: 2rem;
+}

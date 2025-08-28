@@ -25,6 +25,7 @@ builder.Services.AddTransient<IInvoiceItemService, InvoiceItemService>();
 builder.Services.AddTransient<IOrganizationService, OrganizationService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IProductService, ProductService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 #endregion
 #region IDENTITY CONFIGURATION
 builder.Services.AddIdentity<User, IdentityRole>(options =>

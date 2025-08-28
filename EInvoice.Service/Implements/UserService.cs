@@ -259,17 +259,35 @@ namespace EInvoice.Service.Implements
 
         public async Task<string> GeneratePasswordResetTokenAsync(UserDTO userDTO)
         {
-            User user = new User();
-            mapper.Map(userDTO, user);
+            // Find the actual user in the database
+            var user = await _userManager.FindByEmailAsync(userDTO.Email);
+            if (user == null)
+                throw new Exception("User not found");
+
             return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
 
         public async Task<IdentityResult> ResetPasswordAsync(UserDTO userDTO, string token, string newPassword)
         {
-            User user = new User();
-            mapper.Map(userDTO, user);
+            // Find the actual user in the database
+            var user = await _userManager.FindByEmailAsync(userDTO.Email);
+            if (user == null)
+                return IdentityResult.Failed(new IdentityError { Description = "User not found" });
+
             return await _userManager.ResetPasswordAsync(user, token, newPassword);
         }
+        //public async Task<string> GeneratePasswordResetTokenAsync(UserDTO userDTO)
+        //{
+        //    User user = new User();
+        //    mapper.Map(userDTO, user);
+        //    return await _userManager.GeneratePasswordResetTokenAsync(user);
+        //}
+        //public async Task<IdentityResult> ResetPasswordAsync(UserDTO userDTO, string token, string newPassword)
+        //{
+        //    User user = new User();
+        //    mapper.Map(userDTO, user);
+        //    return await _userManager.ResetPasswordAsync(user, token, newPassword);
+        //}
 
     }
 }
