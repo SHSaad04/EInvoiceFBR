@@ -49,7 +49,7 @@ i.info-icon {
     justify-content: center;
     text-transform: uppercase;
 }
-.message-body {
+.message-body-forgotPass {
     border: 1px solid #dbdbdb;
     border-radius: 19px;
     padding: 25px 20px;

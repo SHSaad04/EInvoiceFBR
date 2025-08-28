@@ -49,13 +49,33 @@
                 <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
                     <ul id="sidebarnav">
                         @if (User?.Identity?.IsAuthenticated ?? false)
-                        {
+                        {                            
                             if (isOrgAssociated)
                             {
                                 <li class="sidebar-item @(currentController == "Organization" ? "active" : "")">
-                                    <a class="sidebar-link" asp-controller="Organization" asp-action="Details" aria-expanded="false">
+                                    <a class="sidebar-link" asp-controller="Dashboard" asp-action="Index" aria-expanded="false">
                                         <i class="ti ti-dashboard"></i>
                                         <span class="hide-menu">Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class="sidebar-item @(currentController == "Organization" ? "active" : "")">
+                                    <a class="sidebar-link" asp-controller="Organization" asp-action="Details" aria-expanded="false">
+                                        <!-- ti-company (building + briefcase) -->
+                                        <svg width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="company icon"
+                                             fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                            <!-- Building -->
+                                            <rect x="3" y="4" width="10" height="16" rx="1.5" />
+                                            <path d="M6 8h4M6 12h4M6 16h4" />
+                                            <!-- Briefcase in front/right -->
+                                            <rect x="13" y="10.5" width="8" height="6.5" rx="1.2" />
+                                            <path d="M15.2 10.5v-1a2 2 0 0 1 2-2h0.6a2 2 0 0 1 2 2v1" />
+                                            <!-- Latch line -->
+                                            <path d="M13 13.5h8" />
+                                            <!-- Small latches -->
+                                            <path d="M16.2 13.5v1M17.8 13.5v1" />
+                                        </svg>
+
+                                        <span class="hide-menu">Organization</span>
                                     </a>
                                 </li>
                                 <li class="sidebar-item @(currentController == "Client" ? "active" : "")">
@@ -78,6 +98,29 @@
                                     <a class="sidebar-link" asp-controller="Invoice" asp-action="Index" aria-expanded="false">
                                         <i class="ti ti-clipboard"></i>
                                         <span class="hide-menu">Invoices</span>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="sidebar-item @(currentController == "Organization" ? "active" : "")">
+                                    <a class="sidebar-link" asp-controller="Organization" asp-action="Upsert" aria-expanded="false">
+                                        <!-- ti-company (building + briefcase) -->
+                                        <svg width="24" height="24" viewBox="0 0 24 24" role="img" aria-label="company icon"
+                                             fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                            <!-- Building -->
+                                            <rect x="3" y="4" width="10" height="16" rx="1.5" />
+                                            <path d="M6 8h4M6 12h4M6 16h4" />
+                                            <!-- Briefcase in front/right -->
+                                            <rect x="13" y="10.5" width="8" height="6.5" rx="1.2" />
+                                            <path d="M15.2 10.5v-1a2 2 0 0 1 2-2h0.6a2 2 0 0 1 2 2v1" />
+                                            <!-- Latch line -->
+                                            <path d="M13 13.5h8" />
+                                            <!-- Small latches -->
+                                            <path d="M16.2 13.5v1M17.8 13.5v1" />
+                                        </svg>
+
+                                        <span class="hide-menu">Organization</span>
                                     </a>
                                 </li>
                             }

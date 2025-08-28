@@ -37,7 +37,7 @@ namespace EInvoice.App.Controllers
                 return View(model);
             }
             return response.IsOrganizationAssociated
-                ? RedirectToAction("Details", "Organization")
+                ? RedirectToAction("Index", "Dashboard")
                 : RedirectToAction("Upsert", "Organization");
         }
         [AllowAnonymous]
