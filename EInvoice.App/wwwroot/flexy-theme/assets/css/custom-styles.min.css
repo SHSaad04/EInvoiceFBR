@@ -56,6 +56,14 @@ i.info-icon {
     text-align: center !important;
     margin-top: 2rem;
 }
-.envoice-logo{
-    max-width:15rem;
+.envoice-logo {
+    max-width: 15rem;
+}
+.envoice-logo-layout {
+    max-width: 12rem;
+}
+.e-invoice-logo-text {
+    font-size: small;
+    font-family: monospace;
+    text-align: center !important;
 }
