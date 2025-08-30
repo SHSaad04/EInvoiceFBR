@@ -2,14 +2,7 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/.vs
-/EInvoice.App/bin/Debug/net9.0
-/EInvoice.App/obj
-/EInvoice.Common/bin/Debug/net9.0
-/EInvoice.Common/obj
-/EInvoice.Domain/bin/Debug/net9.0
-/EInvoice.Domain/obj
-/EInvoice.Infrastructure/bin/Debug/net9.0
-/EInvoice.Infrastructure/obj
-/EInvoice.Service/bin/Debug/net9.0
-/EInvoice.Service/obj
+.vs
+bin
+obj
+PublishProfiles
